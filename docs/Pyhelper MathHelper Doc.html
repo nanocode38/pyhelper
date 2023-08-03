@@ -1,0 +1,402 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pyhelper Mathhelper Doc</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1><a id="Pyhelper_V100_documentation_0"></a>Pyhelper V1.0.1 documentation</h1>
+<h2><a id="Pyhelper__MathHelper_documentation_1"></a>Pyhelper - MathHelper documentation</h2>
+<pre><code>NAME
+    mathhelper
+
+MODULE REFERENCE
+    https://docs.python.org/3.11/library/mathhelper.html
+
+    The following documentation is automatically generated from the Python
+    source files.  It may be incomplete, incorrect or include features that
+    are considered implementation detail and may vary between Python
+    implementations.  When in doubt, consult the module reference at the
+    location listed above.
+
+DESCRIPTION
+    A Python module that provides mathematical-related tools, belonging to Pyhelper
+    applied environment: Microsoft Windows 10, Python3.7+
+    Copyright (C)
+    By nanocode38 2602422835@qq.com
+    2023.7.5
+
+CLASSES
+    builtins.Exception(builtins.BaseException)
+        StackIsCloseError
+        StackOverFlowError
+        StackUnderFlowError
+    builtins.object
+        BTree
+        Stack
+
+    class BTree(builtins.object)
+     |  BTree(value, father=None)
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, value, father=None)
+     |      Initialize a new BTree node with the given value and optional father.
+     |
+     |      value: The value stored in the node.
+     |      father: The optional parent node of the new node.
+     |
+     |  delete_subtree(self, node=None)
+     |      Delete the given subtree, or the one rooted at the given node.
+     |
+     |      node: The optional root node of the subtree to be deleted. If not provided, the root node of the tree is used.
+     |
+     |  insert_left(self, value)
+     |      Insert a new left child node with the given value.
+     |
+     |      value: The value to be inserted in the left child node.
+     |
+     |  insert_right(self, value)
+     |      Insert a new right child node with the given value.
+     |
+     |      value: The value to be inserted in the right child node.
+     |
+     |  search(self, value)
+     |      Search for a node with the given value in the tree.
+     |
+     |      value: The value to be searched for in the tree.
+     |
+     |      Returns: The node with the given value if it is found in the tree, otherwise None.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+    class Stack(builtins.object)
+     |  Stack(type=typing.Any, lenght=None)
+     |
+     |  A stack implementation with type checking and length restriction.
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, type=typing.Any, lenght=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  __len__(self)
+     |
+     |  clean(self)
+     |      Clear the Stack.
+     |
+     |  close(self)
+     |      Close the Stack.
+     |
+     |  get(self)
+     |      Get the value at the current __pointer of the Stack.
+     |
+     |      Raises:
+     |          IndexError: If the __pointer is out of range.
+     |
+     |  open(self)
+     |      Open the Stack
+     |
+     |  peek(self)
+     |      Get the value at the top of the Stack.
+     |
+     |      Raises:
+     |          IndexError: If the Stack is empty.
+     |
+     |  pop(self)
+     |      Pop a value from the Stack.
+     |
+     |      Raises:
+     |          StackUnderFlowError: If the Stack is empty.
+     |
+     |  push(self, value)
+     |      Push a value to the Stack.
+     |
+     |      Raises:
+     |          StackOverFlowError: If the Stack is full.
+     |          TypeError: If the value's type is not compatible with the Stack's type.
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties defined here:
+     |
+     |  is_open
+     |      Check if the Stack is open.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |
+     |  pointer
+     |      Get the current __pointer of the Stack.
+
+    class StackIsCloseError(builtins.Exception)
+     |  Raised when trying to perform an action on a closed Stack.
+     |
+     |  Method resolution order:
+     |      StackIsCloseError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |
+     |  Data descriptors defined here:
+     |
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |
+     |  __setstate__(...)
+     |
+     |  __str__(self, /)
+     |      Return str(self).
+     |
+     |  add_note(...)
+     |      Exception.add_note(note) --
+     |      add a note to the exception
+     |
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |
+     |  __cause__
+     |      exception cause
+     |
+     |  __context__
+     |      exception context
+     |
+     |  __dict__
+     |
+     |  __suppress_context__
+     |
+     |  __traceback__
+     |
+     |  args
+
+    class StackOverFlowError(builtins.Exception)
+     |  Raised when the Stack is full.
+     |
+     |  Method resolution order:
+     |      StackOverFlowError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |
+     |  Data descriptors defined here:
+     |
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |
+     |  __setstate__(...)
+     |
+     |  __str__(self, /)
+     |      Return str(self).
+     |
+     |  add_note(...)
+     |      Exception.add_note(note) --
+     |      add a note to the exception
+     |
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |
+     |  __cause__
+     |      exception cause
+     |
+     |  __context__
+     |      exception context
+     |
+     |  __dict__
+     |
+     |  __suppress_context__
+     |
+     |  __traceback__
+     |
+     |  args
+
+    class StackUnderFlowError(builtins.Exception)
+     |  Raised when the Stack is empty.
+     |
+     |  Method resolution order:
+     |      StackUnderFlowError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |
+     |  Data descriptors defined here:
+     |
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |
+     |  __setstate__(...)
+     |
+     |  __str__(self, /)
+     |      Return str(self).
+     |
+     |  add_note(...)
+     |      Exception.add_note(note) --
+     |      add a note to the exception
+     |
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |
+     |  __cause__
+     |      exception cause
+     |
+     |  __context__
+     |      exception context
+     |
+     |  __dict__
+     |
+     |  __suppress_context__
+     |
+     |  __traceback__
+     |
+     |  args
+
+FUNCTIONS
+    fibonacci(number: int) -&gt; int
+        Calculate the Fibonacci sequence for the given number.
+
+        number: The number in the Fibonacci sequence to be calculated.
+
+        Returns: The Fibonacci sequence for the given number.
+
+        Raises:
+        - TypeError: If the input is not an int.
+        - ValueError: If the input is a negative int.
+
+    is_prime(number: int) -&gt; bool
+        Check if the given number is a prime number.
+
+        number: The number to be checked for primality.
+
+        Returns: True if the number is prime, False otherwise.
+
+        Raises:
+        - TypeError: If the input is not an int.
+        - ValueError: If the input is a negative int.
+
+DATA
+    PI = 3.141592653589793
+    __all__ = ['PI', 'fibonacci', 'is_prime', 'StackOverFlowError', 'Stack...
+    __annotations__ = {'PI': &lt;class 'float'&gt;}
+
+</code></pre>
+</div>
+</body>
+
+</html>

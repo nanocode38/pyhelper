@@ -54,7 +54,6 @@ import datetime
 import dataclasses
 import pickle
 import setuptools
-import six
 import collections
 import contextlib
 import contextvars

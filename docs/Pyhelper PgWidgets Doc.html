@@ -1,0 +1,796 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pyhelper PgWidgets Docs</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1><a id="Pyhelper_V100_Documentation_0"></a>Pyhelper V1.0.1 Documentation</h1>
+<h2><a id="Pyhelper__Pgwidgets_Documentation_1"></a>Pyhelper - Pgwidgets Documentation</h2>
+<pre><code>NAME
+    pgwidgets
+
+MODULE REFERENCE
+    https://docs.python.org/3.11/library/pyhelper.pgwidgets.html
+
+    The following documentation is automatically generated from the Python
+    source files.  It may be incomplete, incorrect or include features that
+    are considered implementation detail and may vary between Python
+    implementations.  When in doubt, consult the module reference at the
+    location listed above.
+
+DESCRIPTION
+    PgWidgets
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    This module provides a number of efficient Pygame GUI components that help you develop Pygame games.
+    This module has the following classes:
+    Animate: An animation class based on a series of loaded images
+    Textbutton-a button created from text; no image can be specified
+    CustomButton: A button created from an image
+    CheckBox: A checkbox created from an image
+    Dragger: An image that you can drag around
+    Image: An image that can be modified
+    InputText: An input field for the user to enter
+    RadioButtons: A set of radio boxes based on checkboxes
+    All classes ending in Config are configuration classes, which correspond to the first argument of each component class.
+    All Config classes take screen as their first parameter and also have a property called screen, which is the Suface
+    of the scene to be drawn
+    All Config classes have a set_config method that allows you to set a property using the format 'instance.set_config (
+    property name as a string, value to set)', which will raise a ValueError if it doesn't exist
+    All components should be created and called in the standard Pygame manner.The basic usage is as follows:
+    It is first created after setting up all components before the main loop starts
+    The main loop then starts
+    Draws the lowest level background image or background color
+    Start checking for all events.If the component's update method requires an event parameter, it needs to be called
+    when checking for events.
+    After checking the event, intervene and execute for the state of all components and be prepared
+    Then, the update() method is called for the other components to update the screen
+    Next, the component is drawn by calling the draw() method
+    Finally, we refresh the screen using pygame.display.update().
+    See the Pyhelper documentation for detailed usage of all components:
+    Or a docstring for the corresponding component class
+
+CLASSES
+    builtins.object
+        Animate
+        CheckBox
+        CustomButton
+        DisplayText
+        Dragger
+        Image
+        InputText
+        RadioButtons
+        TextButton
+    BaseConfig(abc.ABC)
+        AnimateConfig
+        CheckBoxConfig
+        CustomButtonConfig
+        InputTextConfig
+        TextButtonConfig
+
+    class Animate(builtins.object)
+     |  Animate(ac: pyhelper.pgwidgets.AnimateConfig)
+     |
+     |  An animation class based on a series of loaded images
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, ac: pyhelper.pgwidgets.AnimateConfig)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  draw(self)
+     |      Draw the animate
+     |
+     |  pause(self)
+     |      Pause the animate
+     |
+     |  play(self)
+     |      Playing the animate
+     |
+     |  update(self)
+     |      Update the animate, Should be called from the main game loop
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  duration
+     |
+     |  elapsed
+     |
+     |  images
+     |
+     |  index
+     |
+     |  loop
+     |
+     |  nimage
+     |
+     |  nloop
+     |
+     |  playing
+     |
+     |  rect
+     |
+     |  screen
+     |
+     |  show_first_image_at_end
+     |
+     |  start_time
+
+    class AnimateConfig(BaseConfig)
+     |  AnimateConfig(screen, images)
+     |
+     |  This is the configuration class for the Animate class.
+     |  This class requires a set of images in addition to the basic screen parameter, as described in the images property
+     |  It includes the following configuration options
+     |
+     |  - images(tuple): This property can be a set of image paths to animate or a set of loaded image objects. If you
+     |  need to
+     |  animate as a Sprite, use the pghelper.disassemble_sprite_sheet() function
+     |  - autostart(bool): This property indicates if the animation will start automatically and defaults to False
+     |  - show_first_image_at_end(bool): This property is a Boolean indicating whether to show the first image after the
+     |  animation is playing.It defaults to True
+     |  - loop(bool): This property is a Boolean indicating whether the animation should loop indefinitely and defaults to
+     |  False
+     |  - nloop(int): This property specifies how many times the animation should loop and defaults to 1
+     |  - duration(int): This property specifies that an image should be toggles every few seconds
+     |
+     |  Method resolution order:
+     |      AnimateConfig
+     |      BaseConfig
+     |      abc.ABC
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, screen, images)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  autostart
+     |
+     |  duration
+     |
+     |  images
+     |
+     |  loop
+     |
+     |  nloop
+     |
+     |  show_first_image_at_end
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  __abstractmethods__ = frozenset()
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseConfig:
+     |
+     |  set_config(self, config_name, value)
+     |      This method is used to configure the individual options
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseConfig:
+     |
+     |  screen
+
+    class CheckBox(builtins.object)
+     |  CheckBox(cc: pyhelper.pgwidgets.CheckBoxConfig)
+     |
+     |  A checkbox created based on an image
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, cc: pyhelper.pgwidgets.CheckBoxConfig)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  draw(self)
+     |      Draw the CheckBox
+     |
+     |  update(self, event) -> bool
+     |      Update the CheckBox
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  image
+     |
+     |  image_rect
+     |
+     |  is_check
+     |
+     |  lock
+     |
+     |  msg_image
+     |
+     |  msg_rect
+     |
+     |  off_down_image
+     |
+     |  off_up_image
+     |
+     |  on_down_image
+     |
+     |  on_up_image
+     |
+     |  rect
+     |
+     |  screen
+     |
+     |  text
+
+    class CheckBoxConfig(BaseConfig)
+     |  CheckBoxConfig(screen)
+     |
+     |  This is the configuration class for the CheckBox class. It includes the following configuration options
+     |  - text(str): This is the text to display in the CheeckBox Default is 'CheckBox'.
+     |  - font(str): This is the font name for the text property; the default font is used by default
+     |  - image_path(str): This attribute is a tuple whose elements are unchecked, checked, locked to checked,
+     |  and locked to the image in the checked state
+     |  - text_color(tuple): This refers to the text new_color
+     |
+     |  Method resolution order:
+     |      CheckBoxConfig
+     |      BaseConfig
+     |      abc.ABC
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, screen)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  font
+     |
+     |  image_paths
+     |
+     |  text
+     |
+     |  text_color
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  __abstractmethods__ = frozenset()
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseConfig:
+     |
+     |  set_config(self, config_name, value)
+     |      This method is used to configure the individual options
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseConfig:
+     |
+     |  screen
+
+    class CustomButton(builtins.object)
+     |  CustomButton(bs: pyhelper.pgwidgets.CustomButtonConfig)
+     |
+     |  An image-based custom button class
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, bs: pyhelper.pgwidgets.CustomButtonConfig)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  draw(self)
+     |      Draw the Button
+     |
+     |  is_chick(self, event) -> bool
+     |      Return Whether to click
+     |
+     |  is_hover(self) -> bool
+     |      Return Whether to hover
+     |
+     |  update(self, event)
+     |      Update the Button
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  args
+     |
+     |  command
+     |
+     |  down_image
+     |
+     |  hidden
+     |
+     |  image
+     |
+     |  lock
+     |
+     |  lock_image
+     |
+     |  over_image
+     |
+     |  rect
+     |
+     |  screen
+     |
+     |  screen_rect
+     |
+     |  sounds_on_chick
+     |
+     |  text
+     |
+     |  up_image
+
+    class CustomButtonConfig(BaseConfig)
+     |  CustomButtonConfig(screen: pygame.surface.Surface, image_paths: Union[tuple, list])
+     |
+     |  This is the configuration class for the CustomButton class. It includes the following configuration options
+     |  In addition to the basic screen parameter, this class also requires the image_paths parameter, as described in
+     |  the description of the image_paths property
+     |  - image_paths: This is a tuple of paths for all images, which should be passed in "release state, hold state, hover state, lock state". If any of the last three 
+are specified, it is automatically set to the first
+     |  - sounds_on_chick: This is the sound effect that was played when the button was clicked and is a string pointing to the sound effect location. The default is Non
+e, which means no sound effect will be played.
+     |  - command: is what needs to be done when the button is pressed, is of type Function, defaults to None, i.e., does nothing.
+     |  - args: This is a tuple containing all the arguments of the command function
+     |
+     |  Method resolution order:
+     |      CustomButtonConfig
+     |      BaseConfig
+     |      abc.ABC
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, screen: pygame.surface.Surface, image_paths: Union[tuple, list])
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  args
+     |
+     |  command
+     |
+     |  image_paths
+     |
+     |  sounds_on_chick
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  __abstractmethods__ = frozenset()
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseConfig:
+     |
+     |  set_config(self, config_name, value)
+     |      This method is used to configure the individual options
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseConfig:
+     |
+     |  screen
+
+    class DisplayText(builtins.object)
+     |  DisplayText(screen: pygame.surface.Surface, font=None, size=10, text='', color=(255, 255, 255))
+     |
+     |  Display Text on the scene
+     |  :param screen(pygame.Suface): The surface of the scene to be drawn
+     |  :param font(str): Draws a string representation of the font default: None
+     |  :param size(int): The font size
+     |  :param text(str): The text
+     |  :param new_color(tuple): The text new_color
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, screen: pygame.surface.Surface, font=None, size=10, text='', color=(255, 255, 255))
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  draw(self)
+     |      Draw the Text
+     |
+     |  set_value(self, new_text, new_color=None)
+     |      Reset the text content and color
+     |      :param new_text(str): new text
+     |      :param new_color(tuple): new Color, default: The original color
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+    class Dragger(builtins.object)
+     |  Dragger(screen, images)
+     |
+     |  A draggable image component
+     |  :param screen (pygame.Surface): The surface of the scene to be drawn
+     |  :param images (tuple): A set of image paths or Suface objects representing the states of the component,
+     |  where the element images are in order: normal state, pressed state, suspended state, locked state
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, screen, images)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  draw(self)
+     |      Draw Component
+     |
+     |  is_drag(self, event) -> bool
+     |      Return Whether to drag
+     |
+     |  is_hover(self, event) -> bool
+     |      Return Whether to hover
+     |
+     |  update(self, event)
+     |      Update Component
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  down_image
+     |
+     |  font
+     |
+     |  hidden
+     |
+     |  image
+     |
+     |  lock
+     |
+     |  lock_image
+     |
+     |  msg_image
+     |
+     |  msg_image_rect
+     |
+     |  over_image
+     |
+     |  rect
+     |
+     |  screen
+     |
+     |  text_color
+     |
+     |  up_image
+
+    class Image(builtins.object)
+     |  Image(screen, loc, image_path, rect=None)
+     |
+     |  An image that can be modified
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, screen, loc, image_path, rect=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  draw(self)
+     |
+     |  flip(self, flip_horizontal: bool = False, flip_vertical: bool = False)
+     |      Flipping images
+     |
+     |  get_rect(self)
+     |
+     |  rot_center(self, angle)
+     |      rotate an image while keeping its center and size
+     |
+     |  scale(self, x, y)
+     |      Resizing images
+     |
+     |  set_move(self, x=0, y=0)
+     |      Overlay position
+     |
+     |  set_position(self, x=0, y=0)
+     |      move in position
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  hidden
+     |
+     |  image
+     |
+     |  rect
+     |
+     |  screen
+
+    class InputText(builtins.object)
+     |  InputText(itc: pyhelper.pgwidgets.InputTextConfig)
+     |
+     |  An input box for the user to enter
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, itc: pyhelper.pgwidgets.InputTextConfig)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  clear(self, keepFocus=False)
+     |      Clear the text in the field
+     |
+     |  draw(self)
+     |      Draws the Text in the screen.
+     |
+     |  get_value(self)
+     |      Returns the text entered by the user
+     |
+     |  give_focus(self)
+     |      Give focus to this field
+     |      Make sure focus is removed from any previous field before calling this
+     |
+     |  is_focus(self) -> bool
+     |
+     |  remove_focus(self)
+     |
+     |  set_loc(self, loc)
+     |      set position
+     |
+     |  set_next_field_on_tab(self, next_field_on_tab)
+     |
+     |  set_value(self, newText)
+     |      Sets new __text into the field
+     |
+     |  update(self, event)
+     |      Update the InputBox
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  CANCELLED_TAB = -1
+     |
+     |  KEY_REPEAT_DELAY = 500
+     |
+     |  KEY_REPEAT_RATE = 50
+
+    class InputTextConfig(BaseConfig)
+     |  InputTextConfig(screen)
+     |
+     |  This is the configuration class for the CheckBox class. It includes the following configuration options
+     |  -loc (tuple): This property indicates the initial top-left position of the text box component.It is represented by a tuple and defaults to (0, 0).
+     |  -new_color (tuple): This property represents the background new_color of the text box.It is represented as an RGB tuple and defaults to (0, 0, 0).
+     |  -text_color (tuple): This property is the new_color of the text in the text box.It is represented as an RGB tuple and defaults to (2255, 255, 255).
+     |  -font (str): This property represents the name of the text font in string format and defaults to None, which is the system default font
+     |  -value (str): This property represents the text in the initial state and defaults to.
+     |  -width (int): This property is the length of the text box in pixels.It defaults to 250
+     |  -font_size (int): This property represents the font size and also determines the height of the text box.It defaults to 30
+     |  - focus_color(tuple): This property refers to the new_color of the outer border of the text box while it is selected, defaults to (0, 0, 0).
+     |  -init_focus (bool): This property indicates whether the text box gets focus directly when initialized and defaults to False
+     |  -mask (str): This property indicates the character in which the input should be rendered in the text field (* if it's a password field).It defaults to None, whic
+h means no mask is used
+     |  - keep_foucs_on_submit(bool): This property indicates whether to keep focus when the Enter or Return key is pressed in a text box. It defaults to False
+     |  -command (function): This is the function you want to call when the Enter or Return key is pressed in the text box.It defaults to None, indicating that no functi
+on was called
+     |  -args (tuple): This is a tuple representing the arguments of the command
+     |
+     |  Method resolution order:
+     |      InputTextConfig
+     |      BaseConfig
+     |      abc.ABC
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, screen)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  args
+     |
+     |  color
+     |
+     |  command
+     |
+     |  focus_color
+     |
+     |  font
+     |
+     |  font_size
+     |
+     |  init_focus
+     |
+     |  keep_focus_on_submit
+     |
+     |  loc
+     |
+     |  mask
+     |
+     |  text_color
+     |
+     |  value
+     |
+     |  width
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  __abstractmethods__ = frozenset()
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseConfig:
+     |
+     |  set_config(self, config_name, value)
+     |      This method is used to configure the individual options
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseConfig:
+     |
+     |  screen
+
+    class RadioButtons(builtins.object)
+     |  RadioButtons(screen: pygame.surface.Surface, buttons: list)
+     |
+     |  Set of radio boxes based on checkboxes
+     |  :param screen (pygame.Surface): The surface of the scene to be drawn
+     |  :param buttons (List[CheckBox]): A set of CheckBox instances
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, screen: pygame.surface.Surface, buttons: list)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  draw(self)
+     |      Draw Radio boxes
+     |
+     |  get_focus(self)
+     |      Returns which radio box is selected
+     |
+     |  update(self, event)
+     |      Update Radio boxes
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  buttons
+     |
+     |  screen
+
+    class TextButton(builtins.object)
+     |  TextButton(tbc: pyhelper.pgwidgets.TextButtonConfig)
+     |
+     |  A text button created from text
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, tbc: pyhelper.pgwidgets.TextButtonConfig)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  button_is_chick(self, event)
+     |      Return Whether to chick
+     |
+     |  button_is_hover(self, event)
+     |      Return Whether to hover
+     |
+     |  draw(self)
+     |      Draw Button
+     |
+     |  is_chick_down(self, event)
+     |
+     |  update(self, event) -> bool
+     |      Update the Button
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties defined here:
+     |
+     |  is_chick
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  BUTTON_DOWN = 1
+     |
+     |  BUTTON_LOCK = 3
+     |
+     |  BUTTON_OVER = 2
+     |
+     |  BUTTON_UP = 0
+
+    class TextButtonConfig(BaseConfig)
+     |  TextButtonConfig(screen: pygame.surface.Surface)
+     |
+     |  This is the configuration class for the TextButton class. It includes the following configuration options
+     |  - width (int): The length of the button
+     |  - height (int): The height of the button
+     |  - text (str): The text on the button
+     |  - button_color(list): A list of button colors whose four elements represent the colors of the following states: normal, pressed, suspended, and locked
+     |  - text_color (list): This is a list of button text colors, with four elements representing the colors of the
+     |  following states: normal, pressed, suspended, locked
+     |  - font (str): String representation of the text font
+     |  - text_size (int): The size of the text
+     |
+     |  - sounds_on_chick(str): This is the sound effect that was played when the button was clicked and is a string
+     |  pointing to the sound effect location. The default is None, which means no sound effect will be played.
+     |
+     |  the center of the screen.
+     |  - command(function): is what needs to be done when the button is pressed, is of type Function, defaults to None,
+     |  i.e., does nothing.
+     |  - args(tuple): This is a tuple containing all the arguments of the command function.
+     |
+     |  Method resolution order:
+     |      TextButtonConfig
+     |      BaseConfig
+     |      abc.ABC
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, screen: pygame.surface.Surface)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  args
+     |
+     |  button_color
+     |
+     |  command
+     |
+     |  font
+     |
+     |  height
+     |
+     |  sounds_on_chick
+     |
+     |  text
+     |
+     |  text_color
+     |
+     |  text_size
+     |
+     |  width
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  __abstractmethods__ = frozenset()
+     |
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseConfig:
+     |
+     |  set_config(self, config_name, value)
+     |      This method is used to configure the individual options
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseConfig:
+     |
+     |  screen
+
+FUNCTIONS
+    get_doc()
+        Get Doc
+
+DATA
+    __all__ = ['Animate', 'AnimateConfig', 'CustomButton', 'CustomButtonCo...</code></pre>
+</div>
+</body>
+
+</html>

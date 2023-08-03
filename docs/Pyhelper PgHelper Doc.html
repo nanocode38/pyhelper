@@ -1,0 +1,379 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pyhelper PgHelper Doc</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1><a id="Pyhelper_V100_Documentation_0"></a>Pyhelper V1.0.1 Documentation</h1>
+<h2><a id="Pyhelper__PgHelper_Documentation_1"></a>Pyhelper - PgHelper Documentation</h2>
+<pre><code>NAME
+    pghelper
+
+MODULE REFERENCE
+    https://docs.python.org/3.11/library/pyhelper.pghelper.html
+
+    The following documentation is automatically generated from the Python
+    source files.  It may be incomplete, incorrect or include features that
+    are considered implementation detail and may vary between Python
+    implementations.  When in doubt, consult the module reference at the
+    location listed above.
+
+DESCRIPTION
+    applied environment: Microsoft Windows 10, Python3.7+, Pygame
+    Copyright (C)
+    By nanocode38 2602422835@qq.com
+    2023.7.5
+
+CLASSES
+    abc.ABC(builtins.object)
+        Scene
+    builtins.object
+        BackgroundSound
+        SceneMgr
+
+    class BackgroundSound(builtins.object)
+     |  BackgroundSound(sound_path: str)
+     |
+     |  Game Background music
+     |  :param sound_path(str): 背景音乐的存储路径
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, sound_path: str)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  play(self, nloop=-1, start_seconds=0.0)
+     |      Start playing music
+     |      :param nloop(int): The number of times the loop will be played. Default: -1, which means infinite number of times
+     |      :param start_seconds(float): This starts playback at the first second of the music. Default: 0.0
+     |
+     |  stop(self)
+     |      Stop playing the music.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  sound
+
+    class Scene(abc.ABC)
+     |  Scene(screen: pygame.surface.Surface)
+     |
+     |  The Scene class is an abstract class to be used as a base class for any scenes that you want to create.
+     |
+     |  In the startup code for your  application, you create an instance of each of the
+     |  scenes that you want to be available.  Then you build a dictionary like this
+     |
+     |      |    {<sceneKey1>:<sceneObject1>, <sceneKey2>:<sceneObject2>, ...}
+     |
+     |  Then you pass this dictionary when you instantiate the Scene Manager.
+     |  See the SceneMgr documentation for details.
+     |
+     |  To create a scene, you must write a subclass that inherits from this class.
+     |  Your class must implement these methods
+     |
+     |      |   __init__(), update(), draw()
+     |
+     |  Other methods can be overridden if you wish:
+     |
+     |      | enter(), leave()
+     |
+     |  You can add any additional methods that your class requires.
+     |  Additionally, there are other methods to allow you to get or set info, or navigate to other scenes:
+     |
+     |      | go_to_scene(), quit(), request(), respond() and more.
+     |
+     |  In the __init__() method of your scene subclass, you will receive a window reference.
+     |  You should copy this into an instance variable like this, and use it when drawing:
+     |
+     |      |    def __init__(self, screen):
+     |      |        self.screen = screen
+     |      |        self.screen_rect = screen.get_rect()
+     |      |        # Add any initialization you want to do here.
+     |
+     |  Before version 1.1 of pyghelpers you had to do the following, but
+     |  as of version 1.1, this method is no longer needed.  Instead, you now
+     |  set the scene keys at start up  (much more betterer!).
+     |
+     |              OLD: You also need to write a getSceneKey() method that returns a string
+     |              or constant that uniquely identifies the scene.  It is recommended that you
+     |              build and import a Constants.py file that contains constants for each scene,
+     |              and use the key associated with the current scene here.
+     |              |    def get_scene_key(self):
+     |              |        return <string or CONSTANT that identifies this scene>
+     |
+     |  When your scene is active, the SceneManager calls a standard set of methods in the current scene.
+     |  Therefore, all scenes must implement these methods (polymorphism):
+     |
+     |      |    update()        # called in every frame
+     |      |    draw()          # called in every frame
+     |
+     |  The following methods can optionally be implemented in a scene.  If they are not
+     |  implemented, then the null version in the Scene subclass will be used.
+     |  (The Scene class' default versions only execute a pass statement):
+     |
+     |      |    enter()          # called once whenever the scene is entered
+     |      |    update()         # called in every frame
+     |      |    leave()          # called once whenever the scene is left
+     |
+     |  When you want to go to a new scene, call:
+     |
+     |      |    self.go_to_scene() and pass in the sceneKey of the scene you want to go to,
+     |      |    and optionally, pass any data you want the next scene to receive in its enter() method.
+     |
+     |  If you want to quit the program from your scene, call:
+     |
+     |      |    self.quit()
+     |
+     |  Method resolution order:
+     |      Scene
+     |      abc.ABC
+     |      builtins.object
+     |
+     |  Methods defined here:
+     |
+     |  __del__(self)
+     |
+     |  __init__(self, screen: pygame.surface.Surface)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  add_scene(self, scene_key, scene)
+     |      Call this method whenever you want to add a new scene dynamically.
+     |      For example, you could have a game with many levels (each implemented as a scene),
+     |      but only have the current level loaded.  As the player completes a level, you
+     |      could do a removeScene on the current level and do an addScene on the
+     |      next level, then do a goToScene on the new level.
+     |
+     |      Parameters:
+     |          |    scene_key - a key to uniquely identify this scene (typically a string)
+     |          |    scene - an instance of the new scene to be added
+     |          |         (typically, you would instantiate the new scene, and pass in that reference to this call)
+     |
+     |  draw(self)
+     |      This method is called in every frame of the scene to draw anything that needs to be drawn
+     |
+     |      Your code MUST override this method.
+     |
+     |  enter(self, date=None)
+     |      This method is called whenever the user enters a scene.
+     |
+     |      Should be overridden if you expect data when your scene is entered.
+     |      Add any code you need to start or re-start the scene
+     |
+     |      Parameter:
+     |          |    data - can be of any type agreed to by the old and new scenes
+     |
+     |  get_scenen_key(self)
+     |      This returns a unique identity string that represents the internal representation of the scene
+     |
+     |  go_to_scene(self, next_scene_key, data=None)
+     |      Call this method whenever you want to go to a new scene
+     |
+     |      Parameters:
+     |          |    next_scene_key - the scene key (string) of the scene to go to
+     |
+     |      Optional keyword parameter:
+     |          |    data - any data you want sent to the next scene (defaults to None)
+     |          |          (The data can be a single value, a list, dictionary, object, etc.)
+     |
+     |  leave(self)
+     |      This method is called whenever the user leaves a scene
+     |
+     |      Override this method, and add any code you need to clean up the scene before leaving
+     |
+     |  quit(self)
+     |      Call this method if you want to quit, from inside a scene
+     |
+     |  receive(self, receiveID, info)
+     |      Receives information from another scene.
+     |
+     |      You must override this method if your scene expects to receive information from
+     |      other scenes sending information via calls to:  send
+     |
+     |      Parameters:
+     |          |    receiveID - an identifier for what type of information is being received
+     |          |    info - the information sent from another scene
+     |
+     |  remove_scene(self, scene_key)
+     |      Call this method whenever you want to remove an existing scene
+     |      You can remove a scene to save memory - the scene object will be deleted.
+     |      The SceneMgr delays removing the scene until the next time thru the main loop.
+     |      Therefore, it is safe to call to removeScene from its own scene, if you immediately
+     |      go to another scene.
+     |
+     |      Parameters:
+     |          |    scene_key - the scene key (string) of the scene to remove
+     |
+     |  request(self, target_scene_key, requestID)
+     |      Call this method to get information from another scene
+     |
+     |      The target scene must implement a method named: respond,
+     |      it can return any info in any way the two scenes agree upon
+     |
+     |      Parameters:
+     |          |    targetSceneKey - the scene key (string) of the scene to ask for data
+     |          |    requestID - the data you want from the target scene (typically a string)
+     |
+     |  respond(self, requestID)
+     |      Respond to a request for information from some other scene
+     |
+     |      You must override this method if your scene expects to handle
+     |      requests for information from other scenes via calls to:  request()
+     |
+     |      Parameters:
+     |          |    requestID - identifier of what data to be sent back to the caller
+     |
+     |  send(self, target_scene_key, sendID, info)
+     |      Call this method to send information to  another scene
+     |
+     |      The other scene must implement a method named:  receive().
+     |      You can pass any info the two scenes agree upon
+     |
+     |      Parameters:
+     |          |    target_scene_key - the scene key (string) of the scene to ask for data
+     |          |    sendID - the type of data you are sending the target scene (typically a string)
+     |          |    info - the actual data to send (can be any type)
+     |
+     |  send_all(self, sendID, info)
+     |      Call this method to send information to all other scenes
+     |
+     |      The other scenes must implement a method named:  receive().
+     |      You can pass any info that the sender and all other scenes agree upon
+     |
+     |      Parameters:
+     |          |    sendID - the type of data you are sending the target scene (typically a string)
+     |          |    info - the actual data to send (can be any type)
+     |
+     |  update(self, events, key_pressed_list)
+     |      This method is called in every frame of the scene to handle events and key presses
+     |
+     |      Your code MUST override this method.
+     |
+     |      Parameters:
+     |          |    events - a list of events your method should handle.
+     |          |    key_pressed_list - a list of keys that are pressed (a Boolean for each key).
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  screen
+     |
+     |  screen_mgr
+     |
+     |  screen_rect
+     |
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |
+     |  __abstractmethods__ = frozenset({'__init__', 'draw', 'get_scenen_key',...
+
+    class SceneMgr(builtins.object)
+     |  SceneMgr(scenes_dict_or_list, fps, frame_rate_display=None)
+     |
+     |  SceneMgr (Scene Manager)  allows you to build a program with multiple scenes.
+     |
+     |  The SceneMgr manages any number of scenes built as subclasses of the "Scene" class.
+     |  For more details, see the "Scene" class.
+     |
+     |  Typical use:
+     |
+     |  1) Instantiate as many Scenes as you want:
+     |  |  scene1 = StartingScene(screen)
+     |  |  scene2 = MainScene(screen)
+     |  |  scene3 = SomeOtherScene(screen)
+     |
+     |  2) Build a dictionary of these scenes:
+     |  |  my_scenes_dict = {'scene_key1': scene1, 'scene_key2': scene2, 'scene_key3': scene3}
+     |
+     |  The keys are any unique strings that you want to use.
+     |
+     |  OLDER APPROACH:  Before pyghelpers 1.1, but still works for backwards compatibility
+     |  Build a list of the scenes:
+     |  | my_scenes_list = [scene1, scene2, scene3]
+     |
+     |  3) Instantiate *one* SceneMgr (a singleton):
+     |  |  scene_mgr = SceneMgr(my_scenes_dict, 30) # First scene in the dict is the starting scene
+     |
+     |  OLDER APPROACH:  Before pyghelpers 1.1, but still works for backwards compatibility
+     |  scene_mgr = SceneMgr(my_scenes_list, 30) # First scene in the list is the starting scene
+     |
+     |  You can optionally pass a DisplayText object for showing the frame rate, e.g.
+     |  |  debug_frame_rate = pgwidgets.DisplayText(screen, (0, 0), '', fontSize=24)
+     |  |  scene_mgr  = SceneMgr(scenes_dict_or_list, FRAMES_PER_SECOND, oDebugFrameRate)
+     |
+     |  4) Call the run method to start the SceneMgr running:
+     |  |  scene_mgr.run()  # First scene in the list is the starting scene
+     |
+     |
+     |  Parameters:
+     |  | scenes_dict_or_list - is a dictionary or list that consists of:
+     |  |    {<sceneKey>: <sceneObject>, <sceneKey>: <sceneObject>, ...}
+     |  |    OR older (before pyghelpers 1.1):  [<sceneObject>, <sceneObject>, ...]
+     |  |      where each sceneObject is an object instantiated from a scene class
+     |  |      (For details on Scenes, see the Scene class)
+     |  | fps - is the frames per second at which the program should run
+     |
+     |  Based on the concept of a "Scene Manager" by Blake O'Hare of Nerd Paradise (nerdparadise.com)
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, scenes_dict_or_list, fps, frame_rate_display=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  run(self)
+     |      This method implements the main pygame loop.
+     |
+     |      It should typically be called as the last line of your main program.
+     |
+     |      It is designed to call a standardized set of methods in the current scene.
+     |
+     |      All scenes must implement the following methods (polymorphism):
+     |          |   update()  # called in every frame
+     |          |   draw()          # called in every frame
+     |
+     |      The following methods can be implemented in a scene:
+     |          |   enter()  # called once whenever the scene is entered
+     |          |   update()  # called in every frame
+     |          |   leave()  # called once whenever the scene is left
+     |
+     |      If any is not implemented, then the version in the Scene base class,
+     |      which only performs a pass statement, will be used.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+FUNCTIONS
+    disassemble_sprite_sheet(image_path: str, width: int, height: int, nimage) -> list
+        This function processes a Sprite image into a set of loaded Suface objects
+        :param image_path(str): the path to the total Sprite graph
+        :param width(int): The length of an image
+        :param height(int): The height of an image
+        :param nimage(int): The total number of photos
+        Returns(list): Suface objects for all images
+
+    draw_background(screen: pygame.surface.Surface, image_path: str) -> None
+        Draw the game background
+        :param screen(pygame.Surface) -the Surface of the scene to paint
+        :param image_path(str): image path for background image
+
+    load_images(image_paths: list[str])
+        Loading a series of images
+        :param image_paths(list[str]): A list of paths for a series of images
+        Returns(list[pygame.Surface]): A list of loaded Suface objects
+
+DATA
+    __all__ = ['BackgroundSound', 'disassemble_sprite_sheet', 'draw_backgr...</code></pre>
+</div>
+</body>
+
+</html>

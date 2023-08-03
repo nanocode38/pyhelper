@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pyhelper GameHelper Doc</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1><a id="Pyhelper_V100_Documentation_0"></a>Pyhelper V1.0.1 Documentation</h1>
+<h2><a id="Pyhelper__GameHelper_Documentation_1"></a>Pyhelper - GameHelper Documentation</h2>
+<pre><code>NAME
+    gamehelper
+
+MODULE REFERENCE
+    https://docs.python.org/3.11/library/pyhelper.gamehelper.html
+
+    The following documentation is automatically generated from the Python
+    source files.  It may be incomplete, incorrect or include features that
+    are considered implementation detail and may vary between Python
+    implementations.  When in doubt, consult the module reference at the
+    location listed above.
+
+DESCRIPTION
+    # !/usr/bin/env python3
+    # -*- coding: utf-8 -*-
+
+CLASSES
+    builtins.object
+        CountDownTimer
+        CountUpTimer
+        Timer
+
+    class CountDownTimer(builtins.object)
+     |  CountDownTimer(str_start_time: str, command=None)
+     |
+     |  A class to create a count-up timer that can be paused and resumed.
+     |
+     |  This class is a subclass of the Timer class.
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, str_start_time: str, command=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  get_time(self, mode='seconds')
+     |      Get this Time
+     |
+     |  go_on(self)
+     |      Resume the timer.
+     |
+     |  pause(self)
+     |      Pause the timer.
+     |
+     |  start(self)
+     |      Start the timer.
+     |
+     |  stop(self)
+     |      Stop the Timer
+     |
+     |  update(self)
+     |      Update the timer.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  seconds
+     |
+     |  timer
+
+    class CountUpTimer(builtins.object)
+     |  A class to create a count-up timer that can be paused and resumed.
+     |
+     |  This class is a subclass of the Timer class.
+     |
+     |  Attributes:
+     |      is_running: A boolean indicating whether the timer is running.
+     |      saved_time: The time the timer was paused at.
+     |      is_pause: A boolean indicating whether the timer is paused.
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  get_time(self, mode='seconds')
+     |      Return the current time of the timer in the specified format.
+     |
+     |
+     |      :param mode (str): The format of the time to be returned. If 'seconds', return the time in seconds. If
+     |      'HHMMSS',
+     |      return the time as HH:MM:SS.
+     |
+     |      Returns:
+     |          If the mode is 'HHMMSS': str: The current time of the timer in the specified format.
+     |          Else: float: The current time of the timer in seconds.
+     |
+     |  start(self)
+     |      Start the timer.
+     |
+     |  stop(self)
+     |      Stop the timer.
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties defined here:
+     |
+     |  is_running
+     |      Return True if the timer is running, False otherwise.
+     |
+     |  start_time
+     |      Return the start time of the timer.
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  is_pause
+
+    class Timer(builtins.object)
+     |  Timer(time_in_seconds: float = -1, command=None)
+     |
+     |  A class to manage a timer with the option to execute a command after the timer finishes.
+     |  :param time_in_seconds (float): The time in seconds the timer should run for. default: -1, It's infinite
+     |  :param command (function): The command to execute after the timer finishes. default: None
+     |
+     |
+     |
+     |  Attributes:
+     |      time_in_seconds (float): The time in seconds the timer should run for.
+     |      is_running (bool)(read only): Whether the timer is running or not.
+     |      start_time (float)(read only): The time in seconds the timer started.
+     |
+     |  Methods defined here:
+     |
+     |  __init__(self, time_in_seconds: float = -1, command=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |
+     |  get_time(self, number_of_reserved_bits=2)
+     |      Get the timer's saved time, updating it if the timer is running.
+     |
+     |  go_on(self)
+     |      Resume the timer.
+     |
+     |  pause(self)
+     |      Pause the timer.
+     |
+     |  start(self, new_time_in_seconds=-1)
+     |      Start the timer with the option to change the time in seconds.
+     |
+     |  stop(self)
+     |      Stop the timer and execute the command if provided.
+     |
+     |  update(self)
+     |      Update the timer's saved time.
+     |
+     |  ----------------------------------------------------------------------
+     |  Readonly properties defined here:
+     |
+     |  is_running
+     |
+     |  start_time
+     |
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |
+     |  time_in_seconds
+
+FUNCTIONS
+    game_help_window(help_text: str, title='Game Help', width=500, height=400)
+        The function used to display help text for the game
+        :param help_text(str): Help text to display
+        :param title(str): popup title Default: 'Game Help'
+        :param width(int): Popup width Default: 500
+        :param height(int): popup height default: 400
+
+DATA
+    __all__ = ['Timer', 'CountUpTimer', 'CountDownTimer', 'game_help_windo...</code></pre>
+</div>
+</body>
+
+</html>

@@ -23,15 +23,37 @@
 # nanocode38
 
 import time
+import tkinter as tk
 from typing import *
 
 __all__ = [
     'Timer',
     'CountUpTimer',
     'CountDownTimer',
+    'game_help_window'
 ]
 
 
+def game_help_window(help_text:str, title='Game Help', width=500, height=400):
+    """ The function used to display help text for the game
+:param help_text(str): Help text to display
+:param title(str): popup title Default: 'Game Help'
+:param width(int): Popup width Default: 500
+:param height(int): popup height default: 400"""
+    root = tk.Tk()
+    root.title(title)
+    root.geometry(f'{str(width)}x{str(height)}+150+105')
+    root.resizable(0, 0)
+    root.wm_attributes("-topmost", 1)
+    lable = tk.Label(root, anchor=tk.N, fg='black', text=help_text, width=width, height=height, justify='left')
+    lable.pack(anchor='e')
+
+    root.update()
+    def on_close_window():
+        root.destroy()
+
+    root.protocol("WM_DELETE_WINDOW", on_close_window)
+    root.mainloop()
 
 
 class Timer:
@@ -96,11 +118,11 @@ class Timer:
         self.__is_running = True
         self.update()
 
-    def get_time(self):
+    def get_time(self, number_of_reserved_bits=2):
         """Get the timer's saved time, updating it if the timer is running."""
 
         if self.__is_running:
-            self._saved_time = time.time() - self.__start_time
+            self._saved_time = round(time.time() - self.__start_time, number_of_reserved_bits)
 
         return self._saved_time
 

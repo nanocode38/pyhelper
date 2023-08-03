@@ -515,6 +515,7 @@ class BackgroundSound:
     :param sound_path(str): 背景音乐的存储路径"""
     __slots__ = ['sound']
     def __init__(self, sound_path:str):
+        pygame.mixer.init()
         self.sound = pygame.mixer.music.load(sound_path)
 
     def play(self, nloop=-1, start_seconds=0.0):

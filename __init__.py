@@ -52,20 +52,25 @@ Initial version, not released
 
 <2023.08.01> Version 1.0.0
 Have full documentation, the first version of a complete development system
+
+<2023.08.03> Version 1.0.1
+Update: Update Document
+Fixed: Button causes event at press instant
+New feature: gamehelper.game_help_window
 """
 import os
 import sys
 
-import heads
-from main import *
-import pgwidgets
-import pghelper
-import mathhelper
-import true_random
-import gamehelper
+import pyhelper.heads as heads
+from pyhelper.main import *
+import pyhelper.pgwidgets as pgwidgets
+import pyhelper.pghelper as pghelper
+import pyhelper.mathhelper as mathhelper
+import pyhelper.true_random as true_random
+import pyhelper.gamehelper as gamehelper
 
 # version is there
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 __all__ = [
     'get_version',
     'RGBColor',

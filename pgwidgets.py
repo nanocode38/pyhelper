@@ -162,15 +162,18 @@ the description of the image_paths property
         
 class TextButtonConfig(BaseConfig):
     """This is the configuration class for the TextButton class. It includes the following configuration options
-- width(int): This is a tuple of paths for all images, which should be passed in "release state, hold state,
-hover state, lock state". If any of the last three are specified, it is automatically set to the first
-- global_coord(tuple): This is a Boolean value that specifies whether the button is in the global coordinate
-system. If not, the bx, by property is superimposed at the center of the screen and defaults to False
+- width (int): The length of the button
+- height (int): The height of the button
+- text (str): The text on the button
+- button_color(list): A list of button colors whose four elements represent the colors of the following states: normal, pressed, suspended, and locked
+- text_color (list): This is a list of button text colors, with four elements representing the colors of the
+following states: normal, pressed, suspended, locked
+- font (str): String representation of the text font
+- text_size (int): The size of the text
+
 - sounds_on_chick(str): This is the sound effect that was played when the button was clicked and is a string
 pointing to the sound effect location. The default is None, which means no sound effect will be played.
-- bx(tuple): The X position of the center of the button. If global_coord is False, the X coordinate is
-superimposed at the center of the screen.
-- by(tuple): The Y position of the button's center. If global_coord is False, the Y coordinate is superimposed at
+
 the center of the screen.
 - command(function): is what needs to be done when the button is pressed, is of type Function, defaults to None,
 i.e., does nothing.
@@ -325,6 +328,7 @@ class CustomButton:
         self.screen = bs.screen
         self.screen_rect = bs.screen.get_rect()
         self.text = ''
+        self.__is_check_down = False
         self.command = bs.command
         self.args = bs.args
         self.sounds_on_chick = bs.sounds_on_chick
@@ -351,15 +355,27 @@ class CustomButton:
         self.lock = False
 
 
-    def is_chick(self) -> bool:
+    def is_chick(self, event) -> bool:
         """Return Whether to click"""
         if self.hidden or self.lock:
             return False
-        if pygame.mouse.get_pressed()[0] == False:
+        if event.type != pygame.MOUSEBUTTONUP:
             return False
         if self.rect.collidepoint(pygame.mouse.get_pos()):
             return True
         return False
+
+    def _is_check_down(self, event):
+        if not self.__is_check_down:
+            return False
+        if self.hidden or self.lock:
+            return False
+        if event.type != pygame.MOUSEBUTTONDOWN:
+            return False
+        if self.rect.collidepoint(pygame.mouse.get_pos()):
+            return True
+        return False
+
 
     def is_hover(self) -> bool:
         """Return Whether to hover"""
@@ -371,16 +387,21 @@ class CustomButton:
             return True
         return False
 
-    def update(self):
+    def update(self, event):
         """Update the Button"""
         if self.hidden: return
         if self.lock:
             self.image = self.lock_image
-        elif self.is_chick():
+        elif self._is_check_down(event):
+            self.__is_check_down = True
             self.image = self.down_image
             if self.sounds_on_chick is not None:
                 sound = pygame.mixer.Sound(self.sounds_on_chick)
                 sound.play()
+        elif self.is_chick(event):
+            self.__is_check_down = False
+            self.image = self.up_image
+
             if self.command is not None:
                 self.command(*self.args)
         elif self.is_hover():
@@ -403,6 +424,7 @@ class TextButton:
 
     def __init__(self, tbc: TextButtonConfig):
         self.screen = tbc.screen
+        self._is_checkdown = False
         self.width, self.height = tbc.width, tbc.height
         self.rect = pygame.Rect(250, 200, self.width, self.height)
         self.sounds_on_chick = tbc.sounds_on_chick
@@ -446,17 +468,29 @@ class TextButton:
     def is_chick(self):
         return self.__is_check
 
+    def is_chick_down(self, event):
+        if not event.type == pygame.MOUSEBUTTONDOWN:
+            return False
+        if self.rect.collidepoint(pygame.mouse.get_pos()):
+            return True
+        return False
+
     def update(self, event) -> bool:
         """Update the Button"""
         if self.hidden: return False
         if self.lock:
             self.mode = TextButton.BUTTON_LOCK
             return False
-        elif self.button_is_chick(event):
+        if self.is_chick_down(event):
             self.mode = TextButton.BUTTON_DOWN
+            self._is_checkdown = True
             if self.sounds_on_chick is not None:
                 sound = pygame.mixer.Sound(self.sounds_on_chick)
                 sound.play()
+        elif self.button_is_chick(event):
+            self._is_checkdown = False
+            self.mode = TextButton.BUTTON_UP
+
             if self.command is not None:
                 self.command(*self.args)
             return True
@@ -468,7 +502,9 @@ class TextButton:
 
     def button_is_chick(self, event):
         """Return Whether to chick"""
-        if not event.type == pygame.MOUSEBUTTONDOWN:
+        if not self._is_checkdown:
+            return False
+        if not event.type == pygame.MOUSEBUTTONUP:
             return False
         if self.rect.collidepoint(pygame.mouse.get_pos()):
             return True
@@ -476,7 +512,7 @@ class TextButton:
 
     def button_is_hover(self, event):
         """Return Whether to hover"""
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type in (pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP):
             return False
         if self.rect.collidepoint(pygame.mouse.get_pos()):
             return True
