@@ -1,0 +1,11 @@
+.venv/
+.idea/
+.mypy_catch/
+__pycache__/
+*.tmp
+*.bat
+*.exe
+*.temp
+*.pyc
+build/
+pyhelper.egg-info/
