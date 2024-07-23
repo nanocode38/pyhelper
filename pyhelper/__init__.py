@@ -62,14 +62,21 @@ Constant names with lowercase letters are not allowed
 Reset the code format
 Reset the document format
 Delete: get_doc()
+
+<2024.7.23> Version 2.2.0
+Rename: dtyping -> type
+Reset the code format
+Update: README.md, pyhelper.gamehelpers.pghelper.draw_background()
+New: type.DictType, type.ListType, type.TupleType, type.SetType, type.FrozenSetType, type.FrozenSet
+Debug: Color.to_css/rgba(): Constant names with lowercase letters are not allowed
 """
 import os
 import sys
 import unittest
 
-from constant import Constant, ConstantError
+from pyhelper.constant import Constant, ConstantError
 
-__version__ = '2.1.0'
+__version__ = '2.2.0'
 __all__ = [
     'get_version',
     'RGBAColor',

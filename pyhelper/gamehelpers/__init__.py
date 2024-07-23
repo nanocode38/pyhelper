@@ -30,8 +30,8 @@ import time
 import tkinter as tk
 from typing import *
 
-from gamehelpers import pghelper
-import gamehelpers.pghelper.widgets
+from pyhelper.gamehelpers import pghelper
+import pyhelper.gamehelpers.pghelper.widgets
 
 __all__ = [
     'Timer',

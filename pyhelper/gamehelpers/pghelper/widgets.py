@@ -22,7 +22,7 @@
 # 2602422835@qq.com
 # nanocode38
 """
-PgWidgets
+Widgets
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This module provides a number of efficient Pygame GUI components that help you develop Pygame games.
 This module has the following classes:
@@ -82,8 +82,7 @@ __all__ = [
     'InputText',
     'InputTextConfig',
 
-    'RadioButtons',
-    'get_doc'
+    'RadioButtons'
 ]
 
 _PYTHON_PATH = sys.executable[:-11]

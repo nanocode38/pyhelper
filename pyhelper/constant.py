@@ -44,8 +44,6 @@ class ConstantError(ArithmeticError):
 
 class Constant(object):
     def __setattr__(self, name, value):
-        if name.upper() != name:
-            raise ConstantError('Constant names must be in uppercase!')
         if name in self.__dict__:
             raise ConstantError('Cannot change the value of the Type Constant!')
         try:

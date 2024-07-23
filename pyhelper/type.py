@@ -31,16 +31,22 @@ Copyright (C)
 from typing import *
 from collections.abc import Iterator, Iterable
 
-Int = int
-Boolean = bool
-Bool = Boolean
-Number = Union[int, float]
-Float = float
-String = str
-Object = object
-Bytes = bytes
-List = list
-Dict = dict
-Tuple = tuple
-Set = set
-Complex = complex
+type Int = int
+type Boolean = bool
+type Bool = Boolean
+type Number = Union[int, float]
+type Float = float
+type String = str
+type Object = object
+type Bytes = bytes
+type ListType = List
+type DictType = Dict
+type TupleType = Tuple
+type SetType = Set
+type FrozenSetType = FrozenSet
+type List = list
+type Dict = dict
+type Tuple = tuple
+type Set = set
+type FrozenSet = FrozenSet
+type Complex = complex

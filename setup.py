@@ -1,17 +1,19 @@
 from distutils.core import setup
 from setuptools import find_packages
 
+from pyhelper import __version__
+
 with open('README.md', 'r', encoding='utf-8', errors='replace') as f:
     long_description = f.read()
 
-setup(name='pyhelper',  # 包名
-      version='2.1.0',  # 版本号
+setup(name='pyhelper',
+      version=__version__,
       description='A tool set for complementing Python and Pygame',
       long_description=long_description,
       author='nanocode38',
       author_email='2602422835@qq.com',
       url='https://github.com/nanocode38/pyhelper.git',
-      install_requires=['pghelper', 'requests'],
+      install_requires=['pygame'],
       license='BSD License',
       packages=find_packages(),
       platforms=["all"],

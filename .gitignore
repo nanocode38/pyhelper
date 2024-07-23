@@ -7,5 +7,6 @@ __pycache__/
 *.exe
 *.temp
 *.pyc
+update.*
 build/
 pyhelper.egg-info/

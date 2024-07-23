@@ -38,8 +38,8 @@ from fractions import Fraction
 from typing import *
 from collections.abc import Iterable
 
-import src.constant as constant
-from src.dtyping import *
+import pyhelper.constant as constant
+from pyhelper.type import *
 
 __all__ = [
     'constant.const.PI',

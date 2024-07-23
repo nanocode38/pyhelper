@@ -29,10 +29,11 @@ Copyright (C)
 """
 from abc import ABC, abstractmethod
 import sys
-from gamehelpers.pghelper import widgets
 from typing import *
 
 import pygame
+
+from pyhelper.gamehelpers.pghelper import widgets
 
 __all__ = [
     'disassemble_sprite_sheet',
@@ -86,14 +87,35 @@ def load_images(image_paths: Union[list, tuple]):
     return images
 
 
-def draw_background(screen: pygame.Surface, image_path: str) -> None:
-    """
-    Draw the game background
-    :param screen: the Surface of the scene to paint
-    :param image_path: image path for background image
-    """
-    image = pygame.image.load(image_path)
-    screen.blit(image, (0, 0))
+class Background(object):
+    """Background Class"""
+
+    def __init__(self):
+        self.image = None
+
+    def __call__(self, screen: pygame.SurfaceType, image_path: str, width: int = 0, height: int = 0) -> None:
+        """
+         Draw the game background
+        :param screen: the Surface of the scene to paint
+        :param image_path: image path for background image
+        :param width: The background width, default: 0, the original width, can be pygame.FULLSCREEN is the screen width
+        :param height: The background height, default: 0, the original height,
+            can be pygame.FULLSCREEN is the screen height
+        """
+        if self.image is None:
+            self.image = pygame.image.load(image_path)
+            if width != 0:
+                if width == pygame.FULLSCREEN:
+                    width = screen.get_width()
+                self.image = pygame.transform.scale(self.image, (width, self.image.get_height()))
+            if height != 0:
+                if height == pygame.FULLSCREEN:
+                    height = screen.get_height()
+                self.image = pygame.transform.scale(self.image, (self.image.get_width(), height))
+        screen.blit(self.image, (0, 0))
+
+
+draw_background = Background()
 
 
 # noinspection GrazieInspection
