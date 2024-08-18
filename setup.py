@@ -3,8 +3,8 @@ from setuptools import find_packages
 
 from pyhelper import __version__
 
-# with open('README.md', 'r', encoding='utf-8', errors='replace') as f:
-#     long_description = f.read()
+with open('README.md', 'r', encoding='utf-8', errors='replace') as f:
+     long_description = f.read()
 
 requires = list()
 with open('requirements.txt', 'r', errors='replace') as f:
