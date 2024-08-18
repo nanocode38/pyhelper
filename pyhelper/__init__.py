@@ -50,7 +50,7 @@ Have full documentation, the first version of a complete development system
 <2023.08.03> Version 1.0.1
 Update: Update Document
 Fixed: Button causes event at press instant
-New feature: gamehelper.game_help_window
+New feature: gamehelpers.game_help_window
 
 <2024.6.30> Version 1.2.0
 Update: Update Class Stack and Document
@@ -69,14 +69,23 @@ Reset the code format
 Update: README.md, pyhelper.gamehelpers.pghelper.draw_background()
 New: type.DictType, type.ListType, type.TupleType, type.SetType, type.FrozenSetType, type.FrozenSet
 Debug: Color.to_css/rgba(): Constant names with lowercase letters are not allowed
+
+<2024.8.18> Version 2.3.1
+Fix: pyhelper.color's names
+Fix: PI and E raise ConstantError when pyhelper.mathhelper is imported multiple times
+Fix: Cannot use pyhelper.type.Int, Float, String, List, Tuple, Dict, Set, FrozenSet, Bool, Boolean, Object, Bytes, Complex because it is a type annotation
+Feat: pyhelper.tk
+Feat: pyhelper.TKhelper
+Style: Annotation used pyhelper.type
 """
 import os
 import sys
 import unittest
 
 from pyhelper.constant import Constant, ConstantError
+from pyhelper.type import *
 
-__version__ = '2.2.0'
+__version__ = '2.3.1'
 __all__ = [
     'get_version',
     'RGBAColor',
@@ -106,41 +115,41 @@ if __name__ != '__main__':
 class _RGBColor:
     """
     A class about RGBA colors
-    :function: to_css(rgbs: tuple) or to_css(rgbs: int, g: int, b: int, a: int = 255) -> str
+    :function to_css(rgbs: Tuple) or to_css(rgbs: Int, g: Int, b: Int, a: Int = 255) -> String
     """
     RGBAColorConst = Constant()
 
-    RGBAColorConst.ALICEBLUE = (
+    RGBAColorConst.ALICE_BLUE = (
         240,
         248,
         255,
         255,
     )
-    RGBAColorConst.ANTIQUEWHITE = (
+    RGBAColorConst.ANTIQUE_WHITE = (
         250,
         235,
         215,
         255,
     )
-    RGBAColorConst.ANTIQUEWHITE1 = (
+    RGBAColorConst.ANTIQUE_WHITE1 = (
         255,
         239,
         219,
         255,
     )
-    RGBAColorConst.ANTIQUEWHITE2 = (
+    RGBAColorConst.ANTIQUE_WHITE2 = (
         238,
         223,
         204,
         255,
     )
-    RGBAColorConst.ANTIQUEWHITE3 = (
+    RGBAColorConst.ANTIQUE_WHITE3 = (
         205,
         192,
         176,
         255,
     )
-    RGBAColorConst.ANTIQUEWHITE4 = (
+    RGBAColorConst.ANTIQUE_WHITE4 = (
         139,
         131,
         120,
@@ -236,7 +245,7 @@ class _RGBColor:
         0,
         255,
     )
-    RGBAColorConst.BLANCHEDALMOND = (
+    RGBAColorConst.BLANCHED_ALMOND = (
         255,
         235,
         205,
@@ -266,7 +275,7 @@ class _RGBColor:
         139,
         255,
     )
-    RGBAColorConst.BLUEVIOLET = (
+    RGBAColorConst.BLUE_VIOLET = (
         138,
         43,
         226,
@@ -302,61 +311,61 @@ class _RGBColor:
         35,
         255,
     )
-    RGBAColorConst.BURLYWOOD = (
+    RGBAColorConst.BURLY_WOOD = (
         222,
         184,
         135,
         255,
     )
-    RGBAColorConst.BURLYWOOD1 = (
+    RGBAColorConst.BURLY_WOOD1 = (
         255,
         211,
         155,
         255,
     )
-    RGBAColorConst.BURLYWOOD2 = (
+    RGBAColorConst.BURLY_WOOD2 = (
         238,
         197,
         145,
         255,
     )
-    RGBAColorConst.BURLYWOOD3 = (
+    RGBAColorConst.BURLY_WOOD3 = (
         205,
         170,
         125,
         255,
     )
-    RGBAColorConst.BURLYWOOD4 = (
+    RGBAColorConst.BURLY_WOOD4 = (
         139,
         115,
         85,
         255,
     )
-    RGBAColorConst.CADETBLUE = (
+    RGBAColorConst.CADET_BLUE = (
         95,
         158,
         160,
         255,
     )
-    RGBAColorConst.CADETBLUE1 = (
+    RGBAColorConst.CADET_BLUE1 = (
         152,
         245,
         255,
         255,
     )
-    RGBAColorConst.CADETBLUE2 = (
+    RGBAColorConst.CADET_BLUE2 = (
         142,
         229,
         238,
         255,
     )
-    RGBAColorConst.CADETBLUE3 = (
+    RGBAColorConst.CADET_BLUE3 = (
         122,
         197,
         205,
         255,
     )
-    RGBAColorConst.CADETBLUE4 = (
+    RGBAColorConst.CADET_BLUE4 = (
         83,
         134,
         139,
@@ -446,31 +455,31 @@ class _RGBColor:
         47,
         255,
     )
-    RGBAColorConst.CORNFLOWERBLUE = (
+    RGBAColorConst.CORNFLOWER_BLUE = (
         100,
         149,
         237,
         255,
     )
-    RGBAColorConst.CORNSILK = (
+    RGBAColorConst.CORN_SILK = (
         255,
         248,
         220,
         255,
     )
-    RGBAColorConst.CORNSILK2 = (
+    RGBAColorConst.CORN_SILK2 = (
         238,
         232,
         205,
         255,
     )
-    RGBAColorConst.CORNSILK3 = (
+    RGBAColorConst.CORN_SILK3 = (
         205,
         200,
         177,
         255,
     )
-    RGBAColorConst.CORNSILK4 = (
+    RGBAColorConst.CORN_SILK4 = (
         139,
         136,
         120,
@@ -554,31 +563,31 @@ class _RGBColor:
         139,
         255,
     )
-    RGBAColorConst.DARK_OLIVEGREEN = (
+    RGBAColorConst.DARK_OLIVE_GREEN = (
         85,
         107,
         47,
         255,
     )
-    RGBAColorConst.DARK_OLIVEGREEN1 = (
+    RGBAColorConst.DARK_OLIVE_GREEN1 = (
         202,
         255,
         112,
         255,
     )
-    RGBAColorConst.DARK_OLIVEGREEN2 = (
+    RGBAColorConst.DARK_OLIVE_GREEN2 = (
         188,
         238,
         104,
         255,
     )
-    RGBAColorConst.DARK_OLIVEGREEN3 = (
+    RGBAColorConst.DARK_OLIVE_GREEN3 = (
         162,
         205,
         90,
         255,
     )
-    RGBAColorConst.DARK_OLIVEGREEN4 = (
+    RGBAColorConst.DARK_OLIVE_GREEN4 = (
         110,
         139,
         61,
@@ -686,37 +695,37 @@ class _RGBColor:
         105,
         255,
     )
-    RGBAColorConst.DARK_SLATEBLUE = (
+    RGBAColorConst.DARK_SLATE_BLUE = (
         72,
         61,
         139,
         255,
     )
-    RGBAColorConst.DARK_SLATEGRAY = (
+    RGBAColorConst.DARK_SLATE_GRAY = (
         47,
         79,
         79,
         255,
     )
-    RGBAColorConst.DARK_SLATEGRAY1 = (
+    RGBAColorConst.DARK_SLATE_GRAY1 = (
         151,
         255,
         255,
         255,
     )
-    RGBAColorConst.DARK_SLATEGRAY2 = (
+    RGBAColorConst.DARK_SLATE_GRAY2 = (
         141,
         238,
         238,
         255,
     )
-    RGBAColorConst.DARK_SLATEGRAY3 = (
+    RGBAColorConst.DARK_SLATE_GRAY3 = (
         121,
         205,
         205,
         255,
     )
-    RGBAColorConst.DARK_SLATEGRAY4 = (
+    RGBAColorConst.DARK_SLATE_GRAY4 = (
         82,
         139,
         139,
@@ -758,55 +767,55 @@ class _RGBColor:
         80,
         255,
     )
-    RGBAColorConst.DEEP_SKYBLUE = (
+    RGBAColorConst.DEEP_SKY_BLUE = (
         0,
         191,
         255,
         255,
     )
-    RGBAColorConst.DEEP_SKYBLUE2 = (
+    RGBAColorConst.DEEP_SKY_BLUE2 = (
         0,
         178,
         238,
         255,
     )
-    RGBAColorConst.DEEP_SKYBLUE3 = (
+    RGBAColorConst.DEEP_SKY_BLUE3 = (
         0,
         154,
         205,
         255,
     )
-    RGBAColorConst.DEEP_SKYBLUE4 = (
+    RGBAColorConst.DEEP_SKY_BLUE4 = (
         0,
         104,
         139,
         255,
     )
-    RGBAColorConst.DIMGRAY = (
+    RGBAColorConst.DIM_GRAY = (
         105,
         105,
         105,
         255,
     )
-    RGBAColorConst.DODGERBLUE = (
+    RGBAColorConst.DODGER_BLUE = (
         30,
         144,
         255,
         255,
     )
-    RGBAColorConst.DODGERBLUE2 = (
+    RGBAColorConst.DODGER_BLUE2 = (
         28,
         134,
         238,
         255,
     )
-    RGBAColorConst.DODGERBLUE3 = (
+    RGBAColorConst.DODGER_BLUE3 = (
         24,
         116,
         205,
         255,
     )
-    RGBAColorConst.DODGERBLUE4 = (
+    RGBAColorConst.DODGER_BLUE4 = (
         16,
         78,
         139,
@@ -842,13 +851,13 @@ class _RGBColor:
         26,
         255,
     )
-    RGBAColorConst.FLORALWHITE = (
+    RGBAColorConst.FLORAL_WHITE = (
         255,
         250,
         240,
         255,
     )
-    RGBAColorConst.FORESTGREEN = (
+    RGBAColorConst.FOREST_GREEN = (
         34,
         139,
         34,
@@ -866,7 +875,7 @@ class _RGBColor:
         220,
         255,
     )
-    RGBAColorConst.GHOSTWHITE = (
+    RGBAColorConst.GHOST_WHITE = (
         248,
         248,
         255,
@@ -1550,7 +1559,7 @@ class _RGBColor:
         0,
         255,
     )
-    RGBAColorConst.GREENYELLOW = (
+    RGBAColorConst.GREEN_YELLOW = (
         173,
         255,
         47,
@@ -1610,31 +1619,31 @@ class _RGBColor:
         98,
         255,
     )
-    RGBAColorConst.INDIANRED = (
+    RGBAColorConst.INDIAN_RED = (
         205,
         92,
         92,
         255,
     )
-    RGBAColorConst.INDIANRED1 = (
+    RGBAColorConst.INDIAN_RED1 = (
         255,
         106,
         106,
         255,
     )
-    RGBAColorConst.INDIANRED2 = (
+    RGBAColorConst.INDIAN_RED2 = (
         238,
         99,
         99,
         255,
     )
-    RGBAColorConst.INDIANRED3 = (
+    RGBAColorConst.INDIAN_RED3 = (
         205,
         85,
         85,
         255,
     )
-    RGBAColorConst.INDIANRED4 = (
+    RGBAColorConst.INDIAN_RED4 = (
         139,
         58,
         58,
@@ -1706,31 +1715,31 @@ class _RGBColor:
         250,
         255,
     )
-    RGBAColorConst.LAVENDERBLUSH = (
+    RGBAColorConst.LAVENDER_BLUSH = (
         255,
         240,
         245,
         255,
     )
-    RGBAColorConst.LAVENDERBLUSH2 = (
+    RGBAColorConst.LAVENDER_BLUSH2 = (
         238,
         224,
         229,
         255,
     )
-    RGBAColorConst.LAVENDERBLUSH3 = (
+    RGBAColorConst.LAVENDER_BLUSH3 = (
         205,
         193,
         197,
         255,
     )
-    RGBAColorConst.LAVENDERBLUSH4 = (
+    RGBAColorConst.LAVENDER_BLUSH4 = (
         139,
         131,
         134,
         255,
     )
-    RGBAColorConst.LAWNGREEN = (
+    RGBAColorConst.LAWN_GREEN = (
         124,
         252,
         0,
@@ -1784,7 +1793,7 @@ class _RGBColor:
         205,
         255,
     )
-    RGBAColorConst.LIGHT_BLUE4 = (
+    RGBAColorConst.LIGHT__BLUE4 = (
         104,
         131,
         139,
@@ -1850,7 +1859,7 @@ class _RGBColor:
         76,
         255,
     )
-    RGBAColorConst.LIGHT_GOLDENRODYELLOW = (
+    RGBAColorConst.LIGHT_GOLDENROD_YELLOW = (
         250,
         250,
         210,
@@ -1928,73 +1937,73 @@ class _RGBColor:
         170,
         255,
     )
-    RGBAColorConst.LIGHT_SKYBLUE = (
+    RGBAColorConst.LIGHT_SKY_BLUE = (
         135,
         206,
         250,
         255,
     )
-    RGBAColorConst.LIGHT_SKYBLUE1 = (
+    RGBAColorConst.LIGHT_SKY_BLUE1 = (
         176,
         226,
         255,
         255,
     )
-    RGBAColorConst.LIGHT_SKYBLUE2 = (
+    RGBAColorConst.LIGHT_SKY_BLUE2 = (
         164,
         211,
         238,
         255,
     )
-    RGBAColorConst.LIGHT_SKYBLUE3 = (
+    RGBAColorConst.LIGHT_SKY_BLUE3 = (
         141,
         182,
         205,
         255,
     )
-    RGBAColorConst.LIGHT_SKYBLUE4 = (
+    RGBAColorConst.LIGHT_SKY_BLUE4 = (
         96,
         123,
         139,
         255,
     )
-    RGBAColorConst.LIGHT_SLATEBLUE = (
+    RGBAColorConst.LIGHT_SLATE_BLUE = (
         132,
         112,
         255,
         255,
     )
-    RGBAColorConst.LIGHT_SLATEGRAY = (
+    RGBAColorConst.LIGHT_SLATE_GRAY = (
         119,
         136,
         153,
         255,
     )
-    RGBAColorConst.LIGHT_STEELBLUE = (
+    RGBAColorConst.LIGHT_STEEL_BLUE = (
         176,
         196,
         222,
         255,
     )
-    RGBAColorConst.LIGHT_STEELBLUE1 = (
+    RGBAColorConst.LIGHT_STEEL_BLUE1 = (
         202,
         225,
         255,
         255,
     )
-    RGBAColorConst.LIGHT_STEELBLUE2 = (
+    RGBAColorConst.LIGHT_STEEL_BLUE2 = (
         188,
         210,
         238,
         255,
     )
-    RGBAColorConst.LIGHT_STEELBLUE3 = (
+    RGBAColorConst.LIGHT_STEEL_BLUE3 = (
         162,
         181,
         205,
         255,
     )
-    RGBAColorConst.LIGHT_STEELBLUE4 = (
+    RGBAColorConst.LIGHT_STEEL_BLUE4 = (
         110,
         123,
         139,
@@ -2144,13 +2153,13 @@ class _RGBColor:
         113,
         255,
     )
-    RGBAColorConst.MEDIUM_SLATEBLUE = (
+    RGBAColorConst.MEDIUM_SLATE_BLUE = (
         123,
         104,
         238,
         255,
     )
-    RGBAColorConst.MEDIUM_SPRINGGREEN = (
+    RGBAColorConst.MEDIUM_SPRING_GREEN = (
         0,
         250,
         154,
@@ -2162,13 +2171,13 @@ class _RGBColor:
         204,
         255,
     )
-    RGBAColorConst.MEDIUM_VIOLETRED = (
+    RGBAColorConst.MEDIUM_VIOLET_RED = (
         199,
         21,
         133,
         255,
     )
-    RGBAColorConst.MIDNIGHTBLUE = (
+    RGBAColorConst.MIDNIGHT_BLUE = (
         25,
         25,
         112,
@@ -2180,25 +2189,25 @@ class _RGBColor:
         250,
         255,
     )
-    RGBAColorConst.MISTYROSE = (
+    RGBAColorConst.MISTY_ROSE = (
         255,
         228,
         225,
         255,
     )
-    RGBAColorConst.MISTYROSE2 = (
+    RGBAColorConst.MISTY_ROSE2 = (
         238,
         213,
         210,
         255,
     )
-    RGBAColorConst.MISTYROSE3 = (
+    RGBAColorConst.MISTY_ROSE3 = (
         205,
         183,
         181,
         255,
     )
-    RGBAColorConst.MISTYROSE4 = (
+    RGBAColorConst.MISTY_ROSE4 = (
         139,
         125,
         123,
@@ -2210,25 +2219,25 @@ class _RGBColor:
         181,
         255,
     )
-    RGBAColorConst.NAVAJOWHITE = (
+    RGBAColorConst.NAVAJO_WHITE = (
         255,
         222,
         173,
         255,
     )
-    RGBAColorConst.NAVAJOWHITE2 = (
+    RGBAColorConst.NAVAJO_WHITE2 = (
         238,
         207,
         161,
         255,
     )
-    RGBAColorConst.NAVAJOWHITE3 = (
+    RGBAColorConst.NAVAJO_WHITE3 = (
         205,
         179,
         139,
         255,
     )
-    RGBAColorConst.NAVAJOWHITE4 = (
+    RGBAColorConst.NAVAJO_WHITE4 = (
         139,
         121,
         94,
@@ -2240,7 +2249,7 @@ class _RGBColor:
         128,
         255,
     )
-    RGBAColorConst.OLDLACE = (
+    RGBAColorConst.OLD_LACE = (
         253,
         245,
         230,
@@ -2252,31 +2261,31 @@ class _RGBColor:
         0,
         255,
     )
-    RGBAColorConst.OLIVEDRAB = (
+    RGBAColorConst.OLIVE_DRAB = (
         107,
         142,
         35,
         255,
     )
-    RGBAColorConst.OLIVEDRAB1 = (
+    RGBAColorConst.OLIVE_DRAB1 = (
         192,
         255,
         62,
         255,
     )
-    RGBAColorConst.OLIVEDRAB2 = (
+    RGBAColorConst.OLIVE_DRAB2 = (
         179,
         238,
         58,
         255,
     )
-    RGBAColorConst.OLIVEDRAB3 = (
+    RGBAColorConst.OLIVE_DRAB3 = (
         154,
         205,
         50,
         255,
     )
-    RGBAColorConst.OLIVEDRAB4 = (
+    RGBAColorConst.OLIVE_DRAB4 = (
         105,
         139,
         34,
@@ -2306,25 +2315,25 @@ class _RGBColor:
         0,
         255,
     )
-    RGBAColorConst.ORANGERED = (
+    RGBAColorConst.ORANGE_RED = (
         255,
         69,
         0,
         255,
     )
-    RGBAColorConst.ORANGERED2 = (
+    RGBAColorConst.ORANGE_RED2 = (
         238,
         64,
         0,
         255,
     )
-    RGBAColorConst.ORANGERED3 = (
+    RGBAColorConst.ORANGE_RED3 = (
         205,
         55,
         0,
         255,
     )
-    RGBAColorConst.ORANGERED4 = (
+    RGBAColorConst.ORANGE_RED4 = (
         139,
         37,
         0,
@@ -2420,31 +2429,31 @@ class _RGBColor:
         139,
         255,
     )
-    RGBAColorConst.PALE_VIOLETRED = (
+    RGBAColorConst.PALE_VIOLET_RED = (
         219,
         112,
         147,
         255,
     )
-    RGBAColorConst.PALE_VIOLETRED1 = (
+    RGBAColorConst.PALE_VIOLET_RED1 = (
         255,
         130,
         171,
         255,
     )
-    RGBAColorConst.PALE_VIOLETRED2 = (
+    RGBAColorConst.PALE_VIOLET_RED2 = (
         238,
         121,
         159,
         255,
     )
-    RGBAColorConst.PALE_VIOLETRED3 = (
+    RGBAColorConst.PALE_VIOLET_RED3 = (
         205,
         104,
         137,
         255,
     )
-    RGBAColorConst.PALE_VIOLETRED4 = (
+    RGBAColorConst.PALE_VIOLET_RED4 = (
         139,
         71,
         93,
@@ -2456,25 +2465,25 @@ class _RGBColor:
         213,
         255,
     )
-    RGBAColorConst.PEACHPUFF = (
+    RGBAColorConst.PEACH_PUFF = (
         255,
         218,
         185,
         255,
     )
-    RGBAColorConst.PEACHPUFF2 = (
+    RGBAColorConst.PEACH_PUFF2 = (
         238,
         203,
         173,
         255,
     )
-    RGBAColorConst.PEACHPUFF3 = (
+    RGBAColorConst.PEACH_PUFF3 = (
         205,
         175,
         149,
         255,
     )
-    RGBAColorConst.PEACHPUFF4 = (
+    RGBAColorConst.PEACH_PUFF4 = (
         139,
         119,
         101,
@@ -2546,7 +2555,7 @@ class _RGBColor:
         139,
         255,
     )
-    RGBAColorConst.POWDERBLUE = (
+    RGBAColorConst.POWDER_BLUE = (
         176,
         224,
         230,
@@ -2600,61 +2609,61 @@ class _RGBColor:
         0,
         255,
     )
-    RGBAColorConst.ROSYBROWN = (
+    RGBAColorConst.ROSY_BROWN = (
         188,
         143,
         143,
         255,
     )
-    RGBAColorConst.ROSYBROWN1 = (
+    RGBAColorConst.ROSY_BROWN1 = (
         255,
         193,
         193,
         255,
     )
-    RGBAColorConst.ROSYBROWN2 = (
+    RGBAColorConst.ROSY_BROWN2 = (
         238,
         180,
         180,
         255,
     )
-    RGBAColorConst.ROSYBROWN3 = (
+    RGBAColorConst.ROSY_BROWN3 = (
         205,
         155,
         155,
         255,
     )
-    RGBAColorConst.ROSYBROWN4 = (
+    RGBAColorConst.ROSY_BROWN4 = (
         139,
         105,
         105,
         255,
     )
-    RGBAColorConst.ROYALBLUE = (
+    RGBAColorConst.ROYAL_BLUE = (
         65,
         105,
         225,
         255,
     )
-    RGBAColorConst.ROYALBLUE1 = (
+    RGBAColorConst.ROYAL_BLUE1 = (
         72,
         118,
         255,
         255,
     )
-    RGBAColorConst.ROYALBLUE2 = (
+    RGBAColorConst.ROYAL_BLUE2 = (
         67,
         110,
         238,
         255,
     )
-    RGBAColorConst.ROYALBLUE3 = (
+    RGBAColorConst.ROYAL_BLUE3 = (
         58,
         95,
         205,
         255,
     )
-    RGBAColorConst.ROYALBLUE4 = (
+    RGBAColorConst.ROYAL_BLUE4 = (
         39,
         64,
         139,
@@ -2690,7 +2699,7 @@ class _RGBColor:
         57,
         255,
     )
-    RGBAColorConst.SANDYBROWN = (
+    RGBAColorConst.SANDY_BROWN = (
         244,
         164,
         96,
@@ -2780,91 +2789,91 @@ class _RGBColor:
         192,
         255,
     )
-    RGBAColorConst.SKYBLUE = (
+    RGBAColorConst.SKY_BLUE = (
         135,
         206,
         235,
         255,
     )
-    RGBAColorConst.SKYBLUE1 = (
+    RGBAColorConst.SKY_BLUE1 = (
         135,
         206,
         255,
         255,
     )
-    RGBAColorConst.SKYBLUE2 = (
+    RGBAColorConst.SKY_BLUE2 = (
         126,
         192,
         238,
         255,
     )
-    RGBAColorConst.SKYBLUE3 = (
+    RGBAColorConst.SKY_BLUE3 = (
         108,
         166,
         205,
         255,
     )
-    RGBAColorConst.SKYBLUE4 = (
+    RGBAColorConst.SKY_BLUE4 = (
         74,
         112,
         139,
         255,
     )
-    RGBAColorConst.SLATEBLUE = (
+    RGBAColorConst.SLATE_BLUE = (
         106,
         90,
         205,
         255,
     )
-    RGBAColorConst.SLATEBLUE1 = (
+    RGBAColorConst.SLATE_BLUE1 = (
         131,
         111,
         255,
         255,
     )
-    RGBAColorConst.SLATEBLUE2 = (
+    RGBAColorConst.SLATE_BLUE2 = (
         122,
         103,
         238,
         255,
     )
-    RGBAColorConst.SLATEBLUE3 = (
+    RGBAColorConst.SLATE_BLUE3 = (
         105,
         89,
         205,
         255,
     )
-    RGBAColorConst.SLATEBLUE4 = (
+    RGBAColorConst.SLATE_BLUE4 = (
         71,
         60,
         139,
         255,
     )
-    RGBAColorConst.SLATEGRAY = (
+    RGBAColorConst.SLATE_GRAY = (
         112,
         128,
         144,
         255,
     )
-    RGBAColorConst.SLATEGRAY1 = (
+    RGBAColorConst.SLATE_GRAY1 = (
         198,
         226,
         255,
         255,
     )
-    RGBAColorConst.SLATEGRAY2 = (
+    RGBAColorConst.SLATE_GRAY2 = (
         185,
         211,
         238,
         255,
     )
-    RGBAColorConst.SLATEGRAY3 = (
+    RGBAColorConst.SLATE_GRAY3 = (
         159,
         182,
         205,
         255,
     )
-    RGBAColorConst.SLATEGRAY4 = (
+    RGBAColorConst.SLATE_GRAY4 = (
         108,
         123,
         139,
@@ -2894,55 +2903,55 @@ class _RGBColor:
         137,
         255,
     )
-    RGBAColorConst.SPRINGGREEN = (
+    RGBAColorConst.SPRING_GREEN = (
         0,
         255,
         127,
         255,
     )
-    RGBAColorConst.SPRINGGREEN2 = (
+    RGBAColorConst.SPRING_GREEN2 = (
         0,
         238,
         118,
         255,
     )
-    RGBAColorConst.SPRINGGREEN3 = (
+    RGBAColorConst.SPRING_GREEN3 = (
         0,
         205,
         102,
         255,
     )
-    RGBAColorConst.SPRINGGREEN4 = (
+    RGBAColorConst.SPRING_GREEN4 = (
         0,
         139,
         69,
         255,
     )
-    RGBAColorConst.STEELBLUE = (
+    RGBAColorConst.STEEL_BLUE = (
         70,
         130,
         180,
         255,
     )
-    RGBAColorConst.STEELBLUE1 = (
+    RGBAColorConst.STEEL_BLUE1 = (
         99,
         184,
         255,
         255,
     )
-    RGBAColorConst.STEELBLUE2 = (
+    RGBAColorConst.STEEL_BLUE2 = (
         92,
         172,
         238,
         255,
     )
-    RGBAColorConst.STEELBLUE3 = (
+    RGBAColorConst.STEEL_BLUE3 = (
         79,
         148,
         205,
         255,
     )
-    RGBAColorConst.STEELBLUE4 = (
+    RGBAColorConst.STEEL_BLUE4 = (
         54,
         100,
         139,
@@ -3068,31 +3077,31 @@ class _RGBColor:
         238,
         255,
     )
-    RGBAColorConst.VIOLETRED = (
+    RGBAColorConst.VIOLET_RED = (
         208,
         32,
         144,
         255,
     )
-    RGBAColorConst.VIOLETRED1 = (
+    RGBAColorConst.VIOLET_RED1 = (
         255,
         62,
         150,
         255,
     )
-    RGBAColorConst.VIOLETRED2 = (
+    RGBAColorConst.VIOLET_RED2 = (
         238,
         58,
         140,
         255,
     )
-    RGBAColorConst.VIOLETRED3 = (
+    RGBAColorConst.VIOLET_RED3 = (
         205,
         50,
         120,
         255,
     )
-    RGBAColorConst.VIOLETRED4 = (
+    RGBAColorConst.VIOLET_RED4 = (
         139,
         34,
         82,
@@ -3128,7 +3137,7 @@ class _RGBColor:
         102,
         255,
     )
-    RGBAColorConst.WHITE = (
+    RGBAColorConst._WHITE = (
         255,
         255,
         255,
@@ -3160,9 +3169,9 @@ class _RGBColor:
     )
 
     @staticmethod
-    def to_css(r, g=None, b=None, a=None) -> str:
+    def to_css(r, g=None, b=None, a=None) -> String:
         """
-        Convert RGBA color tuple to CSS color string.
+        Convert RGBA color Tuple to CSS color string.
 
         :param r: RGBA Color.
         :param g: Optional. Third color component.
@@ -3188,37 +3197,37 @@ class _CSSColor:
     A class about HEX colors
     """
     CSSColorConst = Constant()
-    CSSColorConst.ALICEBLUE = _RGBColor.to_css(
+    CSSColorConst.ALICE_BLUE = _RGBColor.to_css(
         240,
         248,
         255,
         255,
     )
-    CSSColorConst.ANTIQUEWHITE = _RGBColor.to_css(
+    CSSColorConst.ANTIQUE_WHITE = _RGBColor.to_css(
         250,
         235,
         215,
         255,
     )
-    CSSColorConst.ANTIQUEWHITE1 = _RGBColor.to_css(
+    CSSColorConst.ANTIQUE_WHITE1 = _RGBColor.to_css(
         255,
         239,
         219,
         255,
     )
-    CSSColorConst.ANTIQUEWHITE2 = _RGBColor.to_css(
+    CSSColorConst.ANTIQUE_WHITE2 = _RGBColor.to_css(
         238,
         223,
         204,
         255,
     )
-    CSSColorConst.ANTIQUEWHITE3 = _RGBColor.to_css(
+    CSSColorConst.ANTIQUE_WHITE3 = _RGBColor.to_css(
         205,
         192,
         176,
         255,
     )
-    CSSColorConst.ANTIQUEWHITE4 = _RGBColor.to_css(
+    CSSColorConst.ANTIQUE_WHITE4 = _RGBColor.to_css(
         139,
         131,
         120,
@@ -3314,7 +3323,7 @@ class _CSSColor:
         0,
         255,
     )
-    CSSColorConst.BLANCHEDALMOND = _RGBColor.to_css(
+    CSSColorConst.BLANCHED_ALMOND = _RGBColor.to_css(
         255,
         235,
         205,
@@ -3344,7 +3353,7 @@ class _CSSColor:
         139,
         255,
     )
-    CSSColorConst.BLUEVIOLET = _RGBColor.to_css(
+    CSSColorConst.BLUE_VIOLET = _RGBColor.to_css(
         138,
         43,
         226,
@@ -3380,61 +3389,61 @@ class _CSSColor:
         35,
         255,
     )
-    CSSColorConst.BURLYWOOD = _RGBColor.to_css(
+    CSSColorConst.BURLY_WOOD = _RGBColor.to_css(
         222,
         184,
         135,
         255,
     )
-    CSSColorConst.BURLYWOOD1 = _RGBColor.to_css(
+    CSSColorConst.BURLY_WOOD1 = _RGBColor.to_css(
         255,
         211,
         155,
         255,
     )
-    CSSColorConst.BURLYWOOD2 = _RGBColor.to_css(
+    CSSColorConst.BURLY_WOOD2 = _RGBColor.to_css(
         238,
         197,
         145,
         255,
     )
-    CSSColorConst.BURLYWOOD3 = _RGBColor.to_css(
+    CSSColorConst.BURLY_WOOD3 = _RGBColor.to_css(
         205,
         170,
         125,
         255,
     )
-    CSSColorConst.BURLYWOOD4 = _RGBColor.to_css(
+    CSSColorConst.BURLY_WOOD4 = _RGBColor.to_css(
         139,
         115,
         85,
         255,
     )
-    CSSColorConst.CADETBLUE = _RGBColor.to_css(
+    CSSColorConst.CADET_BLUE = _RGBColor.to_css(
         95,
         158,
         160,
         255,
     )
-    CSSColorConst.CADETBLUE1 = _RGBColor.to_css(
+    CSSColorConst.CADET_BLUE1 = _RGBColor.to_css(
         152,
         245,
         255,
         255,
     )
-    CSSColorConst.CADETBLUE2 = _RGBColor.to_css(
+    CSSColorConst.CADET_BLUE2 = _RGBColor.to_css(
         142,
         229,
         238,
         255,
     )
-    CSSColorConst.CADETBLUE3 = _RGBColor.to_css(
+    CSSColorConst.CADET_BLUE3 = _RGBColor.to_css(
         122,
         197,
         205,
         255,
     )
-    CSSColorConst.CADETBLUE4 = _RGBColor.to_css(
+    CSSColorConst.CADET_BLUE4 = _RGBColor.to_css(
         83,
         134,
         139,
@@ -3524,31 +3533,31 @@ class _CSSColor:
         47,
         255,
     )
-    CSSColorConst.CORNFLOWERBLUE = _RGBColor.to_css(
+    CSSColorConst.CORNFLOWER_BLUE = _RGBColor.to_css(
         100,
         149,
         237,
         255,
     )
-    CSSColorConst.CORNSILK = _RGBColor.to_css(
+    CSSColorConst.CORN_SILK = _RGBColor.to_css(
         255,
         248,
         220,
         255,
     )
-    CSSColorConst.CORNSILK2 = _RGBColor.to_css(
+    CSSColorConst.CORN_SILK2 = _RGBColor.to_css(
         238,
         232,
         205,
         255,
     )
-    CSSColorConst.CORNSILK3 = _RGBColor.to_css(
+    CSSColorConst.CORN_SILK3 = _RGBColor.to_css(
         205,
         200,
         177,
         255,
     )
-    CSSColorConst.CORNSILK4 = _RGBColor.to_css(
+    CSSColorConst.CORN_SILK4 = _RGBColor.to_css(
         139,
         136,
         120,
@@ -3632,31 +3641,31 @@ class _CSSColor:
         139,
         255,
     )
-    CSSColorConst.DARK_OLIVEGREEN = _RGBColor.to_css(
+    CSSColorConst.DARK_OLIVE_GREEN = _RGBColor.to_css(
         85,
         107,
         47,
         255,
     )
-    CSSColorConst.DARK_OLIVEGREEN1 = _RGBColor.to_css(
+    CSSColorConst.DARK_OLIVE_GREEN1 = _RGBColor.to_css(
         202,
         255,
         112,
         255,
     )
-    CSSColorConst.DARK_OLIVEGREEN2 = _RGBColor.to_css(
+    CSSColorConst.DARK_OLIVE_GREEN2 = _RGBColor.to_css(
         188,
         238,
         104,
         255,
     )
-    CSSColorConst.DARK_OLIVEGREEN3 = _RGBColor.to_css(
+    CSSColorConst.DARK_OLIVE_GREEN3 = _RGBColor.to_css(
         162,
         205,
         90,
         255,
     )
-    CSSColorConst.DARK_OLIVEGREEN4 = _RGBColor.to_css(
+    CSSColorConst.DARK_OLIVE_GREEN4 = _RGBColor.to_css(
         110,
         139,
         61,
@@ -3764,37 +3773,37 @@ class _CSSColor:
         105,
         255,
     )
-    CSSColorConst.DARK_SLATEBLUE = _RGBColor.to_css(
+    CSSColorConst.DARK_SLATE_BLUE = _RGBColor.to_css(
         72,
         61,
         139,
         255,
     )
-    CSSColorConst.DARK_SLATEGRAY = _RGBColor.to_css(
+    CSSColorConst.DARK_SLATE_GRAY = _RGBColor.to_css(
         47,
         79,
         79,
         255,
     )
-    CSSColorConst.DARK_SLATEGRAY1 = _RGBColor.to_css(
+    CSSColorConst.DARK_SLATE_GRAY1 = _RGBColor.to_css(
         151,
         255,
         255,
         255,
     )
-    CSSColorConst.DARK_SLATEGRAY2 = _RGBColor.to_css(
+    CSSColorConst.DARK_SLATE_GRAY2 = _RGBColor.to_css(
         141,
         238,
         238,
         255,
     )
-    CSSColorConst.DARK_SLATEGRAY3 = _RGBColor.to_css(
+    CSSColorConst.DARK_SLATE_GRAY3 = _RGBColor.to_css(
         121,
         205,
         205,
         255,
     )
-    CSSColorConst.DARK_SLATEGRAY4 = _RGBColor.to_css(
+    CSSColorConst.DARK_SLATE_GRAY4 = _RGBColor.to_css(
         82,
         139,
         139,
@@ -3836,55 +3845,55 @@ class _CSSColor:
         80,
         255,
     )
-    CSSColorConst.DEEP_SKYBLUE = _RGBColor.to_css(
+    CSSColorConst.DEEP_SKY_BLUE = _RGBColor.to_css(
         0,
         191,
         255,
         255,
     )
-    CSSColorConst.DEEP_SKYBLUE2 = _RGBColor.to_css(
+    CSSColorConst.DEEP_SKY_BLUE2 = _RGBColor.to_css(
         0,
         178,
         238,
         255,
     )
-    CSSColorConst.DEEP_SKYBLUE3 = _RGBColor.to_css(
+    CSSColorConst.DEEP_SKY_BLUE3 = _RGBColor.to_css(
         0,
         154,
         205,
         255,
     )
-    CSSColorConst.DEEP_SKYBLUE4 = _RGBColor.to_css(
+    CSSColorConst.DEEP_SKY_BLUE4 = _RGBColor.to_css(
         0,
         104,
         139,
         255,
     )
-    CSSColorConst.DIMGRAY = _RGBColor.to_css(
+    CSSColorConst.DIM_GRAY = _RGBColor.to_css(
         105,
         105,
         105,
         255,
     )
-    CSSColorConst.DODGERBLUE = _RGBColor.to_css(
+    CSSColorConst.DODGER_BLUE = _RGBColor.to_css(
         30,
         144,
         255,
         255,
     )
-    CSSColorConst.DODGERBLUE2 = _RGBColor.to_css(
+    CSSColorConst.DODGER_BLUE2 = _RGBColor.to_css(
         28,
         134,
         238,
         255,
     )
-    CSSColorConst.DODGERBLUE3 = _RGBColor.to_css(
+    CSSColorConst.DODGER_BLUE3 = _RGBColor.to_css(
         24,
         116,
         205,
         255,
     )
-    CSSColorConst.DODGERBLUE4 = _RGBColor.to_css(
+    CSSColorConst.DODGER_BLUE4 = _RGBColor.to_css(
         16,
         78,
         139,
@@ -3920,13 +3929,13 @@ class _CSSColor:
         26,
         255,
     )
-    CSSColorConst.FLORALWHITE = _RGBColor.to_css(
+    CSSColorConst.FLORAL_WHITE = _RGBColor.to_css(
         255,
         250,
         240,
         255,
     )
-    CSSColorConst.FORESTGREEN = _RGBColor.to_css(
+    CSSColorConst.FOREST_GREEN = _RGBColor.to_css(
         34,
         139,
         34,
@@ -3944,7 +3953,7 @@ class _CSSColor:
         220,
         255,
     )
-    CSSColorConst.GHOSTWHITE = _RGBColor.to_css(
+    CSSColorConst.GHOST_WHITE = _RGBColor.to_css(
         248,
         248,
         255,
@@ -4628,7 +4637,7 @@ class _CSSColor:
         0,
         255,
     )
-    CSSColorConst.GREENYELLOW = _RGBColor.to_css(
+    CSSColorConst.GREEN_YELLOW = _RGBColor.to_css(
         173,
         255,
         47,
@@ -4688,31 +4697,31 @@ class _CSSColor:
         98,
         255,
     )
-    CSSColorConst.INDIANRED = _RGBColor.to_css(
+    CSSColorConst.INDIAN_RED = _RGBColor.to_css(
         205,
         92,
         92,
         255,
     )
-    CSSColorConst.INDIANRED1 = _RGBColor.to_css(
+    CSSColorConst.INDIAN_RED1 = _RGBColor.to_css(
         255,
         106,
         106,
         255,
     )
-    CSSColorConst.INDIANRED2 = _RGBColor.to_css(
+    CSSColorConst.INDIAN_RED2 = _RGBColor.to_css(
         238,
         99,
         99,
         255,
     )
-    CSSColorConst.INDIANRED3 = _RGBColor.to_css(
+    CSSColorConst.INDIAN_RED3 = _RGBColor.to_css(
         205,
         85,
         85,
         255,
     )
-    CSSColorConst.INDIANRED4 = _RGBColor.to_css(
+    CSSColorConst.INDIAN_RED4 = _RGBColor.to_css(
         139,
         58,
         58,
@@ -4784,31 +4793,31 @@ class _CSSColor:
         250,
         255,
     )
-    CSSColorConst.LAVENDERBLUSH = _RGBColor.to_css(
+    CSSColorConst.LAVENDER_BLUSH = _RGBColor.to_css(
         255,
         240,
         245,
         255,
     )
-    CSSColorConst.LAVENDERBLUSH2 = _RGBColor.to_css(
+    CSSColorConst.LAVENDER_BLUSH2 = _RGBColor.to_css(
         238,
         224,
         229,
         255,
     )
-    CSSColorConst.LAVENDERBLUSH3 = _RGBColor.to_css(
+    CSSColorConst.LAVENDER_BLUSH3 = _RGBColor.to_css(
         205,
         193,
         197,
         255,
     )
-    CSSColorConst.LAVENDERBLUSH4 = _RGBColor.to_css(
+    CSSColorConst.LAVENDER_BLUSH4 = _RGBColor.to_css(
         139,
         131,
         134,
         255,
     )
-    CSSColorConst.LAWNGREEN = _RGBColor.to_css(
+    CSSColorConst.LAWN_GREEN = _RGBColor.to_css(
         124,
         252,
         0,
@@ -4862,7 +4871,7 @@ class _CSSColor:
         205,
         255,
     )
-    CSSColorConst.LIGHT_BLUE4 = _RGBColor.to_css(
+    CSSColorConst.LIGHT__BLUE4 = _RGBColor.to_css(
         104,
         131,
         139,
@@ -4928,7 +4937,7 @@ class _CSSColor:
         76,
         255,
     )
-    CSSColorConst.LIGHT_GOLDENRODYELLOW = _RGBColor.to_css(
+    CSSColorConst.LIGHT_GOLDENROD_YELLOW = _RGBColor.to_css(
         250,
         250,
         210,
@@ -5006,73 +5015,73 @@ class _CSSColor:
         170,
         255,
     )
-    CSSColorConst.LIGHT_SKYBLUE = _RGBColor.to_css(
+    CSSColorConst.LIGHT_SKY_BLUE = _RGBColor.to_css(
         135,
         206,
         250,
         255,
     )
-    CSSColorConst.LIGHT_SKYBLUE1 = _RGBColor.to_css(
+    CSSColorConst.LIGHT_SKY_BLUE1 = _RGBColor.to_css(
         176,
         226,
         255,
         255,
     )
-    CSSColorConst.LIGHT_SKYBLUE2 = _RGBColor.to_css(
+    CSSColorConst.LIGHT_SKY_BLUE2 = _RGBColor.to_css(
         164,
         211,
         238,
         255,
     )
-    CSSColorConst.LIGHT_SKYBLUE3 = _RGBColor.to_css(
+    CSSColorConst.LIGHT_SKY_BLUE3 = _RGBColor.to_css(
         141,
         182,
         205,
         255,
     )
-    CSSColorConst.LIGHT_SKYBLUE4 = _RGBColor.to_css(
+    CSSColorConst.LIGHT_SKY_BLUE4 = _RGBColor.to_css(
         96,
         123,
         139,
         255,
     )
-    CSSColorConst.LIGHT_SLATEBLUE = _RGBColor.to_css(
+    CSSColorConst.LIGHT_SLATE_BLUE = _RGBColor.to_css(
         132,
         112,
         255,
         255,
     )
-    CSSColorConst.LIGHT_SLATEGRAY = _RGBColor.to_css(
+    CSSColorConst.LIGHT_SLATE_GRAY = _RGBColor.to_css(
         119,
         136,
         153,
         255,
     )
-    CSSColorConst.LIGHT_STEELBLUE = _RGBColor.to_css(
+    CSSColorConst.LIGHT_STEEL_BLUE = _RGBColor.to_css(
         176,
         196,
         222,
         255,
     )
-    CSSColorConst.LIGHT_STEELBLUE1 = _RGBColor.to_css(
+    CSSColorConst.LIGHT_STEEL_BLUE1 = _RGBColor.to_css(
         202,
         225,
         255,
         255,
     )
-    CSSColorConst.LIGHT_STEELBLUE2 = _RGBColor.to_css(
+    CSSColorConst.LIGHT_STEEL_BLUE2 = _RGBColor.to_css(
         188,
         210,
         238,
         255,
     )
-    CSSColorConst.LIGHT_STEELBLUE3 = _RGBColor.to_css(
+    CSSColorConst.LIGHT_STEEL_BLUE3 = _RGBColor.to_css(
         162,
         181,
         205,
         255,
     )
-    CSSColorConst.LIGHT_STEELBLUE4 = _RGBColor.to_css(
+    CSSColorConst.LIGHT_STEEL_BLUE4 = _RGBColor.to_css(
         110,
         123,
         139,
@@ -5222,13 +5231,13 @@ class _CSSColor:
         113,
         255,
     )
-    CSSColorConst.MEDIUM_SLATEBLUE = _RGBColor.to_css(
+    CSSColorConst.MEDIUM_SLATE_BLUE = _RGBColor.to_css(
         123,
         104,
         238,
         255,
     )
-    CSSColorConst.MEDIUM_SPRINGGREEN = _RGBColor.to_css(
+    CSSColorConst.MEDIUM_SPRING_GREEN = _RGBColor.to_css(
         0,
         250,
         154,
@@ -5240,13 +5249,13 @@ class _CSSColor:
         204,
         255,
     )
-    CSSColorConst.MEDIUM_VIOLETRED = _RGBColor.to_css(
+    CSSColorConst.MEDIUM_VIOLET_RED = _RGBColor.to_css(
         199,
         21,
         133,
         255,
     )
-    CSSColorConst.MIDNIGHTBLUE = _RGBColor.to_css(
+    CSSColorConst.MIDNIGHT_BLUE = _RGBColor.to_css(
         25,
         25,
         112,
@@ -5258,25 +5267,25 @@ class _CSSColor:
         250,
         255,
     )
-    CSSColorConst.MISTYROSE = _RGBColor.to_css(
+    CSSColorConst.MISTY_ROSE = _RGBColor.to_css(
         255,
         228,
         225,
         255,
     )
-    CSSColorConst.MISTYROSE2 = _RGBColor.to_css(
+    CSSColorConst.MISTY_ROSE2 = _RGBColor.to_css(
         238,
         213,
         210,
         255,
     )
-    CSSColorConst.MISTYROSE3 = _RGBColor.to_css(
+    CSSColorConst.MISTY_ROSE3 = _RGBColor.to_css(
         205,
         183,
         181,
         255,
     )
-    CSSColorConst.MISTYROSE4 = _RGBColor.to_css(
+    CSSColorConst.MISTY_ROSE4 = _RGBColor.to_css(
         139,
         125,
         123,
@@ -5288,25 +5297,25 @@ class _CSSColor:
         181,
         255,
     )
-    CSSColorConst.NAVAJOWHITE = _RGBColor.to_css(
+    CSSColorConst.NAVAJO_WHITE = _RGBColor.to_css(
         255,
         222,
         173,
         255,
     )
-    CSSColorConst.NAVAJOWHITE2 = _RGBColor.to_css(
+    CSSColorConst.NAVAJO_WHITE2 = _RGBColor.to_css(
         238,
         207,
         161,
         255,
     )
-    CSSColorConst.NAVAJOWHITE3 = _RGBColor.to_css(
+    CSSColorConst.NAVAJO_WHITE3 = _RGBColor.to_css(
         205,
         179,
         139,
         255,
     )
-    CSSColorConst.NAVAJOWHITE4 = _RGBColor.to_css(
+    CSSColorConst.NAVAJO_WHITE4 = _RGBColor.to_css(
         139,
         121,
         94,
@@ -5318,7 +5327,7 @@ class _CSSColor:
         128,
         255,
     )
-    CSSColorConst.OLDLACE = _RGBColor.to_css(
+    CSSColorConst.OLD_LACE = _RGBColor.to_css(
         253,
         245,
         230,
@@ -5330,31 +5339,31 @@ class _CSSColor:
         0,
         255,
     )
-    CSSColorConst.OLIVEDRAB = _RGBColor.to_css(
+    CSSColorConst.OLIVE_DRAB = _RGBColor.to_css(
         107,
         142,
         35,
         255,
     )
-    CSSColorConst.OLIVEDRAB1 = _RGBColor.to_css(
+    CSSColorConst.OLIVE_DRAB1 = _RGBColor.to_css(
         192,
         255,
         62,
         255,
     )
-    CSSColorConst.OLIVEDRAB2 = _RGBColor.to_css(
+    CSSColorConst.OLIVE_DRAB2 = _RGBColor.to_css(
         179,
         238,
         58,
         255,
     )
-    CSSColorConst.OLIVEDRAB3 = _RGBColor.to_css(
+    CSSColorConst.OLIVE_DRAB3 = _RGBColor.to_css(
         154,
         205,
         50,
         255,
     )
-    CSSColorConst.OLIVEDRAB4 = _RGBColor.to_css(
+    CSSColorConst.OLIVE_DRAB4 = _RGBColor.to_css(
         105,
         139,
         34,
@@ -5384,25 +5393,25 @@ class _CSSColor:
         0,
         255,
     )
-    CSSColorConst.ORANGERED = _RGBColor.to_css(
+    CSSColorConst.ORANGE_RED = _RGBColor.to_css(
         255,
         69,
         0,
         255,
     )
-    CSSColorConst.ORANGERED2 = _RGBColor.to_css(
+    CSSColorConst.ORANGE_RED2 = _RGBColor.to_css(
         238,
         64,
         0,
         255,
     )
-    CSSColorConst.ORANGERED3 = _RGBColor.to_css(
+    CSSColorConst.ORANGE_RED3 = _RGBColor.to_css(
         205,
         55,
         0,
         255,
     )
-    CSSColorConst.ORANGERED4 = _RGBColor.to_css(
+    CSSColorConst.ORANGE_RED4 = _RGBColor.to_css(
         139,
         37,
         0,
@@ -5498,31 +5507,31 @@ class _CSSColor:
         139,
         255,
     )
-    CSSColorConst.PALE_VIOLETRED = _RGBColor.to_css(
+    CSSColorConst.PALE_VIOLET_RED = _RGBColor.to_css(
         219,
         112,
         147,
         255,
     )
-    CSSColorConst.PALE_VIOLETRED1 = _RGBColor.to_css(
+    CSSColorConst.PALE_VIOLET_RED1 = _RGBColor.to_css(
         255,
         130,
         171,
         255,
     )
-    CSSColorConst.PALE_VIOLETRED2 = _RGBColor.to_css(
+    CSSColorConst.PALE_VIOLET_RED2 = _RGBColor.to_css(
         238,
         121,
         159,
         255,
     )
-    CSSColorConst.PALE_VIOLETRED3 = _RGBColor.to_css(
+    CSSColorConst.PALE_VIOLET_RED3 = _RGBColor.to_css(
         205,
         104,
         137,
         255,
     )
-    CSSColorConst.PALE_VIOLETRED4 = _RGBColor.to_css(
+    CSSColorConst.PALE_VIOLET_RED4 = _RGBColor.to_css(
         139,
         71,
         93,
@@ -5534,25 +5543,25 @@ class _CSSColor:
         213,
         255,
     )
-    CSSColorConst.PEACHPUFF = _RGBColor.to_css(
+    CSSColorConst.PEACH_PUFF = _RGBColor.to_css(
         255,
         218,
         185,
         255,
     )
-    CSSColorConst.PEACHPUFF2 = _RGBColor.to_css(
+    CSSColorConst.PEACH_PUFF2 = _RGBColor.to_css(
         238,
         203,
         173,
         255,
     )
-    CSSColorConst.PEACHPUFF3 = _RGBColor.to_css(
+    CSSColorConst.PEACH_PUFF3 = _RGBColor.to_css(
         205,
         175,
         149,
         255,
     )
-    CSSColorConst.PEACHPUFF4 = _RGBColor.to_css(
+    CSSColorConst.PEACH_PUFF4 = _RGBColor.to_css(
         139,
         119,
         101,
@@ -5624,7 +5633,7 @@ class _CSSColor:
         139,
         255,
     )
-    CSSColorConst.POWDERBLUE = _RGBColor.to_css(
+    CSSColorConst.POWDER_BLUE = _RGBColor.to_css(
         176,
         224,
         230,
@@ -5678,61 +5687,61 @@ class _CSSColor:
         0,
         255,
     )
-    CSSColorConst.ROSYBROWN = _RGBColor.to_css(
+    CSSColorConst.ROSY_BROWN = _RGBColor.to_css(
         188,
         143,
         143,
         255,
     )
-    CSSColorConst.ROSYBROWN1 = _RGBColor.to_css(
+    CSSColorConst.ROSY_BROWN1 = _RGBColor.to_css(
         255,
         193,
         193,
         255,
     )
-    CSSColorConst.ROSYBROWN2 = _RGBColor.to_css(
+    CSSColorConst.ROSY_BROWN2 = _RGBColor.to_css(
         238,
         180,
         180,
         255,
     )
-    CSSColorConst.ROSYBROWN3 = _RGBColor.to_css(
+    CSSColorConst.ROSY_BROWN3 = _RGBColor.to_css(
         205,
         155,
         155,
         255,
     )
-    CSSColorConst.ROSYBROWN4 = _RGBColor.to_css(
+    CSSColorConst.ROSY_BROWN4 = _RGBColor.to_css(
         139,
         105,
         105,
         255,
     )
-    CSSColorConst.ROYALBLUE = _RGBColor.to_css(
+    CSSColorConst.ROYAL_BLUE = _RGBColor.to_css(
         65,
         105,
         225,
         255,
     )
-    CSSColorConst.ROYALBLUE1 = _RGBColor.to_css(
+    CSSColorConst.ROYAL_BLUE1 = _RGBColor.to_css(
         72,
         118,
         255,
         255,
     )
-    CSSColorConst.ROYALBLUE2 = _RGBColor.to_css(
+    CSSColorConst.ROYAL_BLUE2 = _RGBColor.to_css(
         67,
         110,
         238,
         255,
     )
-    CSSColorConst.ROYALBLUE3 = _RGBColor.to_css(
+    CSSColorConst.ROYAL_BLUE3 = _RGBColor.to_css(
         58,
         95,
         205,
         255,
     )
-    CSSColorConst.ROYALBLUE4 = _RGBColor.to_css(
+    CSSColorConst.ROYAL_BLUE4 = _RGBColor.to_css(
         39,
         64,
         139,
@@ -5768,7 +5777,7 @@ class _CSSColor:
         57,
         255,
     )
-    CSSColorConst.SANDYBROWN = _RGBColor.to_css(
+    CSSColorConst.SANDY_BROWN = _RGBColor.to_css(
         244,
         164,
         96,
@@ -5858,91 +5867,91 @@ class _CSSColor:
         192,
         255,
     )
-    CSSColorConst.SKYBLUE = _RGBColor.to_css(
+    CSSColorConst.SKY_BLUE = _RGBColor.to_css(
         135,
         206,
         235,
         255,
     )
-    CSSColorConst.SKYBLUE1 = _RGBColor.to_css(
+    CSSColorConst.SKY_BLUE1 = _RGBColor.to_css(
         135,
         206,
         255,
         255,
     )
-    CSSColorConst.SKYBLUE2 = _RGBColor.to_css(
+    CSSColorConst.SKY_BLUE2 = _RGBColor.to_css(
         126,
         192,
         238,
         255,
     )
-    CSSColorConst.SKYBLUE3 = _RGBColor.to_css(
+    CSSColorConst.SKY_BLUE3 = _RGBColor.to_css(
         108,
         166,
         205,
         255,
     )
-    CSSColorConst.SKYBLUE4 = _RGBColor.to_css(
+    CSSColorConst.SKY_BLUE4 = _RGBColor.to_css(
         74,
         112,
         139,
         255,
     )
-    CSSColorConst.SLATEBLUE = _RGBColor.to_css(
+    CSSColorConst.SLATE_BLUE = _RGBColor.to_css(
         106,
         90,
         205,
         255,
     )
-    CSSColorConst.SLATEBLUE1 = _RGBColor.to_css(
+    CSSColorConst.SLATE_BLUE1 = _RGBColor.to_css(
         131,
         111,
         255,
         255,
     )
-    CSSColorConst.SLATEBLUE2 = _RGBColor.to_css(
+    CSSColorConst.SLATE_BLUE2 = _RGBColor.to_css(
         122,
         103,
         238,
         255,
     )
-    CSSColorConst.SLATEBLUE3 = _RGBColor.to_css(
+    CSSColorConst.SLATE_BLUE3 = _RGBColor.to_css(
         105,
         89,
         205,
         255,
     )
-    CSSColorConst.SLATEBLUE4 = _RGBColor.to_css(
+    CSSColorConst.SLATE_BLUE4 = _RGBColor.to_css(
         71,
         60,
         139,
         255,
     )
-    CSSColorConst.SLATEGRAY = _RGBColor.to_css(
+    CSSColorConst.SLATE_GRAY = _RGBColor.to_css(
         112,
         128,
         144,
         255,
     )
-    CSSColorConst.SLATEGRAY1 = _RGBColor.to_css(
+    CSSColorConst.SLATE_GRAY1 = _RGBColor.to_css(
         198,
         226,
         255,
         255,
     )
-    CSSColorConst.SLATEGRAY2 = _RGBColor.to_css(
+    CSSColorConst.SLATE_GRAY2 = _RGBColor.to_css(
         185,
         211,
         238,
         255,
     )
-    CSSColorConst.SLATEGRAY3 = _RGBColor.to_css(
+    CSSColorConst.SLATE_GRAY3 = _RGBColor.to_css(
         159,
         182,
         205,
         255,
     )
-    CSSColorConst.SLATEGRAY4 = _RGBColor.to_css(
+    CSSColorConst.SLATE_GRAY4 = _RGBColor.to_css(
         108,
         123,
         139,
@@ -5972,55 +5981,55 @@ class _CSSColor:
         137,
         255,
     )
-    CSSColorConst.SPRINGGREEN = _RGBColor.to_css(
+    CSSColorConst.SPRING_GREEN = _RGBColor.to_css(
         0,
         255,
         127,
         255,
     )
-    CSSColorConst.SPRINGGREEN2 = _RGBColor.to_css(
+    CSSColorConst.SPRING_GREEN2 = _RGBColor.to_css(
         0,
         238,
         118,
         255,
     )
-    CSSColorConst.SPRINGGREEN3 = _RGBColor.to_css(
+    CSSColorConst.SPRING_GREEN3 = _RGBColor.to_css(
         0,
         205,
         102,
         255,
     )
-    CSSColorConst.SPRINGGREEN4 = _RGBColor.to_css(
+    CSSColorConst.SPRING_GREEN4 = _RGBColor.to_css(
         0,
         139,
         69,
         255,
     )
-    CSSColorConst.STEELBLUE = _RGBColor.to_css(
+    CSSColorConst.STEEL_BLUE = _RGBColor.to_css(
         70,
         130,
         180,
         255,
     )
-    CSSColorConst.STEELBLUE1 = _RGBColor.to_css(
+    CSSColorConst.STEEL_BLUE1 = _RGBColor.to_css(
         99,
         184,
         255,
         255,
     )
-    CSSColorConst.STEELBLUE2 = _RGBColor.to_css(
+    CSSColorConst.STEEL_BLUE2 = _RGBColor.to_css(
         92,
         172,
         238,
         255,
     )
-    CSSColorConst.STEELBLUE3 = _RGBColor.to_css(
+    CSSColorConst.STEEL_BLUE3 = _RGBColor.to_css(
         79,
         148,
         205,
         255,
     )
-    CSSColorConst.STEELBLUE4 = _RGBColor.to_css(
+    CSSColorConst.STEEL_BLUE4 = _RGBColor.to_css(
         54,
         100,
         139,
@@ -6146,31 +6155,31 @@ class _CSSColor:
         238,
         255,
     )
-    CSSColorConst.VIOLETRED = _RGBColor.to_css(
+    CSSColorConst.VIOLET_RED = _RGBColor.to_css(
         208,
         32,
         144,
         255,
     )
-    CSSColorConst.VIOLETRED1 = _RGBColor.to_css(
+    CSSColorConst.VIOLET_RED1 = _RGBColor.to_css(
         255,
         62,
         150,
         255,
     )
-    CSSColorConst.VIOLETRED2 = _RGBColor.to_css(
+    CSSColorConst.VIOLET_RED2 = _RGBColor.to_css(
         238,
         58,
         140,
         255,
     )
-    CSSColorConst.VIOLETRED3 = _RGBColor.to_css(
+    CSSColorConst.VIOLET_RED3 = _RGBColor.to_css(
         205,
         50,
         120,
         255,
     )
-    CSSColorConst.VIOLETRED4 = _RGBColor.to_css(
+    CSSColorConst.VIOLET_RED4 = _RGBColor.to_css(
         139,
         34,
         82,
@@ -6206,7 +6215,7 @@ class _CSSColor:
         102,
         255,
     )
-    CSSColorConst.WHITE = _RGBColor.to_css(
+    CSSColorConst._WHITE = _RGBColor.to_css(
         255,
         255,
         255,
@@ -6238,12 +6247,12 @@ class _CSSColor:
     )
 
     @staticmethod
-    def to_rgba(color: str) -> tuple:
+    def to_rgba(color: String) -> Tuple:
         """
-        Convert a CSS color string to RGBA tuple.
+        Convert a CSS color string to RGBA Tuple.
 
         :param color: CSS color string.
-        :return: tuple: RGBA tuple.
+        :return: Tuple: RGBA Tuple.
         """
         if color.startswith('#'):
             hex_str = color[1:]
@@ -6257,7 +6266,7 @@ class _CSSColor:
             hex_str += 'FF'
         if len(hex_str) == 4:
             hex_str = "".join(2 * digit for digit in hex_str[:])
-        return tuple(int(hex_str[i:i + 2], 16) for i in (0, 2, 4, 6))
+        return Tuple(Int(hex_str[i:i + 2], 16) for i in (0, 2, 4, 6))
 
 
 RGBAColor = _RGBColor.RGBAColorConst

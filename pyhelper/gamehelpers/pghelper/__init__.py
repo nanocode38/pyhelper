@@ -29,11 +29,11 @@ Copyright (C)
 """
 from abc import ABC, abstractmethod
 import sys
-from typing import *
 
 import pygame
 
 from pyhelper.gamehelpers.pghelper import widgets
+from pyhelper.type import *
 
 __all__ = [
     'disassemble_sprite_sheet',
@@ -44,14 +44,14 @@ __all__ = [
 ]
 
 
-def disassemble_sprite_sheet(image_path: str, width: int, height: int, num_of_image) -> list:
+def disassemble_sprite_sheet(image_path: String, width: Int, height: Int, num_of_image) -> List:
     """
     This function processes a Sprite image into a set of loaded Surface objects
     :param image_path: the path to the total Sprite graph
     :param width: The length of an image
     :param height: The height of an image
     :param num_of_image: The total number of photos
-    :return list: Surface objects for all images
+    :return List: Surface objects for all images
     """
     images = []
     sprite_sheet_image = pygame.image.load(image_path)
@@ -75,11 +75,11 @@ def disassemble_sprite_sheet(image_path: str, width: int, height: int, num_of_im
     return images
 
 
-def load_images(image_paths: Union[list, tuple]):
+def load_images(image_paths: Iterator[String]):
     """
     Loading a series of images
-    :param image_paths: A list of paths for a series of images
-    :return list[pygame.Surface]: A list of loaded Surface objects
+    :param image_paths: A List of paths for a series of images
+    :return Iterator[pygame.Surface]: A List of loaded Surface objects
     """
     images = []
     for path in image_paths:
@@ -93,7 +93,7 @@ class Background(object):
     def __init__(self):
         self.image = None
 
-    def __call__(self, screen: pygame.SurfaceType, image_path: str, width: int = 0, height: int = 0) -> None:
+    def __call__(self, screen: pygame.SurfaceType, image_path: String, width: Int = 0, height: Int = 0) -> None:
         """
          Draw the game background
         :param screen: the Surface of the scene to paint
@@ -195,14 +195,14 @@ class Scene(ABC):
         pass
 
     @abstractmethod
-    def update(self, events: list[pygame.event.EventType], key_pressed_list: list[bool]) -> None:
+    def update(self, events: List[pygame.event.EventType], key_pressed_list: List[Bool]) -> None:
         """
         This method is called in every frame of the scene to handle events and key presses
 
         Your code MUST override this method.
 
-        :param events: a list of events your method should handle.
-        :param key_pressed_list: a list of keys that are pressed (a Boolean for each key)."""
+        :param events: a List of events your method should handle.
+        :param key_pressed_list: a List of keys that are pressed (a Boolean for each key)."""
         pass
 
     def enter(self, data: Any = None):
@@ -236,7 +236,7 @@ class Scene(ABC):
         """Call this method if you want to quit, from inside a scene"""
         self.go_to_scene(None)
 
-    def go_to_scene(self, next_scene_key: Optional[str], data=None):
+    def go_to_scene(self, next_scene_key: Optional[String], data=None):
         """
         Call this method whenever you want to go to a new scene
 
@@ -245,7 +245,7 @@ class Scene(ABC):
         """
         self.scene_mgr._go_to_scene(next_scene_key, data)
 
-    def request(self, target_scene_key: str, request_id: Any):
+    def request(self, target_scene_key: String, request_id: Any):
         """
         Call this method to get information from another scene
 
@@ -258,7 +258,7 @@ class Scene(ABC):
         info = self.scene_mgr._request_respond(target_scene_key, request_id)
         return info
 
-    def send(self, target_scene_key: str, send_id: Any, info: Any):
+    def send(self, target_scene_key: String, send_id: Any, info: Any):
         """
         Call this method to send information to  another scene
 
@@ -293,7 +293,7 @@ class Scene(ABC):
         """
         raise NotImplementedError
 
-    def receive(self, receive_id, info):
+    def receive(self, receive_id: Any, info: Ant):
         """
         Receives information from another scene.
 
@@ -305,7 +305,7 @@ class Scene(ABC):
         """
         raise NotImplementedError
 
-    def add_scene(self, scene_key: str, scene):
+    def add_scene(self, scene_key: String, scene):
         """
         Call this method whenever you want to add a new scene dynamically.
         For example, you could have a game with many levels (each implemented as a scene),
@@ -319,7 +319,7 @@ class Scene(ABC):
     (typically, you would instantiate the new scene, and pass in that reference to this call)"""
         self.scene_mgr._add_scene(scene_key, scene)
 
-    def remove_scene(self, scene_key: str):
+    def remove_scene(self, scene_key: String):
         """
         Call this method whenever you want to remove an existing scene
         You can remove a scene to save memory - the scene object will be deleted.
@@ -341,7 +341,7 @@ class SceneMgr:
 
 
 
-    :param scenes: is a dictionary or list that consists of:
+    :param scenes: is a dictionary or List that consists of:
         {<sceneKey>: <sceneObject>, <sceneKey>: <sceneObject>, ...} or [<sceneObject>, <sceneObject>, ...]
           where each sceneObject is an object instantiated from a scene class
           (For details on Scenes, see the Scene class)
@@ -350,21 +350,21 @@ class SceneMgr:
     Based on the concept of a "Scene Manager" by Blake O'Hare of Nerd Paradise
     """
 
-    def __init__(self, scenes: Union[list, dict], fps: int, frame_rate_display: Optional[widgets.DisplayText] = None):
+    def __init__(self, scenes: Union[List, dict], fps: Int, frame_rate_display: Optional[widgets.DisplayText] = None):
         if isinstance(scenes, dict):
             self.scenes_dict = scenes
-            keys_list = list(self.scenes_dict)  # get all the keys
+            keys_list = List(self.scenes_dict)  # get all the keys
             starting_key = keys_list[0]  # first key is the starting scene ley
             self.current_scene = self.scenes_dict[starting_key]
 
-        else:  # Older style, we start with a list of scenes
+        else:  # Older style, we start with a List of scenes
             # Build a dictionary, each entry of which is a scene key : scene object
             # Then we call getSceneKey so each scene can identify itself
             self.scenes_dict = {}
             for scene in scenes:
                 key = scene.get_scene_key()  # Each scene must return a unique key to identify itself
                 self.scenes_dict[key] = scene
-            # The first element in the list is the used as the starting scene
+            # The first element in the List is the used as the starting scene
             self.current_scene = scenes[0]
 
         self.fps = fps
@@ -426,7 +426,7 @@ class SceneMgr:
             self.current_scene.update(events_list, keys_down_list)
             self.current_scene.draw()
             if self.show_frame_rate:
-                fps = str(clock.get_fps())
+                fps = String(clock.get_fps())
                 self.frame_rate_display.set_value('FPS: ' + fps)
                 self.frame_rate_display.draw()
 
@@ -483,7 +483,7 @@ class SceneMgr:
             raise KeyError(
                 'Attempting to remove scene with key ' + scene_key_to_remove +
                 ' but no scene with that key currently exists (either never defined or removed).')
-        # Add the key to a list of keys to be removed
+        # Add the key to a List of keys to be removed
         # The scene(s) will be removed the next time around the main loop.from
         # This allows a scene to make a call to remove_scene to remove itself right before doing a goToScene
         #    (and the call will return successfully)

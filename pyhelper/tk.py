@@ -23,30 +23,12 @@
 # Gao Yuhan(高宇涵)
 # 2602422835@qq.com
 # nanocode38
-
 """
-Helps developers work with Python types and type annotations
+This module uses tkinter.ttk to cover the components of tkinter.It is available on all.
 Copyright (C)
 """
-from typing import *
-from collections.abc import Iterator, Iterable
-
-Int = int
-Boolean = bool
-Bool = Boolean
-type Number = Union[int, float]
-Float = float
-String = str
-Object = object
-Bytes = bytes
-type ListType = List
-type DictType = Dict
-type TupleType = Tuple
-type SetType = Set
-type FrozenSetType = FrozenSet
-List = list
-Dict = dict
-Tuple = tuple
-Set = set
-FrozenSet = FrozenSet
-Complex = complex
+import tkinter
+from tkinter import ttk
+__all__ = list(set(ttk.__all__ + tkinter.__all__))
+from tkinter import *
+from tkinter.ttk import *

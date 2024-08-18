@@ -58,25 +58,15 @@ type Const = Final
 
 
 class ConstantTestCase(unittest.TestCase):
-
-    def test_const(self):
-        const.PI = 3.1415926
-        self.assertEqual(const.PI, 3.1415926)
-        with self.assertRaises(ConstantError):
-            const.PI = 3.1415927
-        self.assertEqual(const.PI, 3.1415926)
-        with self.assertRaisesRegex(ConstantError, 'Constant names must be in uppercase!'):
-            const.pi = 3.1415926
-
-
-
     def test_Constant(self):
-        consta = Constant()
-        consta.PI = 3.1415926
-        self.assertEqual(consta.PI, 3.1415926)
-        with self.assertRaises(ConstantError):
-            consta.PI = 3.1415927
-        self.assertEqual(consta.PI, 3.1415926)
+        const_a = Constant()
+        const_a.PI = 3.1415926
+        self.assertEqual(const_a.PI, 3.1415926)
+        with self.assertRaisesRegex(ConstantError, "Cannot change the value of the Type Constant!"):
+            const_a.PI = 3.1415927
+        self.assertEqual(const_a.PI, 3.1415926)
+        with self.assertRaisesRegex(ConstantError, "Cannot assign a constant to a non-hashable object!"):
+            const_a.x = [1, 2, 3]
 
 
 if __name__ == "__main__":

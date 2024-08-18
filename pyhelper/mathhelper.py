@@ -34,8 +34,8 @@ import functools
 import math
 import sys
 import os
+from contextlib import suppress
 from fractions import Fraction
-from typing import *
 from collections.abc import Iterable
 
 import pyhelper.constant as constant
@@ -52,8 +52,10 @@ __all__ = [
     'Stack',
 ]
 
-constant.const.PI = 3.141592653589793238462643383279
-constant.const.E = 2.718281828
+with suppress(constant.ConstantError):
+    constant.const.PI = 3.141592653589793238462643383279
+with suppress(constant.ConstantError):
+    constant.const.E = 2.718281828
 
 _PYTHON_PATH = sys.executable[:-11]
 if os.name == 'nt' and _PYTHON_PATH[-6:] == 'Script':
@@ -64,28 +66,24 @@ _PYTHON_PATH = os.path.join(_PYTHON_PATH, 'Lib', 'site-packages', 'pyhelper')
 
 
 @functools.lru_cache
-def fibonacci(number: int) -> int:
+def fibonacci(number: Int) -> Int:
     """
     Calculate the Fibonacci sequence for the given number.
-
-    number: The number in the Fibonacci sequence to be calculated.
-
-    Returns: The Fibonacci sequence for the given number.
-
-    Raises:
-    - TypeError: If the input is not an int.
-    - ValueError: If the input is a negative int.
+    :param number: The number in the Fibonacci sequence to be calculated.
+    :return The Fibonacci sequence for the given number.
+    :raise TypeError: If the input is not an Int.
+    :raise ValueError: If the input is a negative Int.
     """
 
-    if not isinstance(number, int):
+    if not isinstance(number, Int):
         if number.__class__.__qualname__[0].upper() in (
                 'A', 'E', 'I', 'O', 'U'):
-            raise TypeError("Please pass an int argument, not an {0}!".format(
+            raise TypeError("Please pass an Int argument, not an {0}!".format(
                 number.__class__.__qualname__))
-        raise TypeError("Please pass an int argument, not a {0}!".format(
+        raise TypeError("Please pass an Int argument, not a {0}!".format(
             number.__class__.__qualname__))
     if number < 0:
-        raise ValueError("Please pass a positive int argument!")
+        raise ValueError("Please pass a positive Int argument!")
 
     if number == 0:
         return 0
@@ -94,25 +92,21 @@ def fibonacci(number: int) -> int:
     return fibonacci(number - 1) + fibonacci(number - 2)
 
 
-def is_prime(number: int) -> bool:
+def is_prime(number: Int) -> Bool:
     """
     Check if the given number is a prime number.
-
-    number: The number to be checked for primality.
-
-    Returns: True if the number is prime, False otherwise.
-
-    Raises:
-    - TypeError: If the input is not an int.
-    - ValueError: If the input is a negative int.
+    :param number: The number to be checked for primality.
+    :return True if the number is prime, False otherwise.
+    :raise TypeError: If the input is not an Int.
+    :raise ValueError: If the input is a negative Int.
     """
-    if not isinstance(number, int) or number <= 0:
+    if not isinstance(number, Int) or number <= 0:
         return False
     if number < 2:
         return False
     if number == 2:
         return True
-    j: int = 2
+    j: Int = 2
     while j <= math.sqrt(number) and number % j != 0:
         j += 1
     if number % j == 0:
@@ -144,7 +138,7 @@ class Stack(Object):
     :param infuse: An optional iterable to initialize the stack with. Defaults to None.
     """
 
-    def __init__(self, infuse: Optional[Iterable] = None, size: int = math.inf):
+    def __init__(self, infuse: Optional[Iterable] = None, size: Int = math.inf):
         self.size = size
         if infuse is None:
             self._items = []
@@ -152,16 +146,14 @@ class Stack(Object):
             self._items = infuse
         self._lock = False
 
-    def push(self, value):
+    def push(self, value) -> None:
         """
         Push the given value onto the stack.
 
-        Parameters:
-        - value: The value to be pushed onto the stack.
+        :param value: The value to be pushed onto the stack.
 
-        Raises:
-        - StackIsCloseError: If the stack is locked.
-        - StackOverFlowError: If the stack is full.
+        :raise StackIsCloseError: If the stack is locked.
+        :raise StackOverFlowError: If the stack is full.
         """
         if self._lock:
             raise StackIsCloseError
@@ -174,12 +166,10 @@ class Stack(Object):
         """
         Pop the top value from the stack.
 
-        Returns:
-        - The popped value.
+        :return The popped value.
 
-        Raises:
-        - StackIsCloseError: If the stack is locked.
-        - StackUnderFlowError: If the stack is empty.
+        :raise StackIsCloseError: If the stack is locked.
+        :raise StackUnderFlowError: If the stack is empty.
         """
         if self._lock:
             raise StackIsCloseError
@@ -190,12 +180,11 @@ class Stack(Object):
     def __len__(self):
         return len(self._items)
 
-    def is_lock(self):
+    def is_lock(self) -> Bool:
         """
         Check if the stack is locked.
 
-        Returns:
-        - bool: True if the stack is locked, False otherwise.
+        :return True if the stack is locked, False otherwise.
         """
         return self._lock
 
@@ -216,7 +205,7 @@ class Stack(Object):
             raise StackOverFlowError
         if self.is_lock():
             raise StackIsCloseError
-        if isinstance(other, (int, float, complex, bool, str, decimal.Decimal, Fraction)):
+        if isinstance(other, (Int, Float, complex, Bool, String, decimal.Decimal, Fraction)):
             if len(self) + 1 < self.size:
                 _ = Stack(self._items, self.size)
                 _.push(other)
@@ -241,7 +230,7 @@ class Stack(Object):
                 raise StackOverFlowError
 
         else:
-            raise TypeError("Stack can only be added with type numerical , type str , type Stack  or type iterable,"
+            raise TypeError("Stack can only be added with type numerical , type String , type Stack  or type iterable,"
                             + f" and cannot be added with {other.__class__.__qualname__} !")
 
     def __radd__(self, other):
@@ -252,8 +241,8 @@ class Stack(Object):
         return self
 
     def __mul__(self, other):
-        if not isinstance(other, int):
-            raise TypeError(f"Stack can only be multiplied with int, and cannot be multiplied with " +
+        if not isinstance(other, Int):
+            raise TypeError(f"Stack can only be multiplied with Int, and cannot be multiplied with " +
                             other.__class__.__qualname__ + '!')
         if len(self) * other > self.size:
             raise StackOverFlowError
@@ -266,7 +255,7 @@ class Stack(Object):
     def __rmul__(self, other):
         return self * other
 
-    def __imul__(self, other: int):
+    def __imul__(self, other: Int):
         self = self * other
         return self
 
@@ -307,35 +296,33 @@ class Stack(Object):
     def __ge__(self, other):
         return self > other or self == other
 
-    def is_full(self):
+    def is_full(self) -> Bool:
         """
         Check if the stack is full.
-
-        Returns:
-        - bool: True if the stack is full, False otherwise.
+        
+        :return Bool: True if the stack is full, False otherwise.
         """
         return len(self) == self.size
 
-    def is_empty(self):
+    def is_empty(self) -> Bool:
         """
         Check if the stack is empty.
 
-        Returns:
-        - bool: True if the stack is empty, False otherwise.
+        return: True if the stack is empty, False otherwise.
         """
         return len(self) == 0
 
     def __str__(self):
-        return str(self._items)
+        return String(self._items)
 
     def __repr__(self):
         return f"<class Stack({self._items!s} at 0x{id(self)})>"
 
-    def clean(self):
+    def clean(self) -> None:
         """Clear all items from the stack."""
         self._items = type(self._items)()
 
-    def get_list(self):
+    def get_list(self) -> List:
         return self._items
 
 
@@ -344,7 +331,7 @@ class Array(Object):
         self.size = size
         self.type = dtype
         if _items is None:
-            self._items = list(default * self.size)
+            self._items = List(default * self.size)
         else:
             self._items = _items
             self.type = type(_items[0])
@@ -419,7 +406,7 @@ class MathHelperTestCase(unittest.TestCase):
 
     def test_type_checking(self):
         with self.assertRaises(TypeError):
-            Array([1, 2, 3, 4, 5], dtype=str)
+            Array([1, 2, 3, 4, 5], dtype=String)
 
         with self.assertRaises(TypeError):
             self.array1[0] = '6'
@@ -462,7 +449,7 @@ class MathHelperTestCase(unittest.TestCase):
 
     def test_Stack(self):
         import array
-        from mathhelper import Stack, StackIsCloseError, StackOverFlowError, StackUnderFlowError
+        from pyhelper.mathhelper import Stack, StackIsCloseError, StackOverFlowError, StackUnderFlowError
         s = Stack()
         s.push(1)
         s.push(2)
@@ -489,7 +476,7 @@ class MathHelperTestCase(unittest.TestCase):
         self.assertEqual(s.pop(), 2)
         # [1]
         s += array.array('i', [1, 3, 2])
-        self.assertEqual(list(s.get_list()), [1, 1, 3, 2])
+        self.assertEqual(List(s.get_list()), [1, 1, 3, 2])
         self.assertFalse(s > [1, 3])
         # [1, 1, 3, 2]
         self.assertTrue(s == Stack(array.array('i', [1, 1, 3, 2])))
@@ -499,8 +486,8 @@ class MathHelperTestCase(unittest.TestCase):
         self.assertEqual(s[3], 2)
         s[2] = 9
         self.assertEqual(s[2], 9)
-        self.assertEqual(list(s.get_list()), [1, 1, 9, 2])
+        self.assertEqual(List(s.get_list()), [1, 1, 9, 2])
 
 
 if __name__ == '__main__':
-    unittest.main()
+   unittest.main()
