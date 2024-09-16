@@ -31,7 +31,7 @@ import os
 import random
 import struct
 
-from pyhelper.type import *
+from typing import *
 
 __all__ = [
     'randint',
@@ -44,13 +44,13 @@ __all__ = [
 
 def _r():
     rs = struct.unpack('Q', os.urandom(8))[0]
-    strr = String(rs)
+    strr = str(rs)
     strr = strr[random.randint(1, 17)]
-    rs = Int(strr)
+    rs = int(strr)
     return rs
 
 
-def randint(_min: Int, _max: Optional[Int] = None):
+def randint(_min: int, _max: Optional[int] = None):
     """
     Generates a random integer within the inclusive range [min, max].
 
@@ -61,7 +61,7 @@ def randint(_min: Int, _max: Optional[Int] = None):
 
     :param _min: The lower limit of the range (inclusive).
     :param _max: The upper limit of the range (inclusive). Must be greater than or equal to min.
-    :return Int: A random integer within the inclusive range [min, max].
+    :return int: A random integer within the inclusive range [min, max].
     :raise ValueError: If the min parameter is greater than the max parameter.
     """
     if _max is None:
@@ -93,7 +93,7 @@ def choice(seq: Sized) -> Iterable:
     return seq[randint(0, seqlen - 1)]
 
 
-def randrange(start: Int, stop: Int = None, step: Int = None):
+def randrange(start: int, stop: int = None, step: int = None):
     """
     Return a randomly selected element from the range(start, stop, step).
 
@@ -107,7 +107,7 @@ def randrange(start: Int, stop: Int = None, step: Int = None):
     :param step: The step value for the range. Default is 1.
 
     Returns:
-    Int: A randomly selected element from the specified range.
+    int: A randomly selected element from the specified range.
 
     Raises:
     - ValueError: If the stop value is less than the start value.
@@ -118,9 +118,9 @@ def randrange(start: Int, stop: Int = None, step: Int = None):
         step = 1
     elif step is None:
         step = 1
-    start = Int(start)
-    step = Int(step)
-    stop = Int(stop)
+    start = int(start)
+    step = int(step)
+    stop = int(stop)
     return choice(range(start, stop + 1, step))
 
 
@@ -128,7 +128,7 @@ def shuffle(seq: Sized):
     """
     Shuffles the elements of a sequence in-place.
 
-    This function takes a sequence (such as a List or Tuple) as input and
+    This function takes a sequence (such as a list or tuple) as input and
     shuffles its elements in-place using the Fisher-Yates algorithm. The original
     sequence is modified, and no new sequence is created.
 
@@ -150,12 +150,12 @@ def shuffle(seq: Sized):
     seq[:] = shuffled
 
 
-def sample(population, k) -> List:
+def sample(population, k) -> list:
     """
     Randomly selects k unique elements from a population sequence.
 
-    This function takes a population sequence (such as a List or Tuple) and a
-    number k as input, and returns a new List containing k unique elements chosen
+    This function takes a population sequence (such as a list or tuple) and a
+    number k as input, and returns a new list containing k unique elements chosen
     randomly from the population. The original population sequence is not modified.
 
 
@@ -163,7 +163,7 @@ def sample(population, k) -> List:
     :param k: The number of elements to select. Must be less than or equal to the
              length of the population.
 
-    :return List: A new List containing k unique elements randomly selected from the population.
+    :return list: A new list containing k unique elements randomly selected from the population.
 
     :raise ValueError: If k is greater than the length of the population.
     """
@@ -177,7 +177,7 @@ def sample(population, k) -> List:
         # Generate a random index
         index = _r() % len(population_copy)
 
-        # Select a random element from the remaining elements and add it to the sample List
+        # Select a random element from the remaining elements and add it to the sample list
         sampled.append(population_copy[index])
 
         # Remove the sampled element from the population

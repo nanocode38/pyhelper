@@ -27,14 +27,13 @@
 This module provides some helper functions and classes for tkinter.
 Copyright (C)
 """
-import os
 from tkinter import messagebox
-from contextlib import suppress
 import unittest
 
-from pyhelper.type import *
+from typing import *
 from pyhelper import tk
 
+__all__ = ['Rect', 'get_widget_rect', 'pix_to_fontsize', 'fontsize_to_pix', 'custom_messagebox', 'show_message']
 
 class Rect:
     """
@@ -58,7 +57,7 @@ class Rect:
     midtop = (centerx, top)
     midbottom = (centerx, bottom)
     """
-    def __init__(self, x1: Int, y1: Int, x2: Int, y2: Int):
+    def __init__(self, x1: int, y1: int, x2: int, y2: int):
         if x1 > x2:
             x1, x2 = x2, x1
         if y1 > y2:
@@ -210,11 +209,11 @@ class Rect:
     def midbottom(self, value):
         self.centerx, self.bottom = value[0], value[1]
 
-    def move(self, x: Int, y: Int) -> Self:
+    def move(self, x: int, y: int) -> Self:
         """Move the rect and return the rect"""
         return Rect(x, y, x + self.w, y + self.h)
 
-    def move_ip(self, x: Int, y: Int) -> None:
+    def move_ip(self, x: int, y: int) -> None:
         """Move the rect in situ"""
         self.x, self.y = x, y
 
@@ -243,21 +242,21 @@ def get_widget_rect(widget: tk.Widget) -> Rect:
 
 
 
-def pix_to_fontsize(pix: Int, font: Tuple = ('KaiTi', 12)) -> Tuple:
+def pix_to_fontsize(pix: int, font: tuple = ('KaiTi', 12)) -> tuple:
     root = tk.Tk()
     label = tk.Label(root, height=1, width=1, font=font)
     width, height = label.winfo_reqwidth(), label.winfo_reqheight()
-    return Int(pix * (1 / width)), Int(pix * (1 / height))
+    return int(pix * (1 / width)), int(pix * (1 / height))
 
 
-def fontsize_to_pix(num: Int, font: Tuple = ('KaiTi', 12)) -> Tuple:
+def fontsize_to_pix(num: int, font: tuple = ('KaiTi', 12)) -> tuple:
     root = tk.Tk()
     label = tk.Label(root, height=1, width=1, font=font)
     width, height = label.winfo_reqwidth(), label.winfo_reqheight()
     return width * num, height * num
 
 
-def show_message(title: String, message: String, box_type: String = 'info'):
+def show_message(title: str, message: str, box_type: str = 'info'):
     box_type = box_type.lower()
     if box_type == 'info':
         messagebox.showinfo(title, message)
@@ -275,39 +274,12 @@ def show_message(title: String, message: String, box_type: String = 'info'):
         messagebox.askretrycancel(title, message)
 
 
-def custom_messagebox(title: Optional[String] = None, message: Optional[String] = None, icon: Optional[String] = None,
+def custom_messagebox(title: Optional[str] = None, message: Optional[str] = None, icon: Optional[str] = None,
                       _type: Optional = None, **options):
     messagebox._show(title, message, icon, _type, **options)
 
 
-class TestRect(unittest.TestCase):
-    def setUp(self):
-        self.rect = Rect(10, 20, 50, 60)
-
-    def test_rect_constructor_and_properties(self):
-        self.assertEqual(self.rect.x, 10)
-        self.assertEqual(self.rect.y, 20)
-        self.assertEqual(self.rect.w, 40)
-        self.assertEqual(self.rect.h, 40)
-        self.assertEqual(self.rect.left, 10)
-        self.assertEqual(self.rect.top, 20)
-        self.assertEqual(self.rect.right, 50)
-        self.assertEqual(self.rect.bottom, 60)
-        self.assertEqual(self.rect.centerx, 30)
-        self.assertEqual(self.rect.centery, 40)
-        self.assertEqual(self.rect.center, (30, 40))
-        self.assertEqual(self.rect.size, (40, 40))
-        self.assertEqual(self.rect.topleft, (10, 20))
-        self.assertEqual(self.rect.topright, (50, 20))
-        self.assertEqual(self.rect.bottomright, (50, 60))
-        self.assertEqual(self.rect.bottomleft, (10, 60))
-        self.assertEqual(self.rect.midleft, (10, 40))
-        self.assertEqual(self.rect.midright, (50, 40))
-        self.assertEqual(self.rect.midtop, (30, 20))
-        self.assertEqual(self.rect.midbottom, (30, 60))
-
-
-class TestRect(unittest.TestCase):
+class RectTestCase(unittest.TestCase):
     def setUp(self):
         self.rect = Rect(10, 20, 30, 40)
 

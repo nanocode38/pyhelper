@@ -31,7 +31,7 @@ import tkinter as tk
 
 from pyhelper.gamehelpers import pghelper
 import pyhelper.gamehelpers.pghelper.widgets
-from pyhelper.type import *
+from typing import *
 
 __all__ = [
     'Timer',
@@ -41,7 +41,7 @@ __all__ = [
 ]
 
 
-def game_help_window(help_text: String, title: String = 'Game Help'):
+def game_help_window(help_text: str, title: str = 'Game Help'):
     """
     The function used to display help text for the game
     :param help_text: Help text to display
@@ -66,12 +66,12 @@ class Timer:
     :param command: The command to execute after the timer finishes. default: None
 
     Attributes:
-        time_in_seconds (Float): The time in seconds the timer should run for.
-        is_running (Bool)(read only): Whether the timer is running or not.
-        start_time (Float)(read only): The time in seconds the timer started.
+        time_in_seconds (float): The time in seconds the timer should run for.
+        is_running (bool)(read only): Whether the timer is running or not.
+        start_time (float)(read only): The time in seconds the timer started.
     """
 
-    def __init__(self, time_in_seconds: Float = -1, command: Callable = None):
+    def __init__(self, time_in_seconds: float = -1, command: Callable = None):
         self.time_in_seconds = time_in_seconds
         self._saved_time = 0.0
         self.__command = command
@@ -117,7 +117,7 @@ class Timer:
         self.__is_running = True
         self.update()
 
-    def get_time(self, number_of_reserved_bits=2) -> Float:
+    def get_time(self, number_of_reserved_bits=2) -> float:
         """Get the timer's saved time, updating it if the timer is running."""
 
         if self.__is_running:
@@ -148,7 +148,7 @@ class CountUpTimer:
         is_pause: A boolean indicating whether the timer is paused.
     """
 
-    def __init__(self, start_time: Float = 0.0):
+    def __init__(self, start_time: float = 0.0):
         self.__is_running = False
         self.__saved_time = 0.0
         self.__start_time = start_time + time.time()  # safeguard
@@ -184,25 +184,25 @@ class CountUpTimer:
         self.__saved_time = time.time() - self.__start_time
         return self.__saved_time
 
-    def get_time(self, mode='seconds') -> Union[String, Float]:
+    def get_time(self, mode='seconds') -> Union[str, float]:
         """
         Return the current time of the timer in the specified format.
 
         :param mode: The format of the time to be returned. If 'seconds', return the time in seconds. If 'HHMMSS',
             return the time as HH:MM:SS.
 
-        :return String | Float:
-            If the mode is 'HHMMSS': String: The current time of the timer in the specified format.
-            Else: Float: The current time of the timer in seconds.
+        :return str | float:
+            If the mode is 'HHMMSS': str: The current time of the timer in the specified format.
+            Else: float: The current time of the timer in seconds.
         """
         if mode != 'HHMMSS':
             return self._get_time()
         seconds = self._get_time()
         _min, sec = divmod(seconds, 60)
-        hours, _min = divmod(Int(_min), 60)
-        strmin = String(_min)
-        strhours = String(hours)
-        strsec = String(sec)
+        hours, _min = divmod(int(_min), 60)
+        strmin = str(_min)
+        strhours = str(hours)
+        strsec = str(sec)
         if _min < 10:
             strmin = '0' + strmin
         if hours < 10:
@@ -227,11 +227,11 @@ class CountDownTimer:
     :param command: Automatically call at the end of the countdown
     """
 
-    def __init__(self, str_start_time: String, command: Callable = None):
+    def __init__(self, str_start_time: str, command: Callable = None):
         list_time = str_start_time.split(':')
-        hours = Int(list_time[0])
-        _min = Int(list_time[1])
-        sec = Float(list_time[2])
+        hours = int(list_time[0])
+        _min = int(list_time[1])
+        sec = float(list_time[2])
         self.seconds = hours * 3600 + _min * 60 + sec
         if command is not None:
             self.timer = Timer(self.seconds, command)
@@ -255,25 +255,25 @@ class CountDownTimer:
         self.timer.go_on()
         self.update()
 
-    def get_time(self, mode='seconds') -> Union[String, Float]:
+    def get_time(self, mode='seconds') -> Union[str, float]:
         """
         Return the current time of the timer in the specified format.
 
         :param mode: The format of the time to be returned. If 'seconds', return the time in seconds. If 'HHMMSS',
             return the time as HH:MM:SS.
 
-        :return String | Float:
-            If the mode is 'HHMMSS': String: The current time of the timer in the specified format.
-            Else: Float: The current time of the timer in seconds.
+        :return str | float:
+            If the mode is 'HHMMSS': str: The current time of the timer in the specified format.
+            Else: float: The current time of the timer in seconds.
         """
         saved_time = self.seconds - self.timer._saved_time
         if mode != 'HHMMSS':
             return saved_time
         _min, sec = divmod(saved_time, 60)
-        hours, _min = divmod(Int(_min), 60)
-        strmin = String(_min)
-        strhours = String(hours)
-        strsec = String(sec)
+        hours, _min = divmod(int(_min), 60)
+        strmin = str(_min)
+        strhours = str(hours)
+        strsec = str(sec)
         if _min < 10:
             strmin = '0' + strmin
         if hours < 10:

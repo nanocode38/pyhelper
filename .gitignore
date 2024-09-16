@@ -4,6 +4,8 @@
 __pycache__/
 .vscode/
 .mypy_catch/
+build/
+pyhelper.egg-info/
 *.log
 *.tmp
 *.bat
@@ -11,5 +13,5 @@ __pycache__/
 *.temp
 *.pyc
 update.*
-build/
-pyhelper.egg-info/
+cao.*
+test.*
