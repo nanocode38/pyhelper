@@ -84,24 +84,24 @@ Style: Annotation used pyhelper.type
 Feat: pyhelper.color: A module about colors
 Feat: chdir(), freopen()
 Delete: pyhelper.type and Annotation used typing
+
+<2024.9.20> 
+Feat: pyhelper.get_command_output()
+Style: Change the test style
 """
 import os
 import sys
-import unittest
 from contextlib import contextmanager
 from typing import *
+import subprocess
 
-from pyhelper.constant import Constant, ConstantError
-from pyhelper.color import ColorTestCase
-from pyhelper.constant import ConstantTestCase
-from pyhelper.mathhelper import MathHelperTestCase
-from pyhelper.TKhelper import RectTestCase
 
 __version__ = "2.4.0"
 __all__ = [
             "get_version",
             'freopen',
             'chdir',
+            'get_command_output',
 ]
 
 if __name__ != "__main__":
@@ -112,7 +112,6 @@ if __name__ != "__main__":
         print("(Unix,", end=" ")
     print(f"Python {sys.version_info[0]}.{sys.version_info[1]}.", end="")
     print(f"{sys.version_info[2]})")
-    print(f"Hello, {os.getlogin()}!")
     print("Hello from the PyHelper community!", end=" ")
     print("https://githun.com/nanocode38/pyhelper.git")
 
@@ -137,7 +136,7 @@ def chdir(path: str) -> None:
 
 
 @contextmanager
-def freopen(file_obj, stream: Union[IO, str] = sys.stdout) -> None:
+def freopen(file_obj, stream=sys.stdout) -> None:
     """
     Context Manager: Temporarily change the standard output stream to the specified file.
     :param file_obj: The Object of the file to redirect the standard output stream to.
@@ -165,39 +164,26 @@ def freopen(file_obj, stream: Union[IO, str] = sys.stdout) -> None:
         raise ValueError("Invalid stream specified")
 
 
-class TestCase(unittest.TestCase):
-    def test_get_version(self):
-        self.assertEqual(get_version(), __version__)
-
-    def test_chdir(self):
-        father_path = os.path.abspath("..")
-        this_path = os.path.abspath(".")
-        with chdir(".."):
-            self.assertEqual(os.getcwd(), father_path)
-        self.assertEqual(os.getcwd(), this_path)
-
-    def test_freopen(self):
-        original_stdin = sys.stdin
-        original_stdout = sys.stdout
-        with open("test.in", "r", encoding="utf-8") as fb:
-            with freopen(fb, "stdin"):
-                self.assertEqual(sys.stdin, fb)
-                file_input = input()
-            self.assertEqual(sys.stdin, original_stdin)
-            self.assertEqual(file_input, "Hello, World!")
-        with open("test.out", "w", encoding="utf-8") as fb:
-            with freopen(fb, "stdout"):
-                print("Hello, World!")
-                self.assertEqual(sys.stdout, fb)
-            self.assertEqual(sys.stdout, original_stdout)
-        with open("test.out", "r", encoding="utf-8") as fb:
-            self.assertEqual(fb.read(), "Hello, World!\n")
-        with open("test.out", "w", encoding="utf-8"):
-            pass
 
 
-if __name__ == "__main__":
-    if not os.path.isfile("test.in"):
-        os.chdir(".\\pyhelper")
-    unittest.main()
 
+def get_command_output(command, stdout=True, stderr=False) -> Union[str, Tuple[str, str]]:
+    """
+    Run the command disease to get the output function
+    :param command: Commands that need to be run
+    :param stdout: Whether to return stdout, which defaults to True
+    :param stderr: Whether to return stdout, which defaults to False
+    :return str | tuple: Returns the output string/tuple after executing the command
+    """
+    try:
+        result = subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        stdout = result.stdout
+        stderr = result.stderr
+        if stdout and not stderr:
+            return stdout
+        elif stderr and not stdout:
+            return stderr
+        else:
+            return stdout, stderr
+    except subprocess.CalledProcessError as e:
+        return e.stdout, e.stderr
