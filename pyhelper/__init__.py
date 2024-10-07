@@ -88,6 +88,10 @@ Delete: pyhelper.type and Annotation used typing
 <2024.9.20> 
 Feat: pyhelper.get_command_output()
 Style: Change the test style
+
+<2024.10.7> Version 2.4.1
+Feat: pyhelper Webside
+Delete: pyhelper.get_command_output()
 """
 import os
 import sys
@@ -96,12 +100,11 @@ from typing import *
 import subprocess
 
 
-__version__ = "2.4.0"
+__version__ = "2.4.1"
 __all__ = [
-            "get_version",
-            'freopen',
-            'chdir',
-            'get_command_output',
+    "get_version",
+    'freopen',
+    'chdir',
 ]
 
 if __name__ != "__main__":
@@ -162,28 +165,3 @@ def freopen(file_obj, stream=sys.stdout) -> None:
         sys.stderr = original_stream
     else:
         raise ValueError("Invalid stream specified")
-
-
-
-
-
-def get_command_output(command, stdout=True, stderr=False) -> Union[str, Tuple[str, str]]:
-    """
-    Run the command disease to get the output function
-    :param command: Commands that need to be run
-    :param stdout: Whether to return stdout, which defaults to True
-    :param stderr: Whether to return stdout, which defaults to False
-    :return str | tuple: Returns the output string/tuple after executing the command
-    """
-    try:
-        result = subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        stdout = result.stdout
-        stderr = result.stderr
-        if stdout and not stderr:
-            return stdout
-        elif stderr and not stdout:
-            return stderr
-        else:
-            return stdout, stderr
-    except subprocess.CalledProcessError as e:
-        return e.stdout, e.stderr
