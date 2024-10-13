@@ -92,6 +92,11 @@ Style: Change the test style
 <2024.10.7> Version 2.4.1
 Feat: pyhelper Webside
 Delete: pyhelper.get_command_output()
+
+<2024.10.13> Version 2.4.2
+Feat: pyhelper.TKhelper.FileEntry
+Fix: test_all.py: File name input error
+Fix: Website use Chinese Download(下载)
 """
 import os
 import sys
@@ -100,7 +105,7 @@ from typing import *
 import subprocess
 
 
-__version__ = "2.4.1"
+__version__ = "2.4.2"
 __all__ = [
     "get_version",
     'freopen',

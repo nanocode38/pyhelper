@@ -358,7 +358,7 @@ class SceneMgr:
             self.current_scene = self.scenes_dict[starting_key]
 
         else:  # Older style, we start with a list of scenes
-            # Build a dictionary, each entry of which is a scene key : scene object
+            # Build a dictionary, each _entry of which is a scene key : scene object
             # Then we call getSceneKey so each scene can identify itself
             self.scenes_dict = {}
             for scene in scenes:

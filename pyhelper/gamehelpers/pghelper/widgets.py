@@ -27,8 +27,8 @@ Widgets
 This module provides a number of efficient Pygame GUI components that help you develop Pygame games.
 This module has the following classes:
 Animate: An animation class based on a series of loaded images
-TextButton: a button created from text; no image can be specified
-CustomButton: A button created from an image
+TextButton: a _button created from text; no image can be specified
+CustomButton: A _button created from an image
 CheckBox: A checkbox created from an image
 Dragger: An image that you can drag around
 Image: An image that can be modified
@@ -150,9 +150,9 @@ class CustomButtonConfig(BaseConfig):
     the description of the image_paths property
     - image_paths: This is a tuple of paths for all images, which should be passed in "release state, hold state, hover
      state, lock state". If any of the last three are specified, it is automatically set to the first
-    - sounds_on_chick: This is the sound effect that was played when the button was clicked and is a string pointing to
+    - sounds_on_chick: This is the sound effect that was played when the _button was clicked and is a string pointing to
      the sound effect location. The default is None, which means no sound effect will be played.
-    - command: is what needs to be done when the button is pressed, is of type Function, defaults to None, i.e.,
+    - command: is what needs to be done when the _button is pressed, is of type Function, defaults to None, i.e.,
      does nothing.
     - args: This is a tuple containing all the arguments of the command function
     """
@@ -174,21 +174,21 @@ class CustomButtonConfig(BaseConfig):
 class TextButtonConfig(BaseConfig):
     """
     This is the configuration class for the TextButton class. It includes the following configuration options
-    - width (int): The length of the button
-    - height (int): The height of the button
-    - text (str): The text on the button
-    - button_color (list): A list of button colors whose four elements represent the colors of the following states:
+    - width (int): The length of the _button
+    - height (int): The height of the _button
+    - text (str): The text on the _button
+    - button_color (list): A list of _button colors whose four elements represent the colors of the following states:
      normal, pressed, suspended, and locked
-    - text_color (list): This is a list of button text colors, with four elements representing the colors of the
+    - text_color (list): This is a list of _button text colors, with four elements representing the colors of the
     following states: normal, pressed, suspended, locked
     - font (str): str representation of the text font
     - text_size (int): The size of the text
 
-    - sounds_on_chick(str): This is the sound effect that was played when the button was clicked and is a string
+    - sounds_on_chick(str): This is the sound effect that was played when the _button was clicked and is a string
     pointing to the sound effect location. The default is None, which means no sound effect will be played.
 
     the center of the screen.
-    - command(function): is what needs to be done when the button is pressed, is of type Function, defaults to None,
+    - command(function): is what needs to be done when the _button is pressed, is of type Function, defaults to None,
     i.e., does nothing.
     - args(tuple): This is a tuple containing all the arguments of the command function.
     """
@@ -338,7 +338,7 @@ class Animate:
 
 
 class CustomButton:
-    """An image-based custom button class"""
+    """An image-based custom _button class"""
 
     def __init__(self, bs: CustomButtonConfig):
         self.screen = bs.screen
@@ -447,7 +447,7 @@ class CustomButton:
 
 
 class TextButton:
-    """A text button created from text"""
+    """A text _button created from text"""
     BUTTON_UP = 0
     BUTTON_DOWN = 1
     BUTTON_OVER = 2

@@ -27,7 +27,8 @@
 This module provides some helper functions and classes for tkinter.
 Copyright (C)
 """
-from tkinter import messagebox
+import pathlib
+from tkinter import messagebox, Frame
 import unittest
 
 from typing import *
@@ -231,6 +232,65 @@ class Rect:
     def __repr__(self):
         return f"<Rect({self.x}, {self.y}, {self.x + self.w}, {self.y + self.h}) at {id(self)}>"
 
+class FileEntry(tk.Frame):
+    """
+    A composite widget for retrieving file locations.
+    :param master: The parent widget of a widget
+    :param file_path: The path of default file, default: ''
+    :param is_dir: A Boolean value indicating whether to select a directory
+    :param width: The width of the file entry
+    :param type_: The type of the file path can be 'open file', 'open files', 'save file', indicating that the file is obtained, the file group is obtained, and the file is saved
+    :param Other arguments are passed to the tkinter.filedialog function
+
+    :arg path: Corresponding parameters file_path
+    :arg is_dir: Corresponding parameters is_dir
+    :arg width: Corresponding parameters width
+    :arg type: Corresponding parameters type_
+    :arg button_text: Corresponding parameters text
+    :arg args: Positional parameters that represent other parameters
+    :arg kwargs: Keyword parameters that represent other parameters
+    """
+    def __init__(self, master: tk.Widget, file_path:str | pathlib.Path = '', is_dir:bool = False, width:int = 30, type_:str = 'open files', text:str = ' ... ', *args, **kwargs):
+        super().__init__(master)
+        import tkinter as tk
+        from tkinter import ttk
+        self.path  = file_path
+        self.is_dir  = is_dir
+        self.type  = type_.lower()
+        self.button_text = text
+        self.width = width
+        self.args  = args
+        self.kwargs  = kwargs
+
+        self._button  = tk.Button(self, text=self.button_text, command=self._open_dialog)
+        self._button.grid(column=2, row=0, padx=20)
+        self._entry  = ttk.Entry(self, width=self.width)
+        self._entry.insert(0, self.path)
+        self._entry.grid(column=0, row=0)
+
+    def _open_dialog(self):
+        from tkinter import filedialog
+        if self.is_dir:
+            file_path = filedialog.askdirectory(*self.args,  **self.kwargs)
+        else:
+            if self.type  == 'open files':
+                file_path = filedialog.askopenfilenames(*self.args,  **self.kwargs)
+            elif self.type  == 'open file':
+                file_path = filedialog.askopenfilename(*self.args,  **self.kwargs)
+            else:
+                file_path = filedialog.asksaveasfilename(*self.args,  **self.kwargs)
+
+        if file_path:
+            if isinstance(file_path, tuple):
+                file_path = ', '.join(file_path)
+            self._entry.delete(0, tk.END)
+            self._entry.insert(0, file_path)
+
+    def get(self):
+        """
+        Get the path in the entry
+        :return The path in the entry."""
+        return self.path
 
 def get_widget_rect(widget: tk.Widget) -> Rect:
     """

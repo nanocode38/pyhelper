@@ -23,7 +23,7 @@ class TestCase(unittest.TestCase):
     def test_freopen(self):
         original_stdin = sys.stdin
         original_stdout = sys.stdout
-        if not os.path.isfile('stdin.in'):
+        if not os.path.isfile('test.in'):
             os.chdir('.\\tests\\')
         with open("test.in", "r", encoding="utf-8") as fb:
             with freopen(fb, "stdin"):
