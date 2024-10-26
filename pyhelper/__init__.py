@@ -97,19 +97,29 @@ Delete: pyhelper.get_command_output()
 Feat: pyhelper.TKhelper.FileEntry
 Fix: test_all.py: File name input error
 Fix: Website use Chinese Download(下载)
+
+<2024.10.27> Version 2.4.3
+FeatL pyhelper.create_shortcut
+Feat: pyhelper.join_startup
+Feat: pyhelper.get_startup_dir
 """
 import os
 import sys
 from contextlib import contextmanager
 from typing import *
 import subprocess
+import win32com.client
+from pathlib import Path
 
-
-__version__ = "2.4.2"
+__author__ = 'nanocode38'
+__version__ = "2.4.3"
 __all__ = [
     "get_version",
     'freopen',
     'chdir',
+    'create_shortcut',
+    'join_startup',
+    'get_startup_dir'
 ]
 
 if __name__ != "__main__":
@@ -170,3 +180,50 @@ def freopen(file_obj, stream=sys.stdout) -> None:
         sys.stderr = original_stream
     else:
         raise ValueError("Invalid stream specified")
+
+def create_shortcut(target:Path | str, shortcut_name:str, shortcut_location:Path | str) -> None:
+    """
+    Creates a shortcut to the specified target file.
+
+    :param target: Full path to the target file.
+    :param shortcut_name: Name for the shortcut.
+    :param shortcut_location: Location for the shortcut.
+    :return: None
+    """
+    shell = win32com.client.Dispatch('WScript.Shell')  # Create WScript.Shell object
+    shortcut = shell.CreateShortCut(os.path.join(shortcut_location, shortcut_name + '.lnk'))  # Create shortcut object
+    shortcut.TargetPath = target  # Specify target path
+    shortcut.WorkingDirectory = os.path.dirname(target)  # Set working directory
+    shortcut.save()  # Save shortcut
+
+def get_startup_dir() -> Path:
+    """
+    A function for obtaining the start-up directory
+    :return: a string for the start-up directory
+    """
+    if platform.system() == "Windows":
+        from win32com.shell import shellcon, shell
+        dir_path = Path(shell.SHGetFolderPath(0, shellcon.CSIDL_STARTUP, 0, 0))
+        return dir_path
+    elif platform.system() == "Darwin":
+        home_dir = Path(os.path.expanduser('~'))
+        return home_dir / 'Library' / 'StartupItems'
+    elif platform.system() == "Linux":
+        # Linux 通常使用 .config/autostart 目录
+        home_dir = Path(os.path.expanduser('~'))
+        return home_dir / '.config' / 'autostart'
+    else:
+        raise OSError("Unsupported platform")
+
+def  join_startup(target:Path | str, name:str | None = None) -> None:
+    """
+    A function for creating a startup shortcut in the start-up directory
+    :param target: Full path to the target file.
+    :param name: Name for the shortcut.
+    :return: None
+    """
+    if not name:
+        name = os.path.basename(target) + " - Shortcut"
+    startup_dir = get_startup_dir()
+    create_shortcut(target, name, startup_dir)
+
