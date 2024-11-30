@@ -55,6 +55,8 @@ with suppress(constant.ConstantError):
     constant.const.PI = 3.141592653589793238462643383279
 with suppress(constant.ConstantError):
     constant.const.E = 2.718281828
+with suppress(constant.ConstantError):
+    constant.const.INF = 1e15
 
 _PYTHON_PATH = sys.executable[:-11]
 if os.name == 'nt' and _PYTHON_PATH[-6:] == 'Script':
