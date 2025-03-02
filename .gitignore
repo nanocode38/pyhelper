@@ -4,6 +4,7 @@
 __pycache__/
 .vscode/
 .mypy_catch/
+.history/
 build/
 pyhelper.egg-info/
 *.log
@@ -12,6 +13,7 @@ pyhelper.egg-info/
 *.exe
 *.temp
 *.pyc
+*.h
 update.*
 cao.*
 test.*

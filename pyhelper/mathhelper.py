@@ -42,13 +42,13 @@ import pyhelper.constant as constant
 from typing import *
 
 __all__ = [
+    'calculate_pi',
     'fibonacci',
     'is_prime',
     'StackOverFlowError',
     'StackUnderFlowError',
     'StackIsCloseError',
     'Stack',
-    'Array',
 ]
 
 with suppress(constant.ConstantError):
@@ -64,6 +64,25 @@ if os.name == 'nt' and _PYTHON_PATH[-6:] == 'Script':
 elif os.name == 'posix' and _PYTHON_PATH[-3:] == 'bin':
     _PYTHON_PATH = _PYTHON_PATH[:-4]
 _PYTHON_PATH = os.path.join(_PYTHON_PATH, 'Lib', 'site-packages', 'pyhelper')
+
+
+def calculate_pi(count:int)->float:
+    """
+    A function that calculates PI according to a formula
+    :param count: Calculate the precision of PI, the higher the value, the slower the calculation speed, the higher the precision
+    :return: The result of the calculation
+    """
+    result =0.0
+    positive = True
+    for i in range(count):
+        tmp =1.0 / float(i * 2 + 1)
+        if positive:
+            result += tmp
+        else:
+            result -= tmp
+        positive = not positive
+
+    return result *4.0
 
 
 @functools.lru_cache
@@ -326,56 +345,3 @@ class Stack(object):
     def get_list(self) -> list:
         return self._items
 
-
-class Array(object):
-    def __init__(self, _items=None, *, size=105, dtype=int, default=None):
-        self.size = size
-        self.type = dtype
-        if _items is None:
-            self._items = list(default * self.size)
-        else:
-            self._items = _items
-            self.type = type(_items[0])
-            for item in self._items:
-                if not isinstance(item, self.type):
-                    raise TypeError(f"All Array items must be of type {self.type.__name__}!")
-            if self.type != dtype:
-                raise TypeError(f"All Array dtype must be of type {self.type.__name__}!")
-            self.size = len(self._items)
-
-    def __len__(self):
-        return self.size
-
-    def __getitem__(self, index):
-        return self._items[index]
-
-    def __setitem__(self, index, value):
-        if not isinstance(value, self.type):
-            raise TypeError(f"All Array items must be of type {self.type.__name__}!")
-        self._items[index] = value
-
-    def __add__(self, other):
-        if not isinstance(other, Array):
-            raise TypeError(f"Both operands must be of type Array!")
-        return Array(self._items + other._items)
-
-    def __sub__(self, other):
-        other = int(other)
-        return Array(self._items * other)
-
-    def count(self, x):
-        return self._items.count(x)
-
-    def index(self, x):
-        return self._items.index(x)
-
-    def __repr__(self):
-        return f"<class Array({self._items!s}) at 0x{id(self)}>"
-
-    def __eq__(self, other):
-        if not isinstance(other, Array):
-            return False
-        return self._items == other._items
-
-    def __ne__(self, other):
-        return not self == other

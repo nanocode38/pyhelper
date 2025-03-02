@@ -28,13 +28,15 @@ This module provides some helper functions and classes for tkinter.
 Copyright (C)
 """
 import pathlib
+import time
 from tkinter import messagebox, Frame
 import unittest
-
+import tkinter as tk
 from typing import *
-from pyhelper import tk
 
-__all__ = ['Rect', 'get_widget_rect', 'pix_to_fontsize', 'fontsize_to_pix', 'custom_messagebox', 'show_message']
+
+__all__ = ['Rect', 'get_widget_rect', 'pix_to_fontsize', 'fontsize_to_pix', 'custom_messagebox', 'show_message', 'shake_window', 'password_window', 'setting_password_window', 'center_window']
+
 
 class Rect:
     """
@@ -337,3 +339,166 @@ def show_message(title: str, message: str, box_type: str = 'info'):
 def custom_messagebox(title: Optional[str] = None, message: Optional[str] = None, icon: Optional[str] = None,
                       _type: Optional = None, **options):
     messagebox._show(title, message, icon, _type, **options)
+
+
+direction, seconds, px = str, int, int
+def shake_window(window, dire: direction='vertical', jitter_time: seconds=2, jitter_count: int=50, amplitude:px=3) -> None:
+    """
+    Shake the Tkinter window
+    :param window: Tkinter window, needs to have winfo_x(), winfo_y(), update() and geometr() methods
+    :param dire: Shaking direction, can be 'vertical' or 'horizontal'
+    :param jitter_time: Total duration of the shaking effect, in seconds, integer
+    :param jitter_count: Number of shakes, up and down count as two, integer
+    :param amplitude: Amplitude of the shake, in pixels, integer
+    :return: None
+    :raise ValueError: When dire is not 'vertical' or 'horizontal'
+    """
+    window.update()
+    home_position = window.winfo_x(), window.winfo_y()
+    for i in range(jitter_count):
+        start_time = time.time()
+        sign = -1 if i % 2 == 0 else 1
+        if dire == 'vertical':
+            window.geometry(f'+{home_position[0]}+{home_position[1] + sign * amplitude}')
+        elif dire == 'horizontal':
+            window.geometry(f'+{home_position[0] + sign * amplitude}+{home_position[1]}')
+        else:
+            raise ValueError("direction must be vertical or horizontal")
+        while time.time() - start_time < jitter_time / jitter_count:
+            window.update()
+    window.geometry(f'+{home_position[0]}+{home_position[1]}')
+    window.update()
+
+def center_window(window, dire:direction='all') -> None:
+    """
+    Center your Tkinter window
+    :param window: The Tkinter window to be centered
+    :param dire: The direction of centering, can be 'all', 'vertical' or 'horizontal'
+    :return: None
+    :raise ValueError: When dire is not any one of 'all', 'vertical' or 'horizontal'
+    """
+    window.update()
+    screen_size = window.winfo_screenwidth(), window.winfo_screenheight()
+    window_size = window.winfo_width(), window.winfo_height()
+    x, y = (screen_size[0] - window_size[0]) // 2, (screen_size[1] - window_size[1]) // 2
+    this_x, this_y = window.winfo_x(), window.winfo_y()
+    if dire == 'all':
+        window.geometry(f'+{x}+{y}')
+    elif dire == 'vertical':
+        window.geometry(f'+{x}+{this_y}')
+    elif dire == 'horizontal':
+        window.geometry(f'+{this_x}+{y}')
+    else:
+        raise ValueError("direction must be all, vertical or horizontal")
+    window.update()
+
+def password_window(password: str, title: str="Password", text: str="Plase input your Password", *, mask: None | str=None, error_message: None | str=None, tompmost=False):
+    """
+    Create a password input window using Tkinter.
+
+    This function generates a window prompting the user to input a password.
+    It validates the entered password and performs actions based on the correctness of the input.
+
+    :param password: The correct password string that the user needs to input.
+    :param title: The title of the password window (default is "Password").
+    :param text: The prompt text displayed in the window (default is "Please input your Password").
+    :param mask: Optional character to mask the password input (e.g., '*' or None for no masking).
+    :param error_message: Optional custom error message when the password is incorrect.
+                          If not provided, the window will shake to indicate an error.
+    :param tompmost: Boolean indicating whether the window should stay on top of others (default is False).
+
+    :return: Returns 1 if the correct password is entered and the window is closed successfully, otherwise returns 0.
+
+    Functionality:
+    - Displays a Tkinter window with a label, an entry field for password input, and two buttons ("OK" and "Cancel").
+    - Validates the entered password against the provided `password`.
+    - If the password is correct, the window closes and returns 1.
+    - If the password is incorrect:
+        - Shakes the window if no custom `error_message` is provided.
+        - Displays an error popup with the custom `error_message` if it is provided.
+    - Centers the window on the screen using the `center_window` function.
+    - Supports optional parameters for customizing the appearance and behavior of the password window.
+    """
+    return_val = 0
+    from tkinter import ttk
+    window = tk.Tk()
+    window.wm_attributes('-topmost', tompmost)
+    window.geometry('300x150')
+    window.title(title)
+    tk.Label(window, text=text).place(x=10, y=2)
+    entry = ttk.Entry(window, show=mask, width=40)
+    entry.place(x=10, y=50)
+    def ok():
+        nonlocal entry, password, return_val, window, error_message
+        if entry.get() == password:
+            window.destroy()
+            return_val = 1
+            return 1
+        if not error_message:
+            shake_window(window)
+        else:
+            from tkinter import messagebox
+            messagebox.showerror(title=" Password Error", message=error_message)
+    ttk.Button(text="Cancle", command=lambda: window.destroy()).place(x=105, y=120)
+    ttk.Button(text="OK", command=ok).place(x=205, y=120)
+    center_window(window)
+    window.mainloop()
+    return return_val
+
+def setting_password_window(title: str="Password", text: str="Please input your Password", text_again: str="Please input tour Password again", *, mask: None | str=None, error_message: None | str=None, tompmost=False, check_fun: callable=lambda ps:True):
+    """
+   Create a password setting window using Tkinter.
+
+   This function generates a window prompting the user to input and confirm a password.
+   It validates the entered passwords for consistency and optionally applies a custom validation function.
+
+   :param title: The title of the password setting window (default is "Password").
+   :param text: The prompt text for the first password input field (default is "Please input your Password").
+   :param text_again: The prompt text for the second password input field (default is "Please input your Password again").
+   :param mask: Optional character to mask the password input (e.g., '*' or None for no masking).
+   :param error_message: Optional custom error message when the passwords do not match or fail validation.
+                         If not provided, the window will shake to indicate an error.
+   :param tompmost: Boolean indicating whether the window should stay on top of others (default is False).
+   :param check_fun: A callable function to validate the password.
+                      It takes the password string as input and returns True if valid (default is a lambda that always returns True).
+
+   :return: Returns the entered password string if both inputs match and pass validation, otherwise returns None.
+
+   Functionality:
+   - Displays a Tkinter window with two labeled entry fields for password input and confirmation, and two buttons ("OK" and "Cancel").
+   - Validates that the two entered passwords match and optionally checks them against the `check_fun` function.
+   - If validation fails:
+       - Shakes the window if no custom `error_message` is provided.
+       - Displays an error popup with the custom `error_message` if it is provided.
+   - Centers the window on the screen using the `center_window` function.
+   - Supports optional parameters for customizing the appearance and behavior of the password setting window.
+   """
+    return_val = None
+    from tkinter import ttk
+    window = tk.Tk()
+    window.wm_attributes('-topmost', tompmost)
+    window.geometry('300x150')
+    window.title(title)
+    tk.Label(window, text=text).place(x=10, y=2)
+    entry1 = ttk.Entry(window, show=mask, width=40)
+    entry1.place(x=10, y=30)
+    tk.Label(window, text=text_again).place(x=10, y=60)
+    entry2 = ttk.Entry(window, show=mask, width=40)
+    entry2.place(x=10, y=90)
+    def ok():
+        nonlocal entry1, entry2, return_val, window, error_message
+        if not entry1.get() == entry2.get() or not check_fun(entry1.get()):
+            if not error_message:
+                shake_window(window)
+            else:
+                from tkinter import messagebox
+                messagebox.showerror(title=" Password Error", message=error_message)
+            return
+        return_val = entry1.get()
+        window.destroy()
+
+    ttk.Button(text="Cancle", command=lambda: window.destroy()).place(x=105, y=120)
+    ttk.Button(text="OK", command=ok).place(x=205, y=120)
+    center_window(window)
+    window.mainloop()
+    return return_val

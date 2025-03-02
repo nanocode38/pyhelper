@@ -30,7 +30,7 @@ PYHELPER--PyHelper--pyhelper
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -----------------------------------------------------
 Pyhelper is a set of packages designed to make writing Python programs better.
-It is built on Python 3.11 and contains a rich set of classes and functions.
+It is built on Python 3.12 and contains a rich set of classes and functions.
 The package is highly portable and works perfectly on Windows
 Python packages containing all sorts of useful data structures, functions,
 classes, etc. that Python doesn't have
@@ -61,7 +61,6 @@ __all__ = [
     'system'
 ]
 
-from Demos.win32cred_demo import target
 
 if __name__ != "__main__":
     print(f"PyHelper {__version__}", end=" ")
@@ -181,4 +180,14 @@ def system(command: str, nonblocking: bool = False) -> int:
         multiprocessing.Process(target=os.system, args=(command,)).start()
         return 0
 
-    
+
+def get_annotation():
+    """
+    :return:  A decorator to simulate annotations in Java. This decorator is temporal
+    """
+    def annotation(func, *args, **kwargs):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            return func(*args, **kwargs)
+        return wrapper
+    return annotation
