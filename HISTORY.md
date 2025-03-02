@@ -69,3 +69,11 @@
 - Style: CODE_OF_CONDUCT.md
 - Style: CONTRIBUTING.md
 - Style: HISTORY.md
+
+## <2025.3.2> Version 2.5.1
+- Style: Remove redundant version declarations and readme files from packages
+- Delete: pyhelper.mathhelper.Array
+- Delete: pyhelper.tk
+- Feat: pyhelper.mathhelper.INF
+- Feat: pyhelper.mathhelper.calculate_pi()
+- Feat: pyhelper.TKhelper.shake_window(), password_window(), setting_password_window(), center_window()

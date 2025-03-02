@@ -30,7 +30,7 @@ PYHELPER--PyHelper--pyhelper
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -----------------------------------------------------
 Pyhelper is a set of packages designed to make writing Python programs better.
-It is built on Python 3.12 and contains a rich set of classes and functions.
+It is built on Python 3.13 and contains a rich set of classes and functions.
 The package is highly portable and works perfectly on Windows
 Python packages containing all sorts of useful data structures, functions,
 classes, etc. that Python doesn't have
@@ -38,7 +38,7 @@ classes, etc. that Python doesn't have
 applied environment: Microsoft Windows 10, Python 3.8+
 Copyright (C)
 By nanocode38 nanocode38@88.com
-2024.11.22
+2025.03.02
 """
 import os
 import sys
@@ -50,7 +50,7 @@ import win32com.client
 from pathlib import Path
 
 __author__ = 'nanocode38'
-__version__ = "2.5.0"
+__version__ = "2.5.1"
 __all__ = [
     "get_version",
     'freopen',
