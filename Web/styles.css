@@ -27,7 +27,15 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* Navbar styling - Logo added on the left */
+/* Particle container */
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+/* Navbar styling */
 .navbar {
     position: absolute;
     top: 0;
@@ -77,7 +85,7 @@ body {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* Navigation links styling */
+/* Navigation links */
 .nav-links {
     display: flex;
 }
@@ -101,7 +109,7 @@ body {
     transform: translateY(-3px);
 }
 
-/* Main content area */
+/* Main content */
 .content {
     padding: 50px 40px;
     background-color: rgba(25, 25, 35, 0.5);
@@ -142,7 +150,7 @@ body {
 h1 {
     font-size: 3.2rem;
     margin-bottom: 25px;
-    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+    text-shadow: 极 3px 10px rgba(0, 0, 0, 0.4);
     color: #fff;
     letter-spacing: 1px;
 }
@@ -155,7 +163,7 @@ h3 {
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Button container */
+/* Buttons */
 .buttons-container {
     display: flex;
     justify-content: center;
@@ -164,7 +172,6 @@ h3 {
     gap: 25px;
 }
 
-/* Button styling */
 .animated-button {
     position: relative;
     display: flex;
@@ -202,14 +209,12 @@ h3 {
     transform: scale(0.98) translateZ(0);
 }
 
-/* Button icon */
 .button-icon {
     margin-right: 12px;
     font-size: 1.5rem;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
 }
 
-/* Ripple effect */
 .animated-button::after {
     content: '';
     position: absolute;
@@ -229,14 +234,12 @@ h3 {
     height: 300px;
 }
 
-/* Button animation */
 @keyframes pulse {
     0% { box-shadow: 0 0 0 0px rgba(106, 17, 203, 0.4); }
     50% { box-shadow: 0 0 0 15px rgba(106, 17, 203, 0); }
     100% { box-shadow: 0 0 0 0px rgba(106, 17, 203, 0); }
 }
 
-/* Download button styling */
 .download-btn {
     background: linear-gradient(45deg, #11998e, #38ef7d);
     box-shadow: 0 8px 25px rgba(56, 239, 125, 0.4);
@@ -257,7 +260,7 @@ h3 {
     100% { box-shadow: 0 0 0 0px rgba(17, 153, 142, 0); }
 }
 
-/* Footer styling */
+/* Footer */
 .footer {
     position: absolute;
     bottom: 0;
@@ -315,7 +318,7 @@ h3 {
     }
 }
 
-/* Feature cards styling */
+/* Features section */
 .features {
     display: flex;
     flex-wrap: wrap;
@@ -378,7 +381,7 @@ h3 {
     line-height: 1.7;
 }
 
-/* Code snippet styling */
+/* Code snippet */
 .code-snippet {
     background: rgba(0, 0, 0, 0.3);
     border-radius: 8px;

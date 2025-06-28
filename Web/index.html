@@ -6,15 +6,15 @@
     <title>PyHelper: Python & Pygame Enhancement Toolkit</title>
     <link rel="icon" href="icon.ico" type="image/x-icon">
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js"></script>
 </head>
 <body>
-    <!-- Navbar with logo on the left -->
+    <!-- Particles container -->
+    <div id="particles-js"></div>
+
+    <!-- Navbar with logo -->
     <div class="navbar">
         <div class="logo-container">
-            <!-- Logo added in the header -->
-            <img src="icon_small.ico" alt="Logo" class="logo-container">
-
+            <!-- Your logo in the header -->
 
             <div class="logo-text">PyHelper</div>
         </div>
@@ -24,10 +24,9 @@
         </div>
     </div>
 
-    <!-- Main content area -->
+    <!-- Main content -->
     <div class="content">
-        <!-- Main logo in the content area -->
-        <img src="icon.ico" alt="Logo" class="center-logo">
+        <!-- Main logo -->
 
 
         <h1>Welcome to PyHelper</h1>
@@ -37,12 +36,12 @@
             <a href="https://github.com/nanocode38/pyhelper.git" class="animated-button">
                 <span class="button-icon">🌐</span> Link to GitHub
             </a>
-            <a href="https://github.com/nanocode38/pyhelper/releases/download/Version2.5.1/pyhelper-2.5.1-py3-none-any.whl" class="animated-button download-btn">
+            <a href="https://github.com/nanocode38/pyhelper/releases/download/Version2极.5.1/pyhelper-2.5.1-py3-none-any.whl" class="animated-button download-btn">
                 <span class="button-icon">⬇️</span> Download Now
             </a>
         </div>
 
-        <!-- Feature highlight -->
+        <!-- Features highlight -->
         <div class="highlight">
             <h2>Why Choose PyHelper?</h2>
             <p>PyHelper streamlines Python and Pygame development with a comprehensive set of utilities designed to:</p>
@@ -53,10 +52,19 @@
                 <li>Reduce boilerplate code</li>
             </ul>
 
-
+            <div class="code-snippet">
+                # Example PyHelper usage<br>
+                from pyhelper import GameUtils<br>
+                <br>
+                # Initialize game window<br>
+                game = GameUtils(title="My Game", width=800, height=600)<br>
+                <br>
+                # Load assets with a single line<br>
+                player_sprite = game.load_sprite("player.png")
+            </div>
         </div>
 
-        <!-- Feature cards -->
+        <!-- Features cards -->
         <div class="features">
             <div class="feature-card">
                 <div class="feature-icon">⚡</div>
@@ -81,5 +89,9 @@
     <div class="footer">
         © 2023 PyHelper | Python & Pygame Enhancement Toolkit
     </div>
+
+    <!-- Particles.js library -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>

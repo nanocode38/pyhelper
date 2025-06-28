@@ -1,62 +1,108 @@
-//// 创建优化的粒子背景
-//function createParticles() {
-//    const particlesContainer = document.getElementById('particles');
-//    const particleCount = 40; // 减少粒子数量减轻负担
-//
-//    for (let i = 0; i < particleCount; i++) {
-//        const particle = document.createElement('div');
-//        particle.classList.add('particle');
-//
-//        // 随机大小、位置和动画时间
-//        const size = Math.random() * 6 + 2;
-//        const posX = Math.random() * 100;
-//        const duration = Math.random() * 15 + 15;
-//        const delay = Math.random() * 5;
-//
-//        particle.style.width = `${size}px`;
-//        particle.style.height = `${size}px`;
-//        particle.style.left = `${posX}%`;
-//        particle.style.bottom = `-${size}px`;
-//        particle.style.animationDuration = `${duration}s`;
-//        particle.style.animationDelay = `${delay}s`;
-//
-//        particlesContainer.appendChild(particle);
-//    }
-//}
-//
-//// 初始化页面
-//window.onload = function() {
-//    createParticles();
-//};
-// Create optimized particle background
-function createParticles() {
-    const particlesContainer = document.getElementById('particles');
-    const particleCount = 50; // Optimal number for performance
-
-    for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-
-        // Random properties
-        const size = Math.random() * 5 + 2; // 2-7px
-        const posX = Math.random() * 100;
-        const duration = Math.random() * 20 + 10; // 10-30s
-        const delay = Math.random() * 5;
-        const opacity = Math.random() * 0.2 + 0.1; // 0.1-0.3
-
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.left = `${posX}%`;
-        particle.style.bottom = `-${size}px`;
-        particle.style.opacity = opacity;
-        particle.style.animationDuration = `${duration}s`;
-        particle.style.animationDelay = `${delay}s`;
-
-        particlesContainer.appendChild(particle);
-    }
-}
-
-// Initialize page
-window.addEventListener('DOMContentLoaded', () => {
-    createParticles();
+// Initialize particles.js
+document.addEventListener('DOMContentLoaded', function() {
+    particlesJS('particles-js', {
+        "particles": {
+            "number": {
+                "value": 80,
+                "density": {
+                    "enable": true,
+                    "value_area": 800
+                }
+            },
+            "color": {
+                "value": "#ffffff"
+            },
+            "shape": {
+                "type": "circle",
+                "stroke": {
+                    "width": 0,
+                    "color": "#000000"
+                },
+                "polygon": {
+                    "nb_sides": 5
+                }
+            },
+            "opacity": {
+                "value": 0.3,
+                "random": true,
+                "anim": {
+                    "enable": true,
+                    "speed": 1,
+                    "opacity_min": 0.1,
+                    "sync": false
+                }
+            },
+            "size": {
+                "value": 3,
+                "random": true,
+                "anim": {
+                    "enable": true,
+                    "speed": 2,
+                    "size_min": 0.1,
+                    "sync": false
+                }
+            },
+            "line_linked": {
+                "enable": true,
+                "distance": 150,
+                "color": "#ffffff",
+                "opacity": 0.2,
+                "width": 1
+            },
+            "move": {
+                "enable": true,
+                "speed": 1,
+                "direction": "none",
+                "random": true,
+                "straight": false,
+                "out_mode": "out",
+                "bounce": false,
+                "attract": {
+                    "enable": false,
+                    "rotateX": 600,
+                    "rotateY": 1200
+                }
+            }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+                "onhover": {
+                    "enable": true,
+                    "mode": "grab"
+                },
+                "onclick": {
+                    "enable": true,
+                    "mode": "push"
+                },
+                "resize": true
+            },
+            "modes": {
+                "grab": {
+                    "distance": 140,
+                    "line_linked": {
+                        "opacity": 0.5
+                    }
+                },
+                "bubble": {
+                    "distance": 400,
+                    "size": 40,
+                    "duration": 2,
+                    "opacity": 8,
+                    "speed": 3
+                },
+                "repulse": {
+                    "distance": 200,
+                    "duration": 0.4
+                },
+                "push": {
+                    "particles_nb": 4
+                },
+                "remove": {
+                    "particles_nb": 2
+                }
+            }
+        },
+        "retina_detect": true
+    });
 });
