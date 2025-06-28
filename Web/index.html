@@ -1,86 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>PyHelper: A tool set for complementing Python and Pygame.</title>
-        <link rel="icon" href="icon.ico" type="image/x-icon">
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 0;
-                padding: 0;
-                background-image: url('Background.png');
-                background-size: cover;
-                background-position: center;
-                color: white;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                text-align: center;
-            }
-            .navbar {
-                position: absolute;
-                top: 0;
-                width: 100%;
-                background-color: rgba(51, 51, 51, 0.8);
-                overflow: hidden;
-            }
-            .navbar a {
-                float: right;
-                display: block;
-                color: #f2f2f2;
-                text-align: center;
-                padding: 14px 16px;
-                text-decoration: none;
-            }
-            .navbar a:hover {
-                background-color: #ddd;
-                color: black;
-            }
-            .content {
-                padding: 20px;
-                background-color: rgba(255, 255, 255, 0.0);
-            }
-            .black-square {
-                position: fixed;
-                right: 0;
-                bottom: 0;
-                width: 100px; 
-                height: 100px; 
-                background-color: black;
-            }
-            .navbar .logo {
-                float: left;
-                padding: 5px 5px;
-                width: 40px;
-                height: 40px;
-            }
-            .center-logo {
-                display: block;
-                margin-left: auto;
-                margin-right: auto;
-                width: 170px;
-                height: 155px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="navbar">
-            <a href="https://GitHub.com/nanocode38/pyhelper.git">GitHub</a>
-            <a href="https://github.com/nanocode38/pyhelper/releases/download/Version2.5.1/pyhelper-2.5.1-py3-none-any.whl">下载</a>
-        </div>
-        <div class="content">
-            <img src="icon.ico" alt="Logo" class="center-logo">
-            <h1>Welcome to PyHelper's official website</h1>
-            <h3>Pyhelper is a tool set for complementing Python and Pygame. It can help you coding.</h3>
-            <code class="html"><a href="https://github.com/nanocode38/pyhelper.git">Link to GitHub</a></code>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyHelper: Python & Pygame Enhancement Toolkit</title>
+    <link rel="icon" href="icon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js"></script>
+</head>
+<body>
+    <!-- Navbar with logo on the left -->
+    <div class="navbar">
+        <div class="logo-container">
+            <!-- Logo added in the header -->
+            <img src="icon_small.ico" alt="Logo" class="logo-container">
 
-            <a href="https://github.com/nanocode38/pyhelper/releases/download/Version2.5.1/pyhelper-2.5.1-py3-none-any.whl">               download
-            </a></code>
+
+            <div class="logo-text">PyHelper</div>
         </div>
-        <div class="black-square"></div>
-    </body>
-    <script></script>
+        <div class="nav-links">
+            <a href="https://GitHub.com/nanocode38/pyhelper.git" class="nav-button">GitHub</a>
+            <a href="https://github.com/nanocode38/pyhelper/releases/download/Version2.5.1/pyhelper-2.5.1-py3-none-any.whl" class="nav-button">Download</a>
+        </div>
+    </div>
+
+    <!-- Main content area -->
+    <div class="content">
+        <!-- Main logo in the content area -->
+        <img src="icon.ico" alt="Logo" class="center-logo">
+
+
+        <h1>Welcome to PyHelper</h1>
+        <h3>PyHelper is a powerful tool set for complementing Python and Pygame development. Enhance your coding experience with our utilities and helpers.</h3>
+
+        <div class="buttons-container">
+            <a href="https://github.com/nanocode38/pyhelper.git" class="animated-button">
+                <span class="button-icon">🌐</span> Link to GitHub
+            </a>
+            <a href="https://github.com/nanocode38/pyhelper/releases/download/Version2.5.1/pyhelper-2.5.1-py3-none-any.whl" class="animated-button download-btn">
+                <span class="button-icon">⬇️</span> Download Now
+            </a>
+        </div>
+
+        <!-- Feature highlight -->
+        <div class="highlight">
+            <h2>Why Choose PyHelper?</h2>
+            <p>PyHelper streamlines Python and Pygame development with a comprehensive set of utilities designed to:</p>
+            <ul>
+                <li>Accelerate development time</li>
+                <li>Simplify complex tasks</li>
+                <li>Enhance game performance</li>
+                <li>Reduce boilerplate code</li>
+            </ul>
+
+
+        </div>
+
+        <!-- Feature cards -->
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">Optimized Performance</h3>
+                <p class="feature-text">Accelerate your Pygame projects with our high-performance utilities.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🛠️</div>
+                <h3 class="feature-title">Developer Tools</h3>
+                <p class="feature-text">Essential tools for debugging and optimizing your Python code.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🧩</div>
+                <h3 class="feature-title">Easy Integration</h3>
+                <p class="feature-text">Seamlessly integrates with your existing Python and Pygame projects.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        © 2023 PyHelper | Python & Pygame Enhancement Toolkit
+    </div>
+</body>
 </html>

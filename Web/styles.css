@@ -1,0 +1,389 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #1a2a6c, #2a3a7c, #1a2a6c);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    overflow-x: hidden;
+    position: relative;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Navbar styling - Logo added on the left */
+.navbar {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background-color: rgba(30, 30, 45, 0.85);
+    overflow: hidden;
+    animation: slideDown 0.5s ease-in-out;
+    backdrop-filter: blur(10px);
+    z-index: 10;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+}
+
+/* Logo styling */
+.logo-container {
+    display: flex;
+    align-items: center;
+    animation: fadeIn 0.8s ease-out;
+}
+
+.nav-logo {
+    height: 50px;
+    width: 50px;
+    margin-right: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s ease;
+}
+
+.nav-logo:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Navigation links styling */
+.nav-links {
+    display: flex;
+}
+
+.nav-button {
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 16px 22px;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 0;
+    position: relative;
+}
+
+.nav-button:hover {
+    background-color: rgba(100, 100, 255, 0.3);
+    color: #fff;
+    transform: translateY(-3px);
+}
+
+/* Main content area */
+.content {
+    padding: 50px 40px;
+    background-color: rgba(25, 25, 35, 0.5);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(15px);
+    max-width: 800px;
+    width: 90%;
+    margin: 80px auto 40px;
+    position: relative;
+    z-index: 5;
+    animation: fadeIn 1.2s ease-out;
+    border: 1px solid rgba(100, 150, 255, 0.2);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.main-logo {
+    display: block;
+    margin: 0 auto 25px;
+    width: 160px;
+    height: 145px;
+    animation: logoFloat 8s ease-in-out infinite;
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.6));
+    transform-origin: center;
+    border-radius: 15px;
+}
+
+@keyframes logoFloat {
+    0% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(1deg); }
+    100% { transform: translateY(0) rotate(0deg); }
+}
+
+h1 {
+    font-size: 3.2rem;
+    margin-bottom: 25px;
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+h3 {
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin-bottom: 40px;
+    line-height: 1.6;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Button container */
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 30px 0 20px;
+    gap: 25px;
+}
+
+/* Button styling */
+.animated-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 18px 40px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: uppercase;
+    border-radius: 50px;
+    background: linear-gradient(45deg, #6a11cb, #2575fc, #2b8ef6);
+    background-size: 250% auto;
+    color: white;
+    overflow: hidden;
+    transition: all 0.5s ease;
+    box-shadow: 0 8px 25px rgba(37, 117, 252, 0.4);
+    animation: pulse 3s infinite;
+    border: none;
+    cursor: pointer;
+    min-width: 240px;
+    letter-spacing: 1px;
+    z-index: 2;
+    transform: translateZ(0);
+}
+
+.animated-button:hover {
+    transform: scale(1.05) translateZ(0);
+    background-position: right center;
+    box-shadow: 0 12px 35px rgba(37, 117, 252, 0.6);
+}
+
+.animated-button:active {
+    transform: scale(0.98) translateZ(0);
+}
+
+/* Button icon */
+.button-icon {
+    margin-right: 12px;
+    font-size: 1.5rem;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+/* Ripple effect */
+.animated-button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 80%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+    z-index: -1;
+}
+
+.animated-button:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* Button animation */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0px rgba(106, 17, 203, 0.4); }
+    50% { box-shadow: 0 0 0 15px rgba(106, 17, 203, 0); }
+    100% { box-shadow: 0 0 0 0px rgba(106, 17, 203, 0); }
+}
+
+/* Download button styling */
+.download-btn {
+    background: linear-gradient(45deg, #11998e, #38ef7d);
+    box-shadow: 0 8px 25px rgba(56, 239, 125, 0.4);
+    animation: pulse-green 3s infinite;
+}
+
+.download-btn:hover {
+    box-shadow: 0 12px 35px rgba(56, 239, 125, 0.6);
+}
+
+.download-btn::after {
+    background: radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 80%);
+}
+
+@keyframes pulse-green {
+    0% { box-shadow: 0 0 0 0px rgba(17, 153, 142, 0.4); }
+    50% { box-shadow: 0 0 0 15px rgba(17, 153, 142, 0); }
+    100% { box-shadow: 0 0 0 0px rgba(17, 153, 142, 0); }
+}
+
+/* Footer styling */
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 15px 0;
+    background: rgba(15, 15, 25, 0.8);
+    font-size: 1rem;
+    text-align: center;
+    color: #aaa;
+    backdrop-filter: blur(5px);
+    z-index: 5;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0 20px;
+        flex-direction: column;
+        padding-bottom: 15px;
+    }
+
+    .logo-container {
+        margin-top: 10px;
+        margin-bottom: 15px;
+    }
+
+    h1 { font-size: 2.5rem; }
+    h3 { font-size: 1.3rem; }
+
+    .content {
+        padding: 40px 20px;
+        margin: 60px auto 30px;
+    }
+
+    .buttons-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .animated-button {
+        min-width: 220px;
+        padding: 16px 30px;
+        font-size: 1.2rem;
+    }
+
+    .main-logo {
+        width: 140px;
+        height: 125px;
+    }
+
+    .nav-links {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Feature cards styling */
+.features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 25px;
+    width: 250px;
+    text-align: center;
+    transition: transform 0.4s, box-shadow 0.4s;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #38ef7d;
+}
+
+.feature-title {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.feature-text {
+    font-size: 1rem;
+    color: #ddd;
+}
+
+/* Highlight section */
+.highlight {
+    background: rgba(106, 17, 203, 0.2);
+    border-radius: 12px;
+    padding: 30px;
+    margin: 40px 0;
+    text-align: left;
+    border-left: 4px solid #6a11cb;
+}
+
+.highlight h2 {
+    margin-bottom: 20px;
+    color: #fff;
+    font-size: 1.8rem;
+}
+
+.highlight p {
+    margin-bottom: 15px;
+    line-height: 1.7;
+}
+
+/* Code snippet styling */
+.code-snippet {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 15px;
+    margin: 15px 0;
+    font-family: monospace;
+    overflow-x: auto;
+}
