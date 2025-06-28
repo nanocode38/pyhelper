@@ -40,14 +40,17 @@ Copyright (C)
 By nanocode38 nanocode38@88.com
 2025.03.02
 """
+import functools
 import os
+import platform
 import sys
 import multiprocessing
 from contextlib import contextmanager
-from typing import *
-import subprocess
-import win32com.client
 from pathlib import Path
+from abc import ABC, abstractmethod
+
+import win32com.client
+
 
 __author__ = 'nanocode38'
 __version__ = "2.5.1"
@@ -58,7 +61,8 @@ __all__ = [
     'create_shortcut',
     'join_startup',
     'get_startup_dir',
-    'system'
+    'system',
+    'Singleton'
 ]
 
 
@@ -191,3 +195,29 @@ def get_annotation():
             return func(*args, **kwargs)
         return wrapper
     return annotation
+
+class Singleton(ABC):
+    """
+    An abstract base class to allow its subclass to be instantiated only once.
+    Warning: If the subclass overloads the __new__() method, the parent class's __new__()
+    method must be called in the __new__() method of the subclass, otherwise this abstract base class is invalid
+    >>> class FooSingleton(Singleton):
+    ...     def __init__(self):
+    ...         self.foo = 1
+    ...
+    >>> spam = FooSingleton()
+    >>> egg = FooSingleton()
+    Traceback (most recent call last):
+    ...
+    RuntimeError: The Singleton Class can only be instantiated once
+    """
+    _has_instantiation = False
+    def __new__(cls, *args, **kwargs):
+        if cls._has_instantiation:
+            raise RuntimeError("The Singleton Class can only be instantiated once")
+        cls._has_instantiation = True
+        return super().__new__(cls)
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

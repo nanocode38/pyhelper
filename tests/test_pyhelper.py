@@ -4,9 +4,7 @@ import sys
 
 import pyhelper
 from pyhelper import *
-from test_constant import Constant, ConstantError
 from test_color import ColorTestCase
-from test_constant import ConstantTestCase
 from test_mathhelper import MathHelperTestCase
 from test_TKhelper import RectTestCase
 class TestCase(unittest.TestCase):

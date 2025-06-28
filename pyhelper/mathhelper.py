@@ -29,16 +29,12 @@ A Python module that provides mathematical-related tools, belonging to Pyhelper
 Copyright (C)
 """
 import decimal
-import unittest
 import functools
 import math
 import sys
 import os
-from contextlib import suppress
 from fractions import Fraction
-from collections.abc import Iterable
 
-import pyhelper.constant as constant
 from typing import *
 
 __all__ = [
@@ -51,12 +47,9 @@ __all__ = [
     'Stack',
 ]
 
-with suppress(constant.ConstantError):
-    constant.const.PI = 3.141592653589793238462643383279
-with suppress(constant.ConstantError):
-    constant.const.E = 2.718281828
-with suppress(constant.ConstantError):
-    constant.const.INF = 1e15
+PI = 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280
+E = 2.7182818284590452353602874713526624977572470937
+FAI = 0.5772156649015328606065120900824024310421593359399235988057672348848677267776646709369470632917467495
 
 _PYTHON_PATH = sys.executable[:-11]
 if os.name == 'nt' and _PYTHON_PATH[-6:] == 'Script':
