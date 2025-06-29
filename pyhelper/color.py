@@ -28,7 +28,7 @@
 A Python module about the Color. Contains RGBColor, HEXColor and HSLColor.
 Copyright (C)
 """
-from __init__ import Singleton
+from . import Singleton
 
 __all__ = [
     'RGBColor',
@@ -3202,7 +3202,7 @@ class _HEXColor(Singleton):
             color = color[::]
         if len(color) == 3:
             color = f"{color[0]}{color[0]}{color[1]}{color[1]} {color[2]}{color[2]}"
-        return RGBColor.to_hsl(_HEXColor.to_rgb(color))
+        return RGBColor.to_hsl(HEXColor.to_rgb(color))
 
 HEXColor = _HEXColor()
 
@@ -3226,6 +3226,8 @@ class _HSLColor(Singleton):
         if s is None:
             s, l = h[1], h[2]
             h = h[0]
+        elif h is None:
+            raise ValueError("HSL color must be a tuple of length 3!")
 
         # Convert HSL values to RGB
         if s == 0:
@@ -3260,6 +3262,6 @@ class _HSLColor(Singleton):
         if s is None:
             s, l = h[1], h[2]
             h = h[0]
-        return RGBColor.to_hex(_HSLColor.to_rgb(h, s, l))
+        return RGBColor.to_hex(HSLColor.to_rgb(h, s, l))
 
 HSLColor = _HSLColor()
