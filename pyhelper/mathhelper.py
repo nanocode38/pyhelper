@@ -1,11 +1,11 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-#   ___      _  _     _               
-#  | _ \_  _| || |___| |_ __  ___ _ _ 
+#   ___      _  _     _
+#  | _ \_  _| || |___| |_ __  ___ _ _
 #  |  _/ || | __ / -_) | '_ \/ -_) '_|
-#  |_|  \_, |_||_\___|_| .__/\___|_|  
-#       |__/           |_|            
+#  |_|  \_, |_||_\___|_| .__/\___|_|
+#       |__/           |_|
 
 #
 # Pyhelper - Packages that provide more helper tools for Python
@@ -30,13 +30,13 @@ Copyright (C)
 """
 import functools
 import math
-import sys
 import os
+import sys
 
 __all__ = [
-    'calculate_pi',
-    'fibonacci',
-    'is_prime',
+    "calculate_pi",
+    "fibonacci",
+    "is_prime",
 ]
 
 PI = 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280
@@ -44,30 +44,30 @@ E = 2.7182818284590452353602874713526624977572470937
 FAI = 0.5772156649015328606065120900824024310421593359399235988057672348848677267776646709369470632917467495
 
 _PYTHON_PATH = sys.executable[:-11]
-if os.name == 'nt' and _PYTHON_PATH[-6:] == 'Script':
+if os.name == "nt" and _PYTHON_PATH[-6:] == "Script":
     _PYTHON_PATH = _PYTHON_PATH[:-7]
-elif os.name == 'posix' and _PYTHON_PATH[-3:] == 'bin':
+elif os.name == "posix" and _PYTHON_PATH[-3:] == "bin":
     _PYTHON_PATH = _PYTHON_PATH[:-4]
-_PYTHON_PATH = os.path.join(_PYTHON_PATH, 'Lib', 'site-packages', 'pyhelper')
+_PYTHON_PATH = os.path.join(_PYTHON_PATH, "Lib", "site-packages", "pyhelper")
 
 
-def calculate_pi(count:int)->float:
+def calculate_pi(count: int) -> float:
     """
     A function that calculates PI according to a formula
     :param count: Calculate the precision of PI, the higher the value, the slower the calculation speed, the higher the precision
     :return: The result of the calculation
     """
-    result =0.0
+    result = 0.0
     positive = True
     for i in range(count):
-        tmp =1.0 / float(i * 2 + 1)
+        tmp = 1.0 / float(i * 2 + 1)
         if positive:
             result += tmp
         else:
             result -= tmp
         positive = not positive
 
-    return result *4.0
+    return result * 4.0
 
 
 @functools.lru_cache
@@ -81,12 +81,9 @@ def fibonacci(number: int) -> int:
     """
 
     if not isinstance(number, int):
-        if number.__class__.__qualname__[0].upper() in (
-                'A', 'E', 'I', 'O', 'U'):
-            raise TypeError("Please pass an int argument, not an {0}!".format(
-                number.__class__.__qualname__))
-        raise TypeError("Please pass an int argument, not a {0}!".format(
-            number.__class__.__qualname__))
+        if number.__class__.__qualname__[0].upper() in ("A", "E", "I", "O", "U"):
+            raise TypeError("Please pass an int argument, not an {0}!".format(number.__class__.__qualname__))
+        raise TypeError("Please pass an int argument, not a {0}!".format(number.__class__.__qualname__))
     if number < 0:
         raise ValueError("Please pass a positive int argument!")
 
@@ -117,4 +114,3 @@ def is_prime(number: int) -> bool:
     if number % j == 0:
         return False
     return True
-

@@ -1,6 +1,7 @@
 import unittest
 
-from pyhelper.TKhelper import Rect 
+from pyhelper.TKhelper import Rect
+
 
 class RectTestCase(unittest.TestCase):
     def setUp(self):
@@ -91,6 +92,7 @@ class RectTestCase(unittest.TestCase):
 
     def test_repr(self):
         self.assertEqual(repr(self.rect), f"<Rect(10, 20, 30, 40) at {id(self.rect)}>")
+
 
 if __name__ == "__main__":
     unittest.main()

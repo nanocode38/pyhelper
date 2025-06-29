@@ -11,3 +11,13 @@ dev = [
     "black>=25.1.0",
     "ruff>=0.12.1",
 ]
+
+[tool.black]
+line-length = 120
+
+[tool.isort]
+profile = "black"
+
+[tool.autoflake]
+remove_unused_imports = true
+remove_unused_variables = true

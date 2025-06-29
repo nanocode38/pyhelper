@@ -1,11 +1,11 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-#   ___      _  _     _               
-#  | _ \_  _| || |___| |_ __  ___ _ _ 
+#   ___      _  _     _
+#  | _ \_  _| || |___| |_ __  ___ _ _
 #  |  _/ || | __ / -_) | '_ \/ -_) '_|
-#  |_|  \_, |_||_\___|_| .__/\___|_|  
-#       |__/           |_|            
+#  |_|  \_, |_||_\___|_| .__/\___|_|
+#       |__/           |_|
 
 #
 # Pyhelper - Packages that provide more helper tools for Python
@@ -52,45 +52,37 @@ Finally, we refresh the screen using pghelper.display.update().
 See the Pyhelper documentation for detailed usage of all components:
 Or a docstring for the corresponding component class
 """
-from abc import ABC, abstractmethod
 import os
 import sys
 import time
-
-import pygame
+from abc import ABC, abstractmethod
 from typing import *
 
+import pygame
+
 __all__ = [
-    'Animate',
-    'AnimateConfig',
-
-    'CustomButton',
-    'CustomButtonConfig',
-
-    'TextButtonConfig',
-    'TextButton',
-
-    'CheckBox',
-    'CheckBoxConfig',
-
-    'Dragger',
-
-    'DisplayText',
-
-    'Image',
-
-    'InputText',
-    'InputTextConfig',
-
-    'RadioButtons'
+    "Animate",
+    "AnimateConfig",
+    "CustomButton",
+    "CustomButtonConfig",
+    "TextButtonConfig",
+    "TextButton",
+    "CheckBox",
+    "CheckBoxConfig",
+    "Dragger",
+    "DisplayText",
+    "Image",
+    "InputText",
+    "InputTextConfig",
+    "RadioButtons",
 ]
 
 _PYTHON_PATH = sys.executable[:-11]
-if os.name == 'nt' and _PYTHON_PATH[-6:] == 'Script':
+if os.name == "nt" and _PYTHON_PATH[-6:] == "Script":
     _PYTHON_PATH = _PYTHON_PATH[:-7]
-elif os.name == 'posix' and _PYTHON_PATH[-3:] == 'bin':
+elif os.name == "posix" and _PYTHON_PATH[-3:] == "bin":
     _PYTHON_PATH = _PYTHON_PATH[:-4]
-_PYTHON_PATH = os.path.join(_PYTHON_PATH, 'Lib', 'site-packages', 'pyhelper')
+_PYTHON_PATH = os.path.join(_PYTHON_PATH, "Lib", "site-packages", "pyhelper")
 
 
 # @!---------------------Config-------------------------------!@#
@@ -110,7 +102,7 @@ class BaseConfig(ABC):
         if hasattr(self, config_name):
             setattr(self, config_name, value)
         else:
-            raise ValueError(f'The {self.__class__.__name__} did not have attribute \'{config_name}\'')
+            raise ValueError(f"The {self.__class__.__name__} did not have attribute '{config_name}'")
 
 
 class AnimateConfig(BaseConfig):
@@ -118,7 +110,7 @@ class AnimateConfig(BaseConfig):
     This is the configuration class for the Animate class.
     This class requires a set of images in addition to the basic screen parameter, as described in the images property
     It includes the following configuration options
-    
+
     - images (tuple): This property can be a set of image paths to animate or a set of loaded image objects. If you
      need to animate as a Sprite, use the pghelper.disassemble_sprite_sheet() function
     - autostart (bool): This property indicates if the animation will start automatically and defaults to False
@@ -162,7 +154,7 @@ class CustomButtonConfig(BaseConfig):
         if not isinstance(images, list):
             images = list(images)
         self.text_color: Union[list, tuple] = [(255, 255, 255), (190, 190, 190)]
-        self.text: str = ''
+        self.text: str = ""
         self.font: Optional[pygame.font.FontType] = None
         self.font_size: int = 20
         self.images: list = images
@@ -201,8 +193,7 @@ class TextButtonConfig(BaseConfig):
         self.font = None
         self.text_size = 20
         self.sounds_on_chick = None
-        self.button_color = [(50, 205, 50), (50, 205, 50), (0, 255, 0),
-                             (169, 169, 169)]
+        self.button_color = [(50, 205, 50), (50, 205, 50), (0, 255, 0), (169, 169, 169)]
         self.text = "Hello World!"
         self.command = None
         self.args = tuple()
@@ -220,9 +211,9 @@ class CheckBoxConfig(BaseConfig):
 
     def __init__(self, screen):
         super().__init__(screen)
-        self.text = 'CheckBox'
+        self.text = "CheckBox"
         self.font = None
-        self.image_paths = ('CheckBox',)
+        self.image_paths = ("CheckBox",)
         self.text_color = (255, 255, 255)
 
 
@@ -260,7 +251,7 @@ class InputTextConfig(BaseConfig):
         self.color = (255, 255, 255)
         self.text_color = (0, 0, 0)
         self.font = None
-        self.value = ''
+        self.value = ""
         self.width = 250
         self.font_size = 30
         self.command = None
@@ -448,6 +439,7 @@ class CustomButton:
 
 class TextButton:
     """A text _button created from text"""
+
     BUTTON_UP = 0
     BUTTON_DOWN = 1
     BUTTON_OVER = 2
@@ -545,21 +537,40 @@ class TextButton:
             return
         if self.mode == TextButton.BUTTON_UP:
             pygame.draw.rect(self.screen, self.color[0], self.rect, width=0)
-            pygame.draw.line(self.screen, (169, 169, 169), self.rect.bottomleft,
-                             self.rect.bottomright, width=4)
-            pygame.draw.line(self.screen, (169, 169, 169),
-                             self.rect.bottomright, self.rect.topright,
-                             width=4)
+            pygame.draw.line(
+                self.screen,
+                (169, 169, 169),
+                self.rect.bottomleft,
+                self.rect.bottomright,
+                width=4,
+            )
+            pygame.draw.line(
+                self.screen,
+                (169, 169, 169),
+                self.rect.bottomright,
+                self.rect.topright,
+                width=4,
+            )
             msg_image = self.font.render(self.text, True, self.text_color[0])
             msg_rect = msg_image.get_rect()
             msg_rect.center = self.rect.center
             self.screen.blit(msg_image, msg_rect)
         elif self.mode == TextButton.BUTTON_DOWN:
             pygame.draw.rect(self.screen, self.color[1], self.rect, width=0)
-            pygame.draw.line(self.screen, (169, 169, 169), self.rect.topleft,
-                             self.rect.topright, width=4)
-            pygame.draw.line(self.screen, (169, 169, 169), self.rect.bottomleft,
-                             self.rect.topleft, width=4)
+            pygame.draw.line(
+                self.screen,
+                (169, 169, 169),
+                self.rect.topleft,
+                self.rect.topright,
+                width=4,
+            )
+            pygame.draw.line(
+                self.screen,
+                (169, 169, 169),
+                self.rect.bottomleft,
+                self.rect.topleft,
+                width=4,
+            )
             msg_image = self.font.render(self.text, True, self.text_color[2])
             msg_rect = msg_image.get_rect()
             msg_rect.centery = self.rect.centery + 3
@@ -567,22 +578,40 @@ class TextButton:
             self.screen.blit(msg_image, msg_rect)
         elif self.mode == TextButton.BUTTON_OVER:
             pygame.draw.rect(self.screen, self.color[2], self.rect, width=0)
-            pygame.draw.line(self.screen, (169, 169, 169), self.rect.bottomleft,
-                             self.rect.bottomright, width=4)
-            pygame.draw.line(self.screen, (169, 169, 169),
-                             self.rect.bottomright, self.rect.topright,
-                             width=4)
+            pygame.draw.line(
+                self.screen,
+                (169, 169, 169),
+                self.rect.bottomleft,
+                self.rect.bottomright,
+                width=4,
+            )
+            pygame.draw.line(
+                self.screen,
+                (169, 169, 169),
+                self.rect.bottomright,
+                self.rect.topright,
+                width=4,
+            )
             msg_image = self.font.render(self.text, True, self.text_color[3])
             msg_rect = msg_image.get_rect()
             msg_rect.center = self.rect.center
             self.screen.blit(msg_image, msg_rect)
         else:
             pygame.draw.rect(self.screen, self.color[3], self.rect, width=0)
-            pygame.draw.line(self.screen, (169, 169, 169), self.rect.bottomleft,
-                             self.rect.bottomright, width=4)
-            pygame.draw.line(self.screen, (169, 169, 169),
-                             self.rect.bottomright, self.rect.topright,
-                             width=4)
+            pygame.draw.line(
+                self.screen,
+                (169, 169, 169),
+                self.rect.bottomleft,
+                self.rect.bottomright,
+                width=4,
+            )
+            pygame.draw.line(
+                self.screen,
+                (169, 169, 169),
+                self.rect.bottomright,
+                self.rect.topright,
+                width=4,
+            )
             msg_image = self.font.render(self.text, True, self.text_color[1])
             msg_rect = msg_image.get_rect()
             msg_rect.center = self.rect.center
@@ -599,11 +628,19 @@ class DisplayText:
     :param: new_color(tuple): The text new_color
     """
 
-    def __init__(self, screen: pygame.Surface, *, font=None, size=20, text='', color=(255, 255, 255)):
+    def __init__(
+        self,
+        screen: pygame.Surface,
+        *,
+        font=None,
+        size=20,
+        text="",
+        color=(255, 255, 255),
+    ):
         pygame.font.init()
         self.screen = screen
         self.font = pygame.font.SysFont(font, size)
-        self.text = ''
+        self.text = ""
         self.color = color
         self.image = self.font.render(self.text, True, self.color)
         self.rect = self.image.get_rect()
@@ -634,15 +671,11 @@ class CheckBox:
     def __init__(self, cc: CheckBoxConfig):
         self.screen = cc.screen
         self.text = cc.text
-        if cc.image_paths[0] == 'CheckBox':
-            self.on_up_image = os.path.join(_PYTHON_PATH, 'images',
-                                            'CheckBoxOnUp.png')
-            self.off_up_image = os.path.join(_PYTHON_PATH, 'images',
-                                             'CheckBoxOffUp.png')
-            self.on_down_image = os.path.join(_PYTHON_PATH, 'images',
-                                              'CheckBoxOnDown.png')
-            self.off_down_image = os.path.join(_PYTHON_PATH, 'images',
-                                               'CheckBoxOffDown.png')
+        if cc.image_paths[0] == "CheckBox":
+            self.on_up_image = os.path.join(_PYTHON_PATH, "images", "CheckBoxOnUp.png")
+            self.off_up_image = os.path.join(_PYTHON_PATH, "images", "CheckBoxOffUp.png")
+            self.on_down_image = os.path.join(_PYTHON_PATH, "images", "CheckBoxOnDown.png")
+            self.off_down_image = os.path.join(_PYTHON_PATH, "images", "CheckBoxOffDown.png")
             self.on_up_image = pygame.image.load(self.on_up_image)
             self.on_down_image = pygame.image.load(self.on_down_image)
             self.off_up_image = pygame.image.load(self.off_up_image)
@@ -662,8 +695,12 @@ class CheckBox:
         self.msg_rect = self.msg_image.get_rect()
         self.msg_rect.left = self.image_rect.right + 5
         self.msg_rect.centery = self.image_rect.centery
-        self.rect = pygame.Rect(self.image_rect.left, self.image_rect.top,
-                                self.msg_rect.right, self.image_rect.bottom)
+        self.rect = pygame.Rect(
+            self.image_rect.left,
+            self.image_rect.top,
+            self.msg_rect.right,
+            self.image_rect.bottom,
+        )
         self.image = self.on_up_image
 
     def update(self, event) -> bool:
@@ -794,8 +831,7 @@ class Image:
 
     def flip(self, flip_horizontal: bool = False, flip_vertical: bool = False):
         """Flipping images"""
-        self.image = pygame.transform.flip(self.image, flip_horizontal,
-                                           flip_vertical)
+        self.image = pygame.transform.flip(self.image, flip_horizontal, flip_vertical)
 
     def set_move(self, x=0, y=0):
         """Overlay position"""
@@ -875,6 +911,7 @@ class RadioButtons:
 
 class InputText:
     """An input box for the user to enter"""
+
     CANCELLED_TAB = -1
     KEY_REPEAT_DELAY = 500  # ms before starting to repeat
     KEY_REPEAT_RATE = 50  # ms between repeating keys
@@ -891,13 +928,38 @@ class InputText:
         self.__text = None
         self.__focus = None
         self.__cursor_visible = None
-        self._init(itc.screen, itc.loc, itc.value, itc.font, itc.font_size,
-                   itc.width, itc.text_color, itc.color, itc.focus_color,
-                   itc.init_focus, itc.mask, itc.keep_focus_on_submit, itc)
+        self._init(
+            itc.screen,
+            itc.loc,
+            itc.value,
+            itc.font,
+            itc.font_size,
+            itc.width,
+            itc.text_color,
+            itc.color,
+            itc.focus_color,
+            itc.init_focus,
+            itc.mask,
+            itc.keep_focus_on_submit,
+            itc,
+        )
 
-    def _init(self, window, loc, value, font_name, font_size, width, text_color,
-              background_color, focus_color, initial_focus, mask,
-              keep_focus_on_submit, itc):
+    def _init(
+        self,
+        window,
+        loc,
+        value,
+        font_name,
+        font_size,
+        width,
+        text_color,
+        background_color,
+        focus_color,
+        initial_focus,
+        mask,
+        keep_focus_on_submit,
+        itc,
+    ):
         """
         initialization
         This method shouldn't be accessed, it's not an interface, it's an implementation.
@@ -929,19 +991,15 @@ class InputText:
         # Get the height of the field by getting the size of the font
         self.height = self.font.get_height()
         # Set the rect of the __text image
-        self.image_rect = pygame.Rect(self.loc[0], self.loc[1], self.width,
-                                      self.height)
-        self.rect = pygame.Rect(self.loc[0], self.loc[1], self.width,
-                                self.height)
+        self.image_rect = pygame.Rect(self.loc[0], self.loc[1], self.width, self.height)
+        self.rect = pygame.Rect(self.loc[0], self.loc[1], self.width, self.height)
         # Set the rect of the __focus highlight rectangle (when the __text has been clicked on and has __focus)
-        self.__focused_image_rect = pygame.Rect(self.loc[0] - 3, self.loc[1] - 3,
-                                                self.width + 6, self.height + 6)
+        self.__focused_image_rect = pygame.Rect(self.loc[0] - 3, self.loc[1] - 3, self.width + 6, self.height + 6)
 
         # Cursor related things:
         self.cursor_surface = pygame.Surface((1, self.height))
         self.cursor_surface.fill(self.__text_color)
-        self.cursor_position = len(
-            self.__text)  # put the cursor at the end of the initial __text
+        self.cursor_position = len(self.__text)  # put the cursor at the end of the initial __text
         self.__cursor_visible = False
         self.__cursor_switch_ms = 500  # Blink every half-second
         self.__cursor_ms_counter = 0
@@ -951,8 +1009,7 @@ class InputText:
 
         # Create one surface, blit the __text into it during _update_image
         # Special flags are needed to set the background alpha as transparent
-        self.__text_image = pygame.Surface((self.width, self.height),
-                                           flags=pygame.SRCALPHA)
+        self.__text_image = pygame.Surface((self.width, self.height), flags=pygame.SRCALPHA)
 
         self._update_image()  # create the image of the starting __text
 
@@ -981,15 +1038,13 @@ class InputText:
         if self.hidden:
             return False
 
-        if (event.type == pygame.MOUSEBUTTONDOWN) and (
-                event.button == 1):  # user clicked
+        if (event.type == pygame.MOUSEBUTTONDOWN) and (event.button == 1):  # user clicked
             the_x, the_y = event.pos
 
             if self.image_rect.collidepoint(the_x, the_y):
                 if not self.__focus:
                     self.__focus = True  # give this field __focus
-                    pygame.key.set_repeat(InputText.KEY_REPEAT_DELAY,
-                                          InputText.KEY_REPEAT_RATE)
+                    pygame.key.set_repeat(InputText.KEY_REPEAT_DELAY, InputText.KEY_REPEAT_RATE)
                 else:
                     # Field already has __focus, must position the cursor where the user clicked
                     n_pixels_from_left = the_x - self.loc[0]
@@ -1000,8 +1055,7 @@ class InputText:
                         self.cursor_position = n_chars
                     else:
                         for this_char_num in range(0, n_chars):
-                            this_char_offset = \
-                                self.font.size(self.__text[:this_char_num])[0]
+                            this_char_offset = self.font.size(self.__text[:this_char_num])[0]
                             if this_char_offset >= n_pixels_from_left:
                                 self.cursor_position = this_char_num  # Found the proper position for the cursor
                                 break
@@ -1035,16 +1089,14 @@ class InputText:
                 pass
 
             elif current_key == pygame.K_BACKSPACE:
-                self.__text = self.__text[:max(self.cursor_position - 1, 0)] + \
-                              self.__text[self.cursor_position:]
+                self.__text = self.__text[: max(self.cursor_position - 1, 0)] + self.__text[self.cursor_position :]
 
                 # Subtract one from cursor_pos, but do not go below zero:
                 self.cursor_position = max(self.cursor_position - 1, 0)
                 self._update_image()
 
             elif current_key == pygame.K_DELETE:  # forward delete key
-                self.__text = self.__text[:self.cursor_position] + \
-                              self.__text[self.cursor_position + 1:]
+                self.__text = self.__text[: self.cursor_position] + self.__text[self.cursor_position + 1 :]
                 self._update_image()
 
             elif current_key == pygame.K_RIGHT:
@@ -1078,7 +1130,7 @@ class InputText:
             else:  # standard key
                 # If no special key is pressed, add unicode of key to input_string
                 unicode_of_key = event.unicode  # remember for potential repeating key
-                self.__text = self.__text[:self.cursor_position] + unicode_of_key + self.__text[self.cursor_position:]
+                self.__text = self.__text[: self.cursor_position] + unicode_of_key + self.__text[self.cursor_position :]
                 self.cursor_position += len(unicode_of_key)
                 self._update_image()
 
@@ -1091,8 +1143,7 @@ class InputText:
 
         # If this input __text has __focus, draw an outline around the __text image
         if self.__focus:
-            pygame.draw.rect(self.screen, self.__focus_color,
-                             self.__focused_image_rect, 1)
+            pygame.draw.rect(self.screen, self.__focus_color, self.__focused_image_rect, 1)
 
         # Blit in the image of __text (set earlier in _update_image)
         self.screen.blit(self.__text_image, self.loc)
@@ -1105,8 +1156,7 @@ class InputText:
                 self.__cursor_visible = not self.__cursor_visible
 
             if self.__cursor_visible:
-                cursor_offset = self.font.size(self.__text[:self.cursor_position])[
-                    0]
+                cursor_offset = self.font.size(self.__text[: self.cursor_position])[0]
                 if self.cursor_position > 0:  # Try to get between characters
                     cursor_offset -= 1
                 if cursor_offset < self.width:  # if the loc is within the __text area, draw it
@@ -1134,7 +1184,7 @@ class InputText:
 
     def clear(self, keep_focus=False):
         """Clear the text in the field"""
-        self.__text = ''
+        self.__text = ""
         self.__focus = keep_focus
         self._update_image()
 
@@ -1153,7 +1203,7 @@ class InputText:
 
     def set_next_field_on_tab(self, next_field_on_tab):
         """
-        :param next_field_on_tab: 
+        :param next_field_on_tab:
         """
         self.__next_field_on_tab = next_field_on_tab
 
@@ -1163,12 +1213,9 @@ class InputText:
         self.rect[0] = self.loc[0]
         self.rect[1] = self.loc[1]
 
-        self.image_rect = pygame.Rect(self.loc[0], self.loc[1], self.width,
-                                      self.height)
-        self.rect = pygame.Rect(self.loc[0], self.loc[1], self.width,
-                                self.height)
+        self.image_rect = pygame.Rect(self.loc[0], self.loc[1], self.width, self.height)
+        self.rect = pygame.Rect(self.loc[0], self.loc[1], self.width, self.height)
         # Set the rect of the __focus highlight rectangle (when the __text has been clicked on and has __focus)
-        self.__focused_image_rect = pygame.Rect(self.loc[0] - 3, self.loc[1] - 3,
-                                                self.width + 6, self.height + 6)
+        self.__focused_image_rect = pygame.Rect(self.loc[0] - 3, self.loc[1] - 3, self.width + 6, self.height + 6)
         # this is a list because element 0 will change as the user edits
         self.__cursor_loc = [self.loc[0], self.loc[1]]

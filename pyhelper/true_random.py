@@ -1,11 +1,11 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-#   ___      _  _     _               
-#  | _ \_  _| || |___| |_ __  ___ _ _ 
+#   ___      _  _     _
+#  | _ \_  _| || |___| |_ __  ___ _ _
 #  |  _/ || | __ / -_) | '_ \/ -_) '_|
-#  |_|  \_, |_||_\___|_| .__/\___|_|  
-#       |__/           |_|            
+#  |_|  \_, |_||_\___|_| .__/\___|_|
+#       |__/           |_|
 
 #
 # Pyhelper - Packages that provide more helper tools for Python
@@ -30,20 +30,13 @@ import copy
 import os
 import random
 import struct
-
 from typing import *
 
-__all__ = [
-    'randint',
-    'choice',
-    'randrange',
-    'shuffle',
-    'sample'
-]
+__all__ = ["randint", "choice", "randrange", "shuffle", "sample"]
 
 
 def _r():
-    rs = struct.unpack('Q', os.urandom(8))[0]
+    rs = struct.unpack("Q", os.urandom(8))[0]
     strr = str(rs)
     strr = strr[random.randint(1, 17)]
     rs = int(strr)

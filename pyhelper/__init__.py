@@ -41,28 +41,28 @@ By nanocode38 nanocode38@88.com
 2025.03.02
 """
 import functools
+import multiprocessing
 import os
 import platform
 import sys
-import multiprocessing
+from abc import ABC, abstractmethod
 from contextlib import contextmanager
 from pathlib import Path
-from abc import ABC, abstractmethod
+from typing import Any, Generator
 
 import win32com.client
 
-
-__author__ = 'nanocode38'
+__author__ = "nanocode38"
 __version__ = "2.5.1"
 __all__ = [
     "get_version",
-    'freopen',
-    'chdir',
-    'create_shortcut',
-    'join_startup',
-    'get_startup_dir',
-    'system',
-    'Singleton'
+    "file_reopen",
+    "chdir",
+    "create_shortcut",
+    "join_startup",
+    "get_startup_dir",
+    "system",
+    "Singleton",
 ]
 
 
@@ -77,18 +77,28 @@ if __name__ != "__main__":
     print("Hello from the PyHelper community!", end=" ")
     print("https://githun.com/nanocode38/pyhelper.git")
 
+
 def get_version():
     """Returns the current version number of the pygwidgets package"""
     return __version__
 
 
 @contextmanager
-def chdir(path: str) -> None:
+def chdir(path: str) -> Generator[None, Any, None]:
     """
     Context Manager: Temporarily change the current working directory to the specified path.
 
     :param path: The path to change the current working directory to.
     :return: The original working directory.
+    >>> import os
+    >>> this_path = os.path.abspath('.')
+    >>> father_path = os.path.abspath('..')
+    >>> with chdir(father_path):
+    ...     os.getcwd() == father_path
+    ...
+    True
+    >>> os.getcwd() == this_path
+    True
     """
 
     original_path = os.path.abspath(os.getcwd())
@@ -98,12 +108,38 @@ def chdir(path: str) -> None:
 
 
 @contextmanager
-def freopen(file_obj, stream=sys.stdout) -> None:
+def file_reopen(file_obj, stream=sys.stdout) -> Generator[None, Any, None]:
     """
     Context Manager: Temporarily change the standard output stream to the specified file.
     :param file_obj: The Object of the file to redirect the standard output stream to.
     :param stream: The stream to redirect.
     :return: The original standard output stream.
+    >>> original_stdin = sys.stdin
+    >>> original_stdout = sys.stdout
+    >>> if not os.path.isfile("test.in"):
+    ...     os.chdir("../tests")
+    >>> with open("test.in", "r", encoding="utf-8") as fb:
+    ...     with file_reopen(fb, "stdin"):
+    ...         print(sys.stdin == fb)
+    ...         file_input = input()
+    True
+    >>> sys.stdin == original_stdin
+    True
+    >>> file_input == "Hello, World!"
+    True
+    >>> with open("test.out", "w", encoding="utf-8") as fb:
+    ...     with file_reopen(fb, "stdout"):
+    ...         print("Hello, World!")
+    ...         spam = (sys.stdout == fb)
+    >>> sys.stdout == original_stdout
+    True
+    >>> spam
+    True
+    >>> with open("test.out", "r", encoding="utf-8") as fb:
+    ...     fb.read() == "Hello, World!\\n"
+    True
+    >>> with open("test.out", "w", encoding="utf-8"):
+    ...     pass
     """
     original_stream = sys.stdin
     if isinstance(stream, str):
@@ -125,7 +161,8 @@ def freopen(file_obj, stream=sys.stdout) -> None:
     else:
         raise ValueError("Invalid stream specified")
 
-def create_shortcut(target:Path | str, shortcut_name:str, shortcut_location:Path | str) -> None:
+
+def create_shortcut(target: Path | str, shortcut_name: str, shortcut_location: Path | str) -> None:
     """
     Creates a shortcut to the specified target file.
 
@@ -134,11 +171,12 @@ def create_shortcut(target:Path | str, shortcut_name:str, shortcut_location:Path
     :param shortcut_location: Location for the shortcut.
     :return: None
     """
-    shell = win32com.client.Dispatch('WScript.Shell')  # Create WScript.Shell object
-    shortcut = shell.CreateShortCut(os.path.join(shortcut_location, shortcut_name + '.lnk'))  # Create shortcut object
+    shell = win32com.client.Dispatch("WScript.Shell")  # Create WScript.Shell object
+    shortcut = shell.CreateShortCut(os.path.join(shortcut_location, shortcut_name + ".lnk"))  # Create shortcut object
     shortcut.TargetPath = target  # Specify target path
     shortcut.WorkingDirectory = os.path.dirname(target)  # Set working directory
     shortcut.save()  # Save shortcut
+
 
 def get_startup_dir() -> Path:
     """
@@ -146,20 +184,22 @@ def get_startup_dir() -> Path:
     :return: a string for the start-up directory
     """
     if platform.system() == "Windows":
-        from win32com.shell import shellcon, shell
+        from win32com.shell import shell, shellcon
+
         dir_path = Path(shell.SHGetFolderPath(0, shellcon.CSIDL_STARTUP, 0, 0))
         return dir_path
     elif platform.system() == "Darwin":
-        home_dir = Path(os.path.expanduser('~'))
-        return home_dir / 'Library' / 'StartupItems'
+        home_dir = Path(os.path.expanduser("~"))
+        return home_dir / "Library" / "StartupItems"
     elif platform.system() == "Linux":
         # Linux 通常使用 .config/autostart 目录
-        home_dir = Path(os.path.expanduser('~'))
-        return home_dir / '.config' / 'autostart'
+        home_dir = Path(os.path.expanduser("~"))
+        return home_dir / ".config" / "autostart"
     else:
         raise OSError("Unsupported platform")
 
-def  join_startup(target:Path | str, name:str | None = None) -> None:
+
+def join_startup(target: Path | str, name: str | None = None) -> None:
     """
     A function for creating a startup shortcut in the start-up directory
     :param target: Full path to the target file.
@@ -170,6 +210,7 @@ def  join_startup(target:Path | str, name:str | None = None) -> None:
         name = os.path.basename(target) + " - Shortcut"
     startup_dir = get_startup_dir()
     create_shortcut(target, name, startup_dir)
+
 
 def system(command: str, nonblocking: bool = False) -> int:
     """
@@ -189,12 +230,16 @@ def get_annotation():
     """
     :return:  A decorator to simulate annotations in Java. This decorator is temporal
     """
+
     def annotation(func, *args, **kwargs):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             return func(*args, **kwargs)
+
         return wrapper
+
     return annotation
+
 
 class Singleton(ABC):
     """
@@ -211,13 +256,17 @@ class Singleton(ABC):
     ...
     RuntimeError: The Singleton Class can only be instantiated once
     """
+
     _has_instantiation = False
+
     def __new__(cls, *args, **kwargs):
         if cls._has_instantiation:
             raise RuntimeError("The Singleton Class can only be instantiated once")
         cls._has_instantiation = True
         return super().__new__(cls)
 
+
 if __name__ == "__main__":
     import doctest
+
     doctest.testmod()

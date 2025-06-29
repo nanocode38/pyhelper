@@ -1,11 +1,11 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-#   ___      _  _     _               
-#  | _ \_  _| || |___| |_ __  ___ _ _ 
+#   ___      _  _     _
+#  | _ \_  _| || |___| |_ __  ___ _ _
 #  |  _/ || | __ / -_) | '_ \/ -_) '_|
-#  |_|  \_, |_||_\___|_| .__/\___|_|  
-#       |__/           |_|            
+#  |_|  \_, |_||_\___|_| .__/\___|_|
+#       |__/           |_|
 
 #
 # Pyhelper - Packages that provide more helper tools for Python
@@ -27,20 +27,20 @@
 This is a collection of Pygame-based game development tool functions that rely on Python Pygame third-party libraries
 Copyright (C)
 """
-from abc import ABC, abstractmethod
 import sys
+from abc import ABC, abstractmethod
+from typing import *
 
 import pygame
 
 from pyhelper.gamehelpers.pghelper import widgets
-from typing import *
 
 __all__ = [
-    'disassemble_sprite_sheet',
-    'draw_background',
-    'load_images',
-    'Scene',
-    'SceneMgr'
+    "disassemble_sprite_sheet",
+    "draw_background",
+    "load_images",
+    "Scene",
+    "SceneMgr",
 ]
 
 
@@ -93,7 +93,13 @@ class Background(object):
     def __init__(self):
         self.image = None
 
-    def __call__(self, screen: pygame.SurfaceType, image_path: str, width: int = 0, height: int = 0) -> None:
+    def __call__(
+        self,
+        screen: pygame.SurfaceType,
+        image_path: str,
+        width: int = 0,
+        height: int = 0,
+    ) -> None:
         """
          Draw the game background
         :param screen: the Surface of the scene to paint
@@ -202,7 +208,8 @@ class Scene(ABC):
         Your code MUST override this method.
 
         :param events: a list of events your method should handle.
-        :param key_pressed_list: a list of keys that are pressed (a Boolean for each key)."""
+        :param key_pressed_list: a list of keys that are pressed (a Boolean for each key).
+        """
         pass
 
     def enter(self, data: Any = None):
@@ -307,16 +314,17 @@ class Scene(ABC):
 
     def add_scene(self, scene_key: str, scene):
         """
-        Call this method whenever you want to add a new scene dynamically.
-        For example, you could have a game with many levels (each implemented as a scene),
-        but only have the current level loaded.  As the player completes a level, you
-        could do a remove_scene on the current level and do an add_scene on the
-        next level, then do a goToScene on the new level.
+            Call this method whenever you want to add a new scene dynamically.
+            For example, you could have a game with many levels (each implemented as a scene),
+            but only have the current level loaded.  As the player completes a level, you
+            could do a remove_scene on the current level and do an add_scene on the
+            next level, then do a goToScene on the new level.
 
 
-    :param scene_key: a key to uniquely identify this scene
-    :param scene: an instance of the new scene to be added
-    (typically, you would instantiate the new scene, and pass in that reference to this call)"""
+        :param scene_key: a key to uniquely identify this scene
+        :param scene: an instance of the new scene to be added
+        (typically, you would instantiate the new scene, and pass in that reference to this call)
+        """
         self.scene_mgr._add_scene(scene_key, scene)
 
     def remove_scene(self, scene_key: str):
@@ -350,7 +358,12 @@ class SceneMgr:
     Based on the concept of a "Scene Manager" by Blake O'Hare of Nerd Paradise
     """
 
-    def __init__(self, scenes: Union[list, dict], fps: int, frame_rate_display: Optional[widgets.DisplayText] = None):
+    def __init__(
+        self,
+        scenes: Union[list, dict],
+        fps: int,
+        frame_rate_display: Optional[widgets.DisplayText] = None,
+    ):
         if isinstance(scenes, dict):
             self.scenes_dict = scenes
             keys_list = list(self.scenes_dict)  # get all the keys
@@ -410,9 +423,7 @@ class SceneMgr:
             # 7 - Check for and handle events
             events_list = []
             for event in pygame.event.get():
-                if (event.type == pygame.QUIT) or \
-                        ((event.type == pygame.KEYDOWN) and
-                         (event.key == pygame.K_ESCAPE)):
+                if (event.type == pygame.QUIT) or ((event.type == pygame.KEYDOWN) and (event.key == pygame.K_ESCAPE)):
                     # Tell current scene we're leaving
                     self.current_scene.leave()
                     pygame.quit()
@@ -427,7 +438,7 @@ class SceneMgr:
             self.current_scene.draw()
             if self.show_frame_rate:
                 fps = str(clock.get_fps())
-                self.frame_rate_display.set_value('FPS: ' + fps)
+                self.frame_rate_display.set_value("FPS: " + fps)
                 self.frame_rate_display.draw()
 
             # 11 - Update the window
@@ -449,8 +460,9 @@ class SceneMgr:
         try:
             self.current_scene = self.scenes_dict[next_scene_key]
         except KeyError:
-            raise KeyError("Trying to go to scene '" + next_scene_key +
-                           "' but that key is not in the dictionary of scenes.")
+            raise KeyError(
+                "Trying to go to scene '" + next_scene_key + "' but that key is not in the dictionary of scenes."
+            )
         self.current_scene.enter(data_for_next_scene)
 
     def _request_respond(self, target_scene_key, request_id):
@@ -472,8 +484,7 @@ class SceneMgr:
         # Ask the new scene for its scene key, and add it to the scenes dictionary
         new_scene_key = new_scene.getSceneKey()
         if new_scene_key in self.scenes_dict:
-            raise KeyError(
-                'Trying to add a scene with key' + new_scene_key + 'but that scene key already exists')
+            raise KeyError("Trying to add a scene with key" + new_scene_key + "but that scene key already exists")
         self.scenes_dict[new_scene_key] = new_scene
         # Send the new scene a reference to the SceneMgr
         new_scene._set_ref_to_scene_mgr(self)
@@ -481,8 +492,10 @@ class SceneMgr:
     def _remove_scene(self, scene_key_to_remove):
         if not (scene_key_to_remove in self.scenes_dict):
             raise KeyError(
-                'Attempting to remove scene with key ' + scene_key_to_remove +
-                ' but no scene with that key currently exists (either never defined or removed).')
+                "Attempting to remove scene with key "
+                + scene_key_to_remove
+                + " but no scene with that key currently exists (either never defined or removed)."
+            )
         # Add the key to a list of keys to be removed
         # The scene(s) will be removed the next time around the main loop.from
         # This allows a scene to make a call to remove_scene to remove itself right before doing a goToScene

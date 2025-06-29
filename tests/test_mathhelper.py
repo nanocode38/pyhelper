@@ -2,6 +2,7 @@ import unittest
 
 from pyhelper.mathhelper import *
 
+
 # noinspection PyTypeChecker
 class MathHelperTestCase(unittest.TestCase):
     def test_fibonacci(self):
@@ -38,5 +39,5 @@ class MathHelperTestCase(unittest.TestCase):
         self.assertFalse(is_prime(39))
 
 
-if __name__ == '__main__':
-   unittest.main()
+if __name__ == "__main__":
+    unittest.main()

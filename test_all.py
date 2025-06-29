@@ -1,6 +1,8 @@
 import subprocess
 import sys
+
 import pygame
+
 
 def get_command_output(command):
     try:
@@ -10,13 +12,14 @@ def get_command_output(command):
         return stdout, stderr
     except subprocess.CalledProcessError as e:
         return e.stdout, e.stderr
-    
-output = get_command_output('Python tests\\test_pyhelper.py')
-lines = output[1].split('\n')
+
+
+output = get_command_output("Python tests\\test_pyhelper.py")
+lines = output[1].split("\n")
 start_index = 3
 end_index = start_index
 for char in lines[2]:
-    if char != ' ':
+    if char != " ":
         end_index += 1
     else:
         break
@@ -27,12 +30,12 @@ except ValueError:
     print(output[1], file=sys.stderr)
     sys.exit(1)
 else:
-    right = ''
+    right = ""
     for i in range(num):
-        right += '.'
+        right += "."
     right += "\n----------------------------------------------------------------------\n"
     right += lines[2]
-    right += '\n\nOK\n'
+    right += "\n\nOK\n"
     if output[1] == right:
         print("Great! That's OK!\n", file=sys.stderr)
         print(output[1], file=sys.stderr)
@@ -42,41 +45,40 @@ else:
         sys.exit(1)
 
 if __name__ == "__main__":
-    import sys
     import os
+    import sys
+
     import pygame
 
-
-    from pyhelper.gamehelpers.pghelper import *
     from pyhelper.gamehelpers import *
+    from pyhelper.gamehelpers.pghelper import *
     from pyhelper.gamehelpers.pghelper.widgets import *
 
-
-    if not os.getcwd().endswith('pghelper'):
-        if os.getcwd().endswith('pyhelper\\pyhelper'):
-            os.chdir(r'.\gamehelpers\pghelper')
+    if not os.getcwd().endswith("pghelper"):
+        if os.getcwd().endswith("pyhelper\\pyhelper"):
+            os.chdir(r".\gamehelpers\pghelper")
         else:
-            os.chdir(os.path.abspath(r'.\pyhelper\gamehelpers\pghelper'))
+            os.chdir(os.path.abspath(r".\pyhelper\gamehelpers\pghelper"))
 
     pygame.init()
     screen = pygame.display.set_mode((800, 600))
 
     config = TextButtonConfig(screen)
     config.command = print
-    config.args = ('Hello, TextButton!',)
-    config.text = 'Hello, TextButton'
+    config.args = ("Hello, TextButton!",)
+    config.text = "Hello, TextButton"
 
     text_button = TextButton(config)
     text_button.rect.center = screen.get_rect().center
     text_button.rect.top = screen.get_rect().top + 10
 
     config = CheckBoxConfig(screen)
-    config.text = 'RadioButton 1'
+    config.text = "RadioButton 1"
     config.image_paths = (
-        r'..\images\checkBoxOnUp.png',
-        r'..\images\checkBoxOnDown.png',
-        r'..\images\checkBoxOffUp.png',
-        r'..\images\checkBoxOffDown.png'
+        r"..\images\checkBoxOnUp.png",
+        r"..\images\checkBoxOnDown.png",
+        r"..\images\checkBoxOffUp.png",
+        r"..\images\checkBoxOffDown.png",
     )
     radio_buttons = []
 
@@ -85,25 +87,28 @@ if __name__ == "__main__":
     checkbox.rect.top -= 30
     radio_buttons.append(checkbox)
 
-    config.text = 'RadioButton 2'
+    config.text = "RadioButton 2"
     checkbox = CheckBox(config)
     checkbox.rect.center = screen.get_rect().center
     radio_buttons.append(checkbox)
 
-    config.text = 'RadioButton 3'
+    config.text = "RadioButton 3"
     checkbox = CheckBox(config)
     checkbox.rect.center = screen.get_rect().center
     checkbox.rect.top += 30
     radio_buttons.append(checkbox)
     radio_button = RadioButtons(screen, radio_buttons)
 
-    config = CustomButtonConfig(screen, [
-        r'..\images\ButtonUp.png',
-        r'..\images\ButtonDown.png',
-        r'..\images\ButtonOver.png',
-        r'..\images\ButtonLock.png'
-    ])
-    config.text = 'Get Radio Button'
+    config = CustomButtonConfig(
+        screen,
+        [
+            r"..\images\ButtonUp.png",
+            r"..\images\ButtonDown.png",
+            r"..\images\ButtonOver.png",
+            r"..\images\ButtonLock.png",
+        ],
+    )
+    config.text = "Get Radio Button"
     config.font_size = 20
     config.command = lambda: print(radio_button.get_focus())
     config.args = ()
@@ -112,41 +117,44 @@ if __name__ == "__main__":
     custom_button.rect.center = screen.get_rect().center
     custom_button.rect.top = screen.get_rect().top + 60
 
-    dragger = Dragger(screen, (
-        r'..\images\dragMeUp.png',
-        r'..\images\dragMeDown.png',
-        r'..\images\dragMeOver.png',
-        r'..\images\dragMeDisabled.png'
-    ))
+    dragger = Dragger(
+        screen,
+        (
+            r"..\images\dragMeUp.png",
+            r"..\images\dragMeDown.png",
+            r"..\images\dragMeOver.png",
+            r"..\images\dragMeDisabled.png",
+        ),
+    )
     dragger.rect.bottomright = screen.get_rect().bottomright
 
     text = DisplayText(screen, text="", font=None)
-    text.set_value('a')
+    text.set_value("a")
 
-    text2 = DisplayText(screen, text='', font=None)
-    text2.set_value('b')
+    text2 = DisplayText(screen, text="", font=None)
+    text2.set_value("b")
     text2.rect.topright = screen.get_rect().topright
 
-    image = Image(screen, (0, 0), r'..\images\pythonIcon.png')
+    image = Image(screen, (0, 0), r"..\images\pythonIcon.png")
     image.rect.bottomleft = (10, screen.get_height() - 10)
 
     config = InputTextConfig(screen)
-    config.value = '652098gyh'
+    config.value = "652098gyh"
     config.loc = (300, 200)
 
     input_text = InputText(config)
 
     _ = (
-        r'..\images\f1.gif',
-        r'..\images\f2.gif',
-        r'..\images\f3.gif',
-        r'..\images\f4.gif',
-        r'..\images\f5.gif',
-        r'..\images\f6.gif',
-        r'..\images\f7.gif',
-        r'..\images\f8.gif',
-        r'..\images\f9.gif',
-        r'..\images\f10.gif',
+        r"..\images\f1.gif",
+        r"..\images\f2.gif",
+        r"..\images\f3.gif",
+        r"..\images\f4.gif",
+        r"..\images\f5.gif",
+        r"..\images\f6.gif",
+        r"..\images\f7.gif",
+        r"..\images\f8.gif",
+        r"..\images\f9.gif",
+        r"..\images\f10.gif",
     )
     images = load_images(_)
     config = AnimateConfig(screen, images)
@@ -155,16 +163,16 @@ if __name__ == "__main__":
     animate = Animate(config)
 
     count_up = CountUpTimer()
-    count_down = CountDownTimer('1:30:20.5', command=lambda: print('OK!'))
+    count_down = CountDownTimer("1:30:20.5", command=lambda: print("OK!"))
     count_up.start()
     count_down.start()
-    
+
     is_running = True
     while is_running:
         animate.update()
         count_down.update()
-        text.set_value(f'Count Up Timer: {count_down.get_time(mode='HHMMSS')}')
-        text2.set_value(f'Count Down Timer: {count_up.get_time(mode='HHMMSS')}')
+        text.set_value(f"Count Up Timer: {count_down.get_time(mode='HHMMSS')}")
+        text2.set_value(f"Count Down Timer: {count_up.get_time(mode='HHMMSS')}")
         text2.rect.topright = screen.get_rect().topright
         for event in pygame.event.get():
             text_button.update(event)
@@ -182,7 +190,7 @@ if __name__ == "__main__":
                 animate.pause()
         if not is_running:
             break
-        draw_background(screen, '..\\images\\background.jpg')
+        draw_background(screen, "..\\images\\background.jpg")
         text_button.draw()
         custom_button.draw()
         radio_button.draw()
@@ -194,10 +202,9 @@ if __name__ == "__main__":
         animate.draw()
         pygame.display.update()
     pygame.init()
-    SCENE_A = 'scene A'
-    SCENE_B = 'scene B'
-    SCENE_C = 'scene C'
-
+    SCENE_A = "scene A"
+    SCENE_B = "scene B"
+    SCENE_C = "scene C"
 
     class SceneA(Scene):
         def __init__(self, screen):
@@ -206,18 +213,18 @@ if __name__ == "__main__":
 
             button_config = TextButtonConfig(screen)
             button_config.width = 100
-            button_config.text = 'Go to Scene A'
+            button_config.text = "Go to Scene A"
             self.goto_a_button = TextButton(button_config)
             self.goto_a_button.rect.left = self.screen_rect.left + 15
             self.goto_a_button.rect.bottom = self.screen_rect.bottom - 30
             self.goto_a_button.lock = True
 
-            button_config.text = 'Go to Scene B'
+            button_config.text = "Go to Scene B"
             button_config.command = lambda: self.go_to_scene(SCENE_B)
             self.goto_b_button = TextButton(button_config)
             self.goto_b_button.rect.center = self.screen_rect.center
 
-            button_config.text = 'Go to Screen C'
+            button_config.text = "Go to Screen C"
             button_config.command = lambda: self.go_to_scene(SCENE_C)
             self.goto_c_button = TextButton(button_config)
             self.goto_c_button.rect.right = self.screen_rect.right - 30
@@ -237,7 +244,6 @@ if __name__ == "__main__":
             self.goto_b_button.draw()
             self.goto_c_button.draw()
 
-
     class SceneB(Scene):
         def __init__(self, screen):
             self.screen = screen
@@ -246,17 +252,17 @@ if __name__ == "__main__":
             button_config = TextButtonConfig(screen)
             button_config.command = lambda: self.go_to_scene(SCENE_A)
             button_config.width = 100
-            button_config.text = 'Go to Scene A'
+            button_config.text = "Go to Scene A"
             self.goto_a_button = TextButton(button_config)
             self.goto_a_button.rect.left = self.screen_rect.left + 15
             self.goto_a_button.rect.bottom = self.screen_rect.bottom - 30
 
-            button_config.text = 'Go to Scene B'
+            button_config.text = "Go to Scene B"
             self.goto_b_button = TextButton(button_config)
             self.goto_b_button.rect.center = self.screen_rect.center
             self.goto_b_button.lock = True
 
-            button_config.text = 'Go to Screen C'
+            button_config.text = "Go to Screen C"
             button_config.command = lambda: self.go_to_scene(SCENE_C)
             self.goto_c_button = TextButton(button_config)
             self.goto_c_button.rect.right = self.screen_rect.right - 30
@@ -276,7 +282,6 @@ if __name__ == "__main__":
             self.goto_b_button.draw()
             self.goto_c_button.draw()
 
-
     class SceneC(Scene):
         def __init__(self, screen):
             self.screen = screen
@@ -284,18 +289,18 @@ if __name__ == "__main__":
 
             button_config = TextButtonConfig(screen)
             button_config.width = 100
-            button_config.text = 'Go to Scene A'
+            button_config.text = "Go to Scene A"
             button_config.command = lambda: self.go_to_scene(SCENE_A)
             self.goto_a_button = TextButton(button_config)
             self.goto_a_button.rect.left = self.screen_rect.left + 15
             self.goto_a_button.rect.bottom = self.screen_rect.bottom - 30
 
-            button_config.text = 'Go to Scene B'
+            button_config.text = "Go to Scene B"
             button_config.command = lambda: self.go_to_scene(SCENE_B)
             self.goto_b_button = TextButton(button_config)
             self.goto_b_button.rect.center = self.screen_rect.center
 
-            button_config.text = 'Go to Screen C'
+            button_config.text = "Go to Screen C"
             self.goto_c_button = TextButton(button_config)
             self.goto_c_button.rect.right = self.screen_rect.right - 30
             self.goto_c_button.lock = True
@@ -315,14 +320,10 @@ if __name__ == "__main__":
             self.goto_b_button.draw()
             self.goto_c_button.draw()
 
-
     screen = pygame.display.set_mode((900, 600))
 
-    scene_list = [SceneA(screen),
-                    SceneB(screen),
-                    SceneC(screen)]
+    scene_list = [SceneA(screen), SceneB(screen), SceneC(screen)]
 
     scene_mgr = SceneMgr(scene_list, 29)
 
     scene_mgr.run()
-

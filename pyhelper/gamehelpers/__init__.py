@@ -1,11 +1,11 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-#   ___      _  _     _               
-#  | _ \_  _| || |___| |_ __  ___ _ _ 
+#   ___      _  _     _
+#  | _ \_  _| || |___| |_ __  ___ _ _
 #  |  _/ || | __ / -_) | '_ \/ -_) '_|
-#  |_|  \_, |_||_\___|_| .__/\___|_|  
-#       |__/           |_|            
+#  |_|  \_, |_||_\___|_| .__/\___|_|
+#       |__/           |_|
 
 # Pyhelper - Packages that provide more helper tools for Python
 # Copyright (C) 2023-2024   Gao Yuhan(高宇涵)
@@ -28,20 +28,15 @@ Copyright (C)
 """
 import time
 import tkinter as tk
-
-from pyhelper.gamehelpers import pghelper
-import pyhelper.gamehelpers.pghelper.widgets
 from typing import *
 
-__all__ = [
-    'Timer',
-    'CountUpTimer',
-    'CountDownTimer',
-    'game_help_window'
-]
+import pyhelper.gamehelpers.pghelper.widgets
+from pyhelper.gamehelpers import pghelper
+
+__all__ = ["Timer", "CountUpTimer", "CountDownTimer", "game_help_window"]
 
 
-def game_help_window(help_text: str, title: str = 'Game Help'):
+def game_help_window(help_text: str, title: str = "Game Help"):
     """
     The function used to display help text for the game
     :param help_text: Help text to display
@@ -184,7 +179,7 @@ class CountUpTimer:
         self.__saved_time = time.time() - self.__start_time
         return self.__saved_time
 
-    def get_time(self, mode='seconds') -> Union[str, float]:
+    def get_time(self, mode="seconds") -> Union[str, float]:
         """
         Return the current time of the timer in the specified format.
 
@@ -195,7 +190,7 @@ class CountUpTimer:
             If the mode is 'HHMMSS': str: The current time of the timer in the specified format.
             Else: float: The current time of the timer in seconds.
         """
-        if mode != 'HHMMSS':
+        if mode != "HHMMSS":
             return self._get_time()
         seconds = self._get_time()
         _min, sec = divmod(seconds, 60)
@@ -204,13 +199,13 @@ class CountUpTimer:
         strhours = str(hours)
         strsec = str(sec)
         if _min < 10:
-            strmin = '0' + strmin
+            strmin = "0" + strmin
         if hours < 10:
-            strhours = '0' + strhours
+            strhours = "0" + strhours
         if sec < 10:
-            strsec = '0' + strsec
+            strsec = "0" + strsec
         strsec = strsec[:6]
-        return f'{strhours}:{strmin}:{strsec}'
+        return f"{strhours}:{strmin}:{strsec}"
 
     def stop(self) -> None:
         """Stop the timer."""
@@ -228,7 +223,7 @@ class CountDownTimer:
     """
 
     def __init__(self, str_start_time: str, command: Callable = None):
-        list_time = str_start_time.split(':')
+        list_time = str_start_time.split(":")
         hours = int(list_time[0])
         _min = int(list_time[1])
         sec = float(list_time[2])
@@ -255,7 +250,7 @@ class CountDownTimer:
         self.timer.go_on()
         self.update()
 
-    def get_time(self, mode='seconds') -> Union[str, float]:
+    def get_time(self, mode="seconds") -> Union[str, float]:
         """
         Return the current time of the timer in the specified format.
 
@@ -267,7 +262,7 @@ class CountDownTimer:
             Else: float: The current time of the timer in seconds.
         """
         saved_time = self.seconds - self.timer._saved_time
-        if mode != 'HHMMSS':
+        if mode != "HHMMSS":
             return saved_time
         _min, sec = divmod(saved_time, 60)
         hours, _min = divmod(int(_min), 60)
@@ -275,13 +270,13 @@ class CountDownTimer:
         strhours = str(hours)
         strsec = str(sec)
         if _min < 10:
-            strmin = '0' + strmin
+            strmin = "0" + strmin
         if hours < 10:
-            strhours = '0' + strhours
+            strhours = "0" + strhours
         if sec < 10:
-            strsec = '0' + strsec
+            strsec = "0" + strsec
         strsec = strsec[:6]
-        return f'{strhours}:{strmin}:{strsec}'
+        return f"{strhours}:{strmin}:{strsec}"
 
     def stop(self) -> None:
         """Stop the Timer"""
