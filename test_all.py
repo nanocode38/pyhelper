@@ -1,31 +1,17 @@
-import subprocess
-import sys
+import os
 
 import pygame
 
-
-def get_command_output(command):
-    try:
-        result = subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        stdout = result.stdout
-        stderr = result.stderr
-        return stdout, stderr
-    except subprocess.CalledProcessError as e:
-        return e.stdout, e.stderr
-
-
-output_in_test_pyhelper = get_command_output("Python pyhelper//__init__.py")
-output_in_test_mathhelper = get_command_output("Python pyhelper//mathhelper.py")
+from pyhelper import chdir
+from pyhelper.gamehelpers import *
+from pyhelper.gamehelpers.pghelper import *
+from pyhelper.gamehelpers.pghelper.widgets import *
 
 if __name__ == "__main__":
-    import os
-    import sys
-
-    import pygame
-
-    from pyhelper.gamehelpers import *
-    from pyhelper.gamehelpers.pghelper import *
-    from pyhelper.gamehelpers.pghelper.widgets import *
+    with chdir("./pyhelper"):
+        os.system("python __init__.py")
+        os.system("python mathhelper.py")
+        os.system("python color.py")
 
     if not os.getcwd().endswith("pghelper"):
         if os.getcwd().endswith("pyhelper\\pyhelper"):
