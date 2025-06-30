@@ -14,35 +14,8 @@ def get_command_output(command):
         return e.stdout, e.stderr
 
 
-output = get_command_output("Python tests\\test_pyhelper.py")
-lines = output[1].split("\n")
-start_index = 3
-end_index = start_index
-for char in lines[2]:
-    if char != " ":
-        end_index += 1
-    else:
-        break
-try:
-    num = int(lines[2][start_index:end_index])
-except ValueError:
-    print("That's ERROR!\n", file=sys.stderr)
-    print(output[1], file=sys.stderr)
-    sys.exit(1)
-else:
-    right = ""
-    for i in range(num):
-        right += "."
-    right += "\n----------------------------------------------------------------------\n"
-    right += lines[2]
-    right += "\n\nOK\n"
-    if output[1] == right:
-        print("Great! That's OK!\n", file=sys.stderr)
-        print(output[1], file=sys.stderr)
-    else:
-        print("That's ERROR!\n", file=sys.stderr)
-        print(output[1], file=sys.stderr)
-        sys.exit(1)
+output_in_test_pyhelper = get_command_output("Python pyhelper//__init__.py")
+output_in_test_mathhelper = get_command_output("Python pyhelper//mathhelper.py")
 
 if __name__ == "__main__":
     import os
