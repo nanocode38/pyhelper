@@ -28,22 +28,21 @@ Copyright (C)
 """
 import copy
 import os
-import random
-import struct
 from typing import *
 
 __all__ = ["randint", "choice", "randrange", "shuffle", "sample"]
 
 
-def _r():
-    rs = struct.unpack("Q", os.urandom(8))[0]
-    strr = str(rs)
-    strr = strr[random.randint(1, 17)]
-    rs = int(strr)
-    return rs
+def random():
+    # 使用 os.urandom 生成 7 个字节的随机数据
+    byte_data = os.urandom(7)
+    # 将字节数据转换为一个 53 位的整数
+    int_data = int.from_bytes(byte_data, byteorder="big") & ((1 << 53) - 1)
+    # 转换为 [0.0, 1.0) 范围内的浮点数
+    return int_data / (1 << 53)
 
 
-def randint(_min: int, _max: Optional[int] = None):
+def randint(_min: int, _max: Optional[int] = None, random: Callable = random):
     """
     Generates a random integer within the inclusive range [min, max].
 
@@ -54,6 +53,7 @@ def randint(_min: int, _max: Optional[int] = None):
 
     :param _min: The lower limit of the range (inclusive).
     :param _max: The upper limit of the range (inclusive). Must be greater than or equal to min.
+    :param random: Optional parameters for generating random dependency functions, default to random() functions generated using os.urandom()
     :return int: A random integer within the inclusive range [min, max].
     :raise ValueError: If the min parameter is greater than the max parameter.
     """
@@ -64,12 +64,10 @@ def randint(_min: int, _max: Optional[int] = None):
     if _min > _max:
         raise ValueError("The lower limit should be less than or equal to the upper limit")
 
-    diff = _max - _min + 1
-    rand_num = _r()
-    return _min + rand_num % diff
+    return int(random() * (_min - _max + 1)) + _max
 
 
-def choice(seq: Sized) -> Iterable:
+def choice(seq: Sequence, random: Callable = random) -> Iterable:
     """
     Select a random element from a non-empty sequence.
 
@@ -78,15 +76,16 @@ def choice(seq: Sized) -> Iterable:
     of the sequence length.
 
     :param seq: The non-empty sequence from which to select a random element.
+    :param random: Optional parameters for generating random dependency functions, default to random() functions generated using os.urandom()
     :return Sized: The randomly selected element from the sequence.
+    :raise IndexError: When the sequence provided is empty
     """
-    seqlen = len(seq)
-    if seqlen <= 0:
-        raise IndexError
-    return seq[randint(0, seqlen - 1)]
+    if len(seq) <= 0:
+        raise IndexError("Cannot choose from an empty sequence")
+    return seq[int(random() * len(seq))]
 
 
-def randrange(start: int, stop: int = None, step: int = None):
+def randrange(start: int, stop: int = None, step: int = 1, random: Callable = random):
     """
     Return a randomly selected element from the range(start, stop, step).
 
@@ -98,26 +97,25 @@ def randrange(start: int, stop: int = None, step: int = None):
     :param start: The start of the range. Default is 1.
     :param stop: The end of the range. Default is the start value.
     :param step: The step value for the range. Default is 1.
+    :param random: Optional parameters for generating random dependency functions, default to random() functions generated using os.urandom()
 
-    Returns:
-    int: A randomly selected element from the specified range.
-
-    Raises:
-    - ValueError: If the stop value is less than the start value.
+    :return int: A randomly selected element from the specified range.
+    :raise ValueError: If the range is empty or step is zero
+    :raise ValueError: If the stop value is less than the start value.
     """
     if stop is None:
-        stop = start
-        start = 1
-        step = 1
-    elif step is None:
-        step = 1
+        stop, start, step = start, 1, 1
+    elif step == 0:
+        raise ValueError("Step cannot be zero")
+    if stop < start:
+        raise ValueError("Stop value cannot be less than start value")
     start = int(start)
     step = int(step)
     stop = int(stop)
     return choice(range(start, stop + 1, step))
 
 
-def shuffle(seq: Sized):
+def shuffle(seq: Sequence):
     """
     Shuffles the elements of a sequence in-place.
 
@@ -129,18 +127,9 @@ def shuffle(seq: Sized):
     :return None: The original sequence is modified in-place.
     """
     # Copy the original sequence to avoid modifying it directly
-    shuffled = copy.deepcopy(seq)
-
-    # Perform the Fisher-Yates shuffle algorithm
-    for i in range(len(shuffled) - 1, 0, -1):
-        # Generate a random index between 0 and i (inclusive)
-        j = _r() % (i + 1)
-
-        # Swap the elements at indices i and j
-        shuffled[i], shuffled[j] = shuffled[j], shuffled[i]
-
-    # Modify the original sequence in-place
-    seq[:] = shuffled
+    for i in reversed(range(1, len(seq))):
+        j = int(random() * (i + 1))
+        seq[i], seq[j] = seq[j], seq[i]
 
 
 def sample(population, k) -> list:
@@ -158,22 +147,20 @@ def sample(population, k) -> list:
 
     :return list: A new list containing k unique elements randomly selected from the population.
 
+    :raise TypeError: If population is not a Sequence
     :raise ValueError: If k is greater than the length of the population.
     """
-    if k > len(population):
-        raise ValueError("The number of samples is larger than the population!")
+    if not isinstance(population, Sequence):
+        raise TypeError("Population must be a sequence")
 
-    sampled = []
-    population_copy = copy.deepcopy(population)
+    n = len(population)
+    if k > n:
+        raise ValueError("Sample size larger than population")
 
-    for _ in range(k):
-        # Generate a random index
-        index = _r() % len(population_copy)
-
-        # Select a random element from the remaining elements and add it to the sample list
-        sampled.append(population_copy[index])
-
-        # Remove the sampled element from the population
-        population_copy.pop(index)
-
-    return sampled
+    result = []
+    pool = list(population)
+    for i in range(k):
+        j = int(random() * (n - i))
+        result.append(pool[j])
+        pool[j] = pool[n - i - 1]
+    return result

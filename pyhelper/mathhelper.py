@@ -32,6 +32,10 @@ import functools
 import math
 import os
 import sys
+from contextlib import suppress
+
+with suppress(ImportError):
+    import numba
 
 __all__ = [
     "calculate_pi",
@@ -70,6 +74,10 @@ def calculate_pi(count: int) -> float:
     return result * 4.0
 
 
+with suppress(NameError):
+    calculate_pi = numba.jit(calculate_pi)
+
+
 @functools.lru_cache
 def fibonacci(number: int) -> int:
     """
@@ -78,6 +86,18 @@ def fibonacci(number: int) -> int:
     :return The Fibonacci sequence for the given number.
     :raise TypeError: If the input is not an int.
     :raise ValueError: If the input is a negative int.
+    >>> fibonacci(1)
+    1
+    >>> fibonacci(10)
+    55
+    >>> fibonacci(1.5)
+    Traceback (most recent call last):
+        ...
+    TypeError: Please pass an int argument, not a float!
+    >>> fibonacci(-1)
+    Traceback (most recent call last):
+        ...
+    ValueError: Please pass a positive int argument!
     """
 
     if not isinstance(number, int):
@@ -94,6 +114,7 @@ def fibonacci(number: int) -> int:
     return fibonacci(number - 1) + fibonacci(number - 2)
 
 
+@functools.lru_cache
 def is_prime(number: int) -> bool:
     """
     Check if the given number is a prime number.
@@ -101,6 +122,51 @@ def is_prime(number: int) -> bool:
     :return True if the number is prime, False otherwise.
     :raise TypeError: If the input is not an int.
     :raise ValueError: If the input is a negative int.
+
+    >>> is_prime(2)
+    True
+    >>> is_prime(3)
+    True
+    >>> is_prime(5)
+    True
+    >>> is_prime(7)
+    True
+    >>> is_prime(11)
+    True
+    >>> is_prime(13)
+    True
+    >>> is_prime(17)
+    True
+    >>> is_prime(19)
+    True
+    >>> is_prime(23)
+    True
+    >>> is_prime(29)
+    True
+    >>> is_prime(31)
+    True
+    >>> is_prime(37)
+    True
+    >>> is_prime(41)
+    True
+    >>> is_prime(43)
+    True
+    >>> is_prime(47)
+    True
+    >>> is_prime(53)
+    True
+    >>> is_prime(1)
+    False
+    >>> is_prime(-1)
+    False
+    >>> is_prime(105)
+    False
+    >>> is_prime(292)
+    False
+    >>> is_prime(63)
+    False
+    >>> is_prime(39)
+    False
     """
     if not isinstance(number, int) or number <= 0:
         return False
@@ -114,3 +180,9 @@ def is_prime(number: int) -> bool:
     if number % j == 0:
         return False
     return True
+
+
+if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()

@@ -27,8 +27,27 @@
 """
 A Python module about the Color. Contains RGBColor, HEXColor and HSLColor.
 Copyright (C)
+You can use this module as follows:
+>>> HEXColor.RED
+'#FF0000'
+>>> HEXColor.YELLOW
+'#FFFF00'
+>>> HEXColor.to_rgb(HEXColor.RED)
+(255, 0, 0)
+>>> HEXColor.to_hsl(HEXColor.RED)
+(0.0, 1.0, 0.5)
+>>> HSLColor.RED
+(0.0, 1.0, 0.5)
+>>> HSLColor.YELLOW
+(60.0, 1.0, 0.5)
+>>> HSLColor.to_rgb(HSLColor.RED)
+(255, 0, 0)
+>>> HSLColor.to_hex(HSLColor.RED)
+'#FF0000'
 """
-from . import Singleton
+import doctest
+
+from pyhelper import Singleton
 
 __all__ = [
     "RGBColor",
@@ -3248,7 +3267,7 @@ class _HSLColor(Singleton):
                 r, g, b = x, m, c
             else:
                 r, g, b = c, m, x
-        return r * 255, g * 255, b * 255
+        return int(r * 255), int(g * 255), int(b * 255)
 
     def to_hex(self, h, s=None, l=None):
         """
@@ -3266,3 +3285,6 @@ class _HSLColor(Singleton):
 
 
 HSLColor = _HSLColor()
+
+if __name__ == "__main__":
+    doctest.testmod(verbose=True)
