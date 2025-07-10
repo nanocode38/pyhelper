@@ -1,16 +1,16 @@
 repos:
   # Black
   - repo: https://github.com/psf/black
-    rev: 23.3.0
+    rev: 25.1.0
     hooks:
       - id: black
-        entry: uv run black
+#        entry: py -m black .
         args: ["--line-length=120"]
 
   # isort
   - repo: https://github.com/PyCQA/isort
-    rev: 5.12.0
+    rev: 6.0.1
     hooks:
       - id: isort
-        entry: uv run isort
+#        entry: py -m isort .
         args: ["--profile", "black"]

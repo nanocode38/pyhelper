@@ -4,13 +4,13 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "pywin32>=310",
+    "setuptools>=80.9.0",
+]
 
 [dependency-groups]
-dev = [
-    "black>=25.1.0",
-    "ruff>=0.12.1",
-]
+dev = []
 
 [tool.black]
 line-length = 120

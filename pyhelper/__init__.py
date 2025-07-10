@@ -53,7 +53,7 @@ from typing import Any, Generator
 import win32com.client
 
 __author__ = "nanocode38"
-__version__ = "2.5.1"
+__version__ = "2.5.2"
 __all__ = [
     "get_version",
     "file_reopen",
