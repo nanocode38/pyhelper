@@ -77,3 +77,8 @@
 - Feat: pyhelper.mathhelper.INF
 - Feat: pyhelper.mathhelper.calculate_pi()
 - Feat: pyhelper.TKhelper.shake_window(), password_window(), setting_password_window(), center_window()
+
+## <2025.7.10> Version 2.5.2
+- Update: Website
+    
+Ready to use Git Flow

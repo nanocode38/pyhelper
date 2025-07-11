@@ -119,7 +119,7 @@ class AnimateConfig(BaseConfig):
     - loop (bool): This property is a Boolean indicating whether the animation should loop indefinitely and defaults to
      False
     - nloop (int): This property specifies how many times the animation should loop and defaults to 1
-    - duration(int): This property specifies that the image is switched every few seconds
+    - duration(int): This property specifies that the image is switched every few Seconds
     """
 
     def __init__(self, screen, images):
