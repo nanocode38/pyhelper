@@ -57,13 +57,13 @@ def game_help_window(help_text: str, title: str = "Game Help"):
 
 class Timer:
     """A class to manage a timer with the option to execute a command after the timer finishes.
-    :param time_in_seconds: The time in seconds the timer should run for. default: -1, It's infinite
+    :param time_in_seconds: The time in Seconds the timer should run for. default: -1, It's infinite
     :param command: The command to execute after the timer finishes. default: None
 
     Attributes:
-        time_in_seconds (float): The time in seconds the timer should run for.
+        time_in_seconds (float): The time in Seconds the timer should run for.
         is_running (bool)(read only): Whether the timer is running or not.
-        start_time (float)(read only): The time in seconds the timer started.
+        start_time (float)(read only): The time in Seconds the timer started.
     """
 
     def __init__(self, time_in_seconds: float = -1, command: Callable = None):
@@ -82,7 +82,7 @@ class Timer:
         return self.__is_running
 
     def start(self, new_time_in_seconds=-1) -> None:
-        """Start the timer with the option to change the time in seconds."""
+        """Start the timer with the option to change the time in Seconds."""
 
         if new_time_in_seconds != -1:
             self.time_in_seconds = new_time_in_seconds
@@ -135,7 +135,7 @@ class CountUpTimer:
     A class to create a count-up timer that can be paused and resumed.
     This class is a subclass of the Timer class.
 
-    :param start_time: The start time of the timer, in seconds, Default 0.0
+    :param start_time: The start time of the timer, in Seconds, Default 0.0
 
     Attributes:
         is_running (read only): A boolean indicating whether the timer is running.
@@ -163,7 +163,7 @@ class CountUpTimer:
         """Start the timer."""
         if self.is_pause:
             self.__start_time = time.time()
-            # get the cutter seconds and save the value
+            # get the cutter Seconds and save the value
             self.__saved_time = 0.0
         self.__is_running = True
         self.is_pause = True
@@ -179,16 +179,16 @@ class CountUpTimer:
         self.__saved_time = time.time() - self.__start_time
         return self.__saved_time
 
-    def get_time(self, mode="seconds") -> Union[str, float]:
+    def get_time(self, mode="Seconds") -> Union[str, float]:
         """
         Return the current time of the timer in the specified format.
 
-        :param mode: The format of the time to be returned. If 'seconds', return the time in seconds. If 'HHMMSS',
+        :param mode: The format of the time to be returned. If 'Seconds', return the time in Seconds. If 'HHMMSS',
             return the time as HH:MM:SS.
 
         :return str | float:
             If the mode is 'HHMMSS': str: The current time of the timer in the specified format.
-            Else: float: The current time of the timer in seconds.
+            Else: float: The current time of the timer in Seconds.
         """
         if mode != "HHMMSS":
             return self._get_time()
@@ -250,16 +250,16 @@ class CountDownTimer:
         self.timer.go_on()
         self.update()
 
-    def get_time(self, mode="seconds") -> Union[str, float]:
+    def get_time(self, mode="Seconds") -> Union[str, float]:
         """
         Return the current time of the timer in the specified format.
 
-        :param mode: The format of the time to be returned. If 'seconds', return the time in seconds. If 'HHMMSS',
+        :param mode: The format of the time to be returned. If 'Seconds', return the time in Seconds. If 'HHMMSS',
             return the time as HH:MM:SS.
 
         :return str | float:
             If the mode is 'HHMMSS': str: The current time of the timer in the specified format.
-            Else: float: The current time of the timer in seconds.
+            Else: float: The current time of the timer in Seconds.
         """
         saved_time = self.seconds - self.timer._saved_time
         if mode != "HHMMSS":
