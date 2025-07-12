@@ -88,17 +88,22 @@ def chdir(path: str) -> Generator[None, Any, None]:
     """
     Context Manager: Temporarily change the current working directory to the specified path.
 
-    :param path: The path to change the current working directory to.
-    :return: The original working directory.
-    >>> import os
-    >>> this_path = os.path.abspath('.')
-    >>> father_path = os.path.abspath('..')
-    >>> with chdir(father_path):
-    ...     os.getcwd() == father_path
-    ...
-    True
-    >>> os.getcwd() == this_path
-    True
+    Args:
+        path: The path to change the current working directory to.
+
+    Returns:
+        The original working directory.
+
+    Examples:
+        >>> import os
+        >>> this_path = os.path.abspath('.')
+        >>> father_path = os.path.abspath('..')
+        >>> with chdir(father_path):
+        ...     os.getcwd() == father_path
+        ...
+        True
+        >>> os.getcwd() == this_path
+        True
     """
 
     original_path = os.path.abspath(os.getcwd())
@@ -111,35 +116,41 @@ def chdir(path: str) -> Generator[None, Any, None]:
 def file_reopen(file_obj, stream=sys.stdout) -> Generator[None, Any, None]:
     """
     Context Manager: Temporarily change the standard output stream to the specified file.
-    :param file_obj: The Object of the file to redirect the standard output stream to.
-    :param stream: The stream to redirect.
-    :return: The original standard output stream.
-    >>> original_stdin = sys.stdin
-    >>> original_stdout = sys.stdout
-    >>> if not os.path.isfile("test.in"):
-    ...     os.chdir("../tests")
-    >>> with open("test.in", "r", encoding="utf-8") as fb:
-    ...     with file_reopen(fb, "stdin"):
-    ...         print(sys.stdin == fb)
-    ...         file_input = input()
-    True
-    >>> sys.stdin == original_stdin
-    True
-    >>> file_input == "Hello, World!"
-    True
-    >>> with open("test.out", "w", encoding="utf-8") as fb:
-    ...     with file_reopen(fb, "stdout"):
-    ...         print("Hello, World!")
-    ...         spam = (sys.stdout == fb)
-    >>> sys.stdout == original_stdout
-    True
-    >>> spam
-    True
-    >>> with open("test.out", "r", encoding="utf-8") as fb:
-    ...     fb.read() == "Hello, World!\\n"
-    True
-    >>> with open("test.out", "w", encoding="utf-8"):
-    ...     pass
+
+    Args:
+        file_obj: The Object of the file to redirect the standard output stream to.
+        stream: The stream to redirect.
+
+    Returns:
+        The original standard output stream.
+
+    Examples:
+        >>> original_stdin = sys.stdin
+        >>> original_stdout = sys.stdout
+        >>> if not os.path.isfile("test.in"):
+        ...     os.chdir("../tests")
+        >>> with open("test.in", "r", encoding="utf-8") as fb:
+        ...     with file_reopen(fb, "stdin"):
+        ...         print(sys.stdin == fb)
+        ...         file_input = input()
+        True
+        >>> sys.stdin == original_stdin
+        True
+        >>> file_input == "Hello, World!"
+        True
+        >>> with open("test.out", "w", encoding="utf-8") as fb:
+        ...     with file_reopen(fb, "stdout"):
+        ...         print("Hello, World!")
+        ...         spam = (sys.stdout == fb)
+        >>> sys.stdout == original_stdout
+        True
+        >>> spam
+        True
+        >>> with open("test.out", "r", encoding="utf-8") as fb:
+        ...     fb.read() == "Hello, World!\\n"
+        True
+        >>> with open("test.out", "w", encoding="utf-8"):
+        ...     pass
     """
     original_stream = sys.stdin
     if isinstance(stream, str):
@@ -166,10 +177,13 @@ def create_shortcut(target: Path | str, shortcut_name: str, shortcut_location: P
     """
     Creates a shortcut to the specified target file.
 
-    :param target: Full path to the target file.
-    :param shortcut_name: Name for the shortcut.
-    :param shortcut_location: Location for the shortcut.
-    :return: None
+    Args:
+        target: Full path to the target file.
+        shortcut_name: Name for the shortcut.
+        shortcut_location: Location for the shortcut.
+
+    Returns:
+        None
     """
     shell = win32com.client.Dispatch("WScript.Shell")  # Create WScript.Shell object
     shortcut = shell.CreateShortCut(os.path.join(shortcut_location, shortcut_name + ".lnk"))  # Create shortcut object
@@ -181,7 +195,9 @@ def create_shortcut(target: Path | str, shortcut_name: str, shortcut_location: P
 def get_startup_dir() -> Path:
     """
     A function for obtaining the start-up directory
-    :return: a string for the start-up directory
+
+    Returns:
+        A string for the start-up directory
     """
     if platform.system() == "Windows":
         from win32com.shell import shell, shellcon
@@ -202,9 +218,13 @@ def get_startup_dir() -> Path:
 def join_startup(target: Path | str, name: str | None = None) -> None:
     """
     A function for creating a startup shortcut in the start-up directory
-    :param target: Full path to the target file.
-    :param name: Name for the shortcut.
-    :return: None
+
+    Args:
+        target: Full path to the target file.
+        name: Name for the shortcut.
+
+    Returns:
+        None
     """
     if not name:
         name = os.path.basename(target) + " - Shortcut"
@@ -215,9 +235,13 @@ def join_startup(target: Path | str, name: str | None = None) -> None:
 def system(command: str, nonblocking: bool = False) -> int:
     """
     A function is used to replace the os.system()
-    :param command:Same as os.system(), the instruction that needs to be run
-    :param nonblocking:Whether to run in a different process (whether not to block the current process) , default False
-    :return: exit code
+
+    Args:
+        command: Same as os.system(), the instruction that needs to be run
+        nonblocking: Whether to run in a different process (whether not to block the current process), default False
+
+    Returns:
+        exit code
     """
     if not nonblocking:
         return os.system(command)
@@ -228,7 +252,8 @@ def system(command: str, nonblocking: bool = False) -> int:
 
 def get_annotation():
     """
-    :return:  A decorator to simulate annotations in Java. This decorator is temporal
+    Returns:
+        A decorator to simulate annotations in Java. This decorator is temporal
     """
 
     def annotation(func, *args, **kwargs):
@@ -244,17 +269,21 @@ def get_annotation():
 class Singleton(ABC):
     """
     An abstract base class to allow its subclass to be instantiated only once.
-    Warning: If the subclass overloads the __new__() method, the parent class's __new__()
-    method must be called in the __new__() method of the subclass, otherwise this abstract base class is invalid
-    >>> class FooSingleton(Singleton):
-    ...     def __init__(self):
-    ...         self.foo = 1
-    ...
-    >>> spam = FooSingleton()
-    >>> egg = FooSingleton()
-    Traceback (most recent call last):
-    ...
-    RuntimeError: The Singleton Class can only be instantiated once
+
+    Warning:
+        If the subclass overloads the __new__() method, the parent class's __new__()
+        method must be called in the __new__() method of the subclass, otherwise this abstract base class is invalid
+
+    Examples:
+        >>> class FooSingleton(Singleton):
+        ...     def __init__(self):
+        ...         self.foo = 1
+        ...
+        >>> spam = FooSingleton()
+        >>> egg = FooSingleton()
+        Traceback (most recent call last):
+        ...
+        RuntimeError: The Singleton Class can only be instantiated once
     """
 
     _has_instantiation = False
