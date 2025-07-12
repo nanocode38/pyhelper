@@ -3121,7 +3121,7 @@ class _RGBColor(Singleton):
 
         Examples:
             >>> rgb = (255, 0, 0)
-            >>> HEXColor.to_hex(rgb)
+            >>> RGBColor.to_hex(rgb)
             '#FF0000'
         """
         if g is None:
@@ -3145,7 +3145,7 @@ class _RGBColor(Singleton):
 
         Examples:
             >>> rgb = (255, 0, 0)
-            >>> HSLColor.to_hsl(rgb)  # doctest: +ELLIPSIS
+            >>> RGBColor.to_hsl(rgb)  # doctest: +ELLIPSIS
             (0.0, 1.0, 0.5)
         """
         if g is None:
@@ -3276,7 +3276,7 @@ class _HSLColor(Singleton):
             A tuple of RGB values in the range of 0 to 255.
 
         Examples:
-            >>> HSLColor().to_rgb(0.0, 1.0, 0.5)
+            >>> HSLColor.to_rgb(0.0, 1.0, 0.5)
             (255, 0, 0)
         """
         if s is None:
@@ -3319,7 +3319,7 @@ class _HSLColor(Singleton):
             A tuple of HEX values.
 
         Examples:
-            >>> HSLColor().to_hex(0.0, 1.0, 0.5)
+            >>> HSLColor.to_hex(0.0, 1.0, 0.5)
             '#FF0000'
         """
         if s is None:
