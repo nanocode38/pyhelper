@@ -47,11 +47,15 @@ __all__ = [
 def disassemble_sprite_sheet(image_path: str, width: int, height: int, num_of_image) -> list:
     """
     This function processes a Sprite image into a set of loaded Surface objects
-    :param image_path: the path to the total Sprite graph
-    :param width: The length of an image
-    :param height: The height of an image
-    :param num_of_image: The total number of photos
-    :return list: Surface objects for all images
+
+    Args:
+        image_path: the path to the total Sprite graph
+        width: The length of an image
+        height: The height of an image
+        num_of_image: The total number of photos
+
+    Returns:
+        list: Surface objects for all images
     """
     images = []
     sprite_sheet_image = pygame.image.load(image_path)
@@ -78,8 +82,12 @@ def disassemble_sprite_sheet(image_path: str, width: int, height: int, num_of_im
 def load_images(image_paths: Iterator[str]):
     """
     Loading a series of images
-    :param image_paths: A list of paths for a series of images
-    :return Iterator[pygame.Surface]: A list of loaded Surface objects
+
+    Args:
+        image_paths: A list of paths for a series of images
+
+    Returns:
+        Iterator[pygame.Surface]: A list of loaded Surface objects
     """
     images = []
     for path in image_paths:
@@ -87,8 +95,16 @@ def load_images(image_paths: Iterator[str]):
     return images
 
 
-class Background(object):
-    """Background Class"""
+class Background:
+    """
+    Draw the game background
+
+    Args:
+        screen: the Surface of the scene to paint
+        image_path: image path for background image
+        width: The background width, default: 0, the original width, can be pygame.FULLSCREEN is the screen width
+        height: The background height, default: 0, the original height, can be pygame.FULLSCREEN is the screen height
+    """
 
     def __init__(self):
         self.image = None
@@ -100,14 +116,6 @@ class Background(object):
         width: int = 0,
         height: int = 0,
     ) -> None:
-        """
-         Draw the game background
-        :param screen: the Surface of the scene to paint
-        :param image_path: image path for background image
-        :param width: The background width, default: 0, the original width, can be pygame.FULLSCREEN is the screen width
-        :param height: The background height, default: 0, the original height,
-            can be pygame.FULLSCREEN is the screen height
-        """
         if self.image is None:
             self.image = pygame.image.load(image_path)
             if width != 0:
@@ -205,10 +213,9 @@ class Scene(ABC):
         """
         This method is called in every frame of the scene to handle events and key presses
 
-        Your code MUST override this method.
-
-        :param events: a list of events your method should handle.
-        :param key_pressed_list: a list of keys that are pressed (a Boolean for each key).
+        Args:
+            events: a list of events your method should handle.
+            key_pressed_list: a list of keys that are pressed (a Boolean for each key).
         """
         pass
 
@@ -217,7 +224,9 @@ class Scene(ABC):
         This method is called whenever the user enters a scene.
         Should be overridden if you expect data when your scene is entered.
         Add any code you need to start or re-start the scene
-        :param data: can be of any type agreed to by the old and new scenes
+
+        Args:
+            data: can be of any type agreed to by the old and new scenes
         """
         pass
 
@@ -243,91 +252,96 @@ class Scene(ABC):
         """Call this method if you want to quit, from inside a scene"""
         self.go_to_scene(None)
 
-    def go_to_scene(self, next_scene_key: Optional[str], data=None):
+    def go_to_scene(self, next_scene_key: Optional[str], data=None) -> None:
         """
         Call this method whenever you want to go to a new scene
 
-        :param next_scene_key: the scene key (string) of the scene to go to
-        :param data: any data you want sent to the next scene (defaults: None)
+        Args:
+            next_scene_key: the scene key (string) of the scene to go to
+            data: any data you want sent to the next scene (defaults: None)
         """
         self.scene_mgr._go_to_scene(next_scene_key, data)
 
-    def request(self, target_scene_key: str, request_id: Any):
+    def request(self, target_scene_key: str, request_id: Any) -> None:
         """
         Call this method to get information from another scene
 
         The target scene must implement a method named: respond,
         it can return any info in any way the two scenes agree upon
 
-
-        :param target_scene_key: the scene key (string) of the scene to ask for data
-        :param request_id: the data you want from the target scene"""
+        Args:
+            target_scene_key: the scene key (string) of the scene to ask for data
+            request_id: the data you want from the target scene"""
         info = self.scene_mgr._request_respond(target_scene_key, request_id)
         return info
 
-    def send(self, target_scene_key: str, send_id: Any, info: Any):
+    def send(self, target_scene_key: str, send_id: Any, info: Any) -> None:
         """
         Call this method to send information to  another scene
 
         The other scene must implement a method named:  receive().
         You can pass any info the two scenes agree upon
 
-        :param target_scene_key: the scene key (string) of the scene to ask for data
-        :param send_id: the type of data you are sending the target scene
-        :param info: the actual data to send (can be any type)"""
+        Args:
+            target_scene_key: the scene key (string) of the scene to ask for data
+            send_id: the type of data you are sending the target scene
+            info: the actual data to send (can be any type)
+        """
         self.scene_mgr._send_receive(target_scene_key, send_id, info)
 
-    def send_all(self, send_id, info):
+    def send_all(self, send_id, info) -> None:
         """
         Call this method to send information to all other scenes
 
         The other scenes must implement a method named:  receive().
         You can pass any info that the sender and all other scenes agree upon
 
-        :param send_id: the type of data you are sending the target scene
-        :param info: the actual data to send
+        Args:
+            send_id: the type of data you are sending the target scene
+            info: the actual data to send
         """
         self.scene_mgr._send_all_receive(self, send_id, info)  # pass in self to identify sender
 
-    def respond(self, request_id: Any):
+    def respond(self, request_id: Any) -> None:
         """
         Respond to a request for information from some other scene
 
         You must override this method if your scene expects to handle
         requests for information from other scenes via calls to:  request()
-
-        :param request_id: identifier of what data to be sent back to the caller
+        Args:
+            request_id: identifier of what data to be sent back to the caller
         """
         raise NotImplementedError
 
-    def receive(self, receive_id: Any, info: Any):
+    def receive(self, receive_id: Any, info: Any) -> None:
         """
         Receives information from another scene.
 
         You must override this method if your scene expects to receive information from
         other scenes sending information via calls to:  send()
 
-        :param receive_id - an identifier for what type of information is being received
-        :param info - the information sent from another scene
+        Args:
+            receive_id - an identifier for what type of information is being received
+            info - the information sent from another scene
         """
         raise NotImplementedError
 
-    def add_scene(self, scene_key: str, scene):
+    def add_scene(self, scene_key: str, scene) -> None:
         """
-            Call this method whenever you want to add a new scene dynamically.
-            For example, you could have a game with many levels (each implemented as a scene),
-            but only have the current level loaded.  As the player completes a level, you
-            could do a remove_scene on the current level and do an add_scene on the
-            next level, then do a goToScene on the new level.
+        Call this method whenever you want to add a new scene dynamically.
+        For example, you could have a game with many levels (each implemented as a scene),
+        but only have the current level loaded.  As the player completes a level, you
+        could do a remove_scene on the current level and do an add_scene on the
+        next level, then do a goToScene on the new level.
 
-
-        :param scene_key: a key to uniquely identify this scene
-        :param scene: an instance of the new scene to be added
-        (typically, you would instantiate the new scene, and pass in that reference to this call)
+        Args:
+            scene_key: a key to uniquely identify this scene
+            scene: an instance of the new scene to be added
+            (typically, you would instantiate the new scene, and pass in that reference to this call)
         """
         self.scene_mgr._add_scene(scene_key, scene)
 
-    def remove_scene(self, scene_key: str):
+    def remove_scene(self, scene_key: str) -> None:
         """
         Call this method whenever you want to remove an existing scene
         You can remove a scene to save memory - the scene object will be deleted.
@@ -335,8 +349,8 @@ class Scene(ABC):
         Therefore, it is safe to call to remove_scene from its own scene, if you immediately
         go to another scene.
 
-
-        :param scene_key: the scene key (string) of the scene to remove"""
+        Args:
+            scene_key: the scene key (string) of the scene to remove"""
         self.scene_mgr._remove_scene(scene_key)
 
 
@@ -347,13 +361,12 @@ class SceneMgr:
     The SceneMgr manages any number of scenes built as subclasses of the "Scene" class.
     For more details, see the "Scene" class.
 
-
-
-    :param scenes: is a dictionary or list that consists of:
-        {<sceneKey>: <sceneObject>, <sceneKey>: <sceneObject>, ...} or [<sceneObject>, <sceneObject>, ...]
-          where each sceneObject is an object instantiated from a scene class
-          (For details on Scenes, see the Scene class)
-    :param fps - is the frames per second at which the program should run
+    Args:
+        scenes: is a dictionary or list that consists of:
+            {<sceneKey>: <sceneObject>, <sceneKey>: <sceneObject>, ...} or [<sceneObject>, <sceneObject>, ...]
+              where each sceneObject is an object instantiated from a scene class
+              (For details on Scenes, see the Scene class)
+        fps - is the frames per second at which the program should run
 
     Based on the concept of a "Scene Manager" by Blake O'Hare of Nerd Paradise
     """
