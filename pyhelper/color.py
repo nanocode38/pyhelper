@@ -3203,18 +3203,18 @@ class _HEXColor(Singleton):
     @staticmethod
     def to_rgb(color: str) -> tuple:
         """
-         Convert a HEX color string to RGB tuple.
+        Convert a HEX color string to RGB tuple.
 
-         Args:
-             color: HEX color string.
+        Args:
+            color: HEX color string.
 
-         Returns:
-             RGB tuple.
+        Returns:
+            RGB tuple.
 
-         Examples:
-             >>> HEXColor.to_rgb('#FF0000')
-             (255, 0, 0)
-         """
+        Examples:
+            >>> HEXColor.to_rgb('#FF0000')
+            (255, 0, 0)
+        """
         if color.startswith("#"):
             hex_color = color[1:]
         elif color.startswith("0x"):
