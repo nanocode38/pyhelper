@@ -19,7 +19,7 @@
 # DON'T EVEN HAVE A PERMIT TOO!
 #
 # Gao Yuhan(高宇涵)
-# 2602422835@qq.com
+# nanocode38@88.com
 # nanocode38
 """
 Widgets

@@ -21,7 +21,7 @@
 # DON'T EVEN HAVE A PERMIT TOO!
 #
 # Gao Yuhan(高宇涵)
-# 2602422835@qq.com
+# nanocode38@88.com
 # nanocode38
 """
 This is a collection of Pygame-based game development tool functions that rely on Python Pygame third-party libraries
