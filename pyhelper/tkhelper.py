@@ -210,7 +210,7 @@ def password_window(
             result[0] = RetMode.SUCCESS
             window.destroy()
         elif error_message:
-            messagebox.showerror("Verification Error", error_message)
+            messagebox.showerror("Verification Error", error_message, parent=window, master=window)
             entry.select_range(0, tk.END)
         else:
             # Calculate shake parameters dynamically
@@ -296,7 +296,7 @@ def setting_password_window(
             if not error_message:
                 shake_window(window)
             else:
-                messagebox.showerror(title=" Password Error", message=error_message)
+                messagebox.showerror(title=" Password Error", message=error_message, parent=window, master=window)
             return
         return_val = entry1.get()
         window.destroy()
