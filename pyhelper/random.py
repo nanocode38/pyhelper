@@ -33,15 +33,15 @@ __all__ = ["randint", "choice", "randrange", "shuffle", "sample"]
 
 
 def random():
-    # 使用 os.urandom 生成 7 个字节的随机数据
+    # Use os.urandom to generate 7 bytes of random data
     byte_data = os.urandom(7)
-    # 将字节数据转换为一个 53 位的整数
+    # Convert byte data to a 53-bit integer
     int_data = int.from_bytes(byte_data, byteorder="big") & ((1 << 53) - 1)
-    # 转换为 [0.0, 1.0) 范围内的浮点数
+    # Convert to floating point numbers in the range [0.0, 1.0)
     return int_data / (1 << 53)
 
 
-def randint(_min: int, _max: Optional[int] = None, random: Callable = random):
+def randint(min_: int, max_: int | None = None, random: Callable = random):
     """
     Generates a random integer within the inclusive range [min, max].
 
@@ -50,20 +50,20 @@ def randint(_min: int, _max: Optional[int] = None, random: Callable = random):
     base random seed. It ensures that the generated number is uniformly
     distributed across the specified range.
 
-    :param _min: The lower limit of the range (inclusive).
-    :param _max: The upper limit of the range (inclusive). Must be greater than or equal to min.
+    :param min_: The lower limit of the range (inclusive).
+    :param max_: The upper limit of the range (inclusive). Must be greater than or equal to min.
     :param random: Optional parameters for generating random dependency functions, default to random() functions generated using os.urandom()
     :return int: A random integer within the inclusive range [min, max].
     :raise ValueError: If the min parameter is greater than the max parameter.
     """
-    if _max is None:
-        _max = _min
-        _min = 1
+    if max_ is None:
+        max_ = min_
+        min_ = 1
 
-    if _min > _max:
+    if min_ > max_:
         raise ValueError("The lower limit should be less than or equal to the upper limit")
 
-    return int(random() * (_min - _max + 1)) + _max
+    return int(random() * (min_ - max_ + 1)) + max_
 
 
 def choice(seq: Sequence, random: Callable = random) -> Iterable:
