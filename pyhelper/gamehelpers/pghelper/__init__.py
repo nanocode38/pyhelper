@@ -33,8 +33,6 @@ from typing import *
 
 import pygame
 
-from pyhelper.gamehelpers.pghelper import widgets
-
 __all__ = [
     "disassemble_sprite_sheet",
     "draw_background",
@@ -375,7 +373,7 @@ class SceneMgr:
         self,
         scenes: Union[list, dict],
         fps: int,
-        frame_rate_display: Optional[widgets.DisplayText] = None,
+        frame_rate_display: "widgets.DisplayText | None" = None,
     ):
         if isinstance(scenes, dict):
             self.scenes_dict = scenes
