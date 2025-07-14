@@ -19,7 +19,7 @@
 # DON'T EVEN HAVE A PERMIT TOO!
 #
 # Gao Yuhan(高宇涵)
-# 2602422835@qq.com
+# nanocode38@88.com
 # nanocode38
 """
 Widgets
@@ -60,6 +60,14 @@ from typing import *
 
 import pygame
 
+from pyhelper.gamehelpers.pghelper import load_images
+
+Color = Tuple[int, int, int]
+Screen = pygame.Surface
+Position = Tuple[int, int]
+Path = str
+Degree = px = int
+
 __all__ = [
     "Animate",
     "AnimateConfig",
@@ -90,11 +98,10 @@ class BaseConfig(ABC):
     """
     This is the base class for all configuration classes and is also a private abstract class.
     This class should not be accessed, it is not an interface, but an implementation.
-    So, if you are reading this document, you have violated the client programmer principle!!(╯▔皿▔)╯
     """
 
     @abstractmethod
-    def __init__(self, screen: pygame.Surface):
+    def __init__(self, screen: Screen):
         self.screen = screen
 
     def set_config(self, config_name, value):
@@ -111,15 +118,16 @@ class AnimateConfig(BaseConfig):
     This class requires a set of images in addition to the basic screen parameter, as described in the images property
     It includes the following configuration options
 
-    - images (tuple): This property can be a set of image paths to animate or a set of loaded image objects. If you
-     need to animate as a Sprite, use the pghelper.disassemble_sprite_sheet() function
-    - autostart (bool): This property indicates if the animation will start automatically and defaults to False
-    - show_first_image_at_end(bool): This property is a Boolean indicating whether to show the first image after the
-     animation is playing.It defaults to True
-    - loop (bool): This property is a Boolean indicating whether the animation should loop indefinitely and defaults to
-     False
-    - nloop (int): This property specifies how many times the animation should loop and defaults to 1
-    - duration(int): This property specifies that the image is switched every few Seconds
+    Attributes:
+        - images (tuple): This property can be a set of image paths to animate or a set of loaded image objects. If you
+         need to animate as a Sprite, use the pghelper.disassemble_sprite_sheet() function
+        - autostart (bool): This property indicates if the animation will start automatically and defaults to False
+        - show_first_image_at_end(bool): This property is a Boolean indicating whether to show the first image after the
+         animation is playing.It defaults to True
+        - loop (bool): This property is a Boolean indicating whether the animation should loop indefinitely and defaults to
+         False
+        - nloop (int): This property specifies how many times the animation should loop and defaults to 1
+        - duration(int): This property specifies that the image is switched every few Seconds
     """
 
     def __init__(self, screen, images):
@@ -140,13 +148,14 @@ class CustomButtonConfig(BaseConfig):
     This is the configuration class for the CustomButton class. It includes the following configuration options
     In addition to the basic screen parameter, this class also requires the image_paths parameter, as described in
     the description of the image_paths property
-    - image_paths: This is a tuple of paths for all images, which should be passed in "release state, hold state, hover
-     state, lock state". If any of the last three are specified, it is automatically set to the first
-    - sounds_on_chick: This is the sound effect that was played when the _button was clicked and is a string pointing to
-     the sound effect location. The default is None, which means no sound effect will be played.
-    - command: is what needs to be done when the _button is pressed, is of type Function, defaults to None, i.e.,
-     does nothing.
-    - args: This is a tuple containing all the arguments of the command function
+    Attributes:
+        - image_paths: This is a tuple of paths for all images, which should be passed in "release state, hold state, hover
+         state, lock state". If any of the last three are specified, it is automatically set to the first
+        - sounds_on_chick: This is the sound effect that was played when the _button was clicked and is a string pointing to
+         the sound effect location. The default is None, which means no sound effect will be played.
+        - command: is what needs to be done when the _button is pressed, is of type Function, defaults to None, i.e.,
+         does nothing.
+        - args: This is a tuple containing all the arguments of the command function
     """
 
     def __init__(self, screen: pygame.SurfaceType, images: Union[list, tuple]):
@@ -166,26 +175,25 @@ class CustomButtonConfig(BaseConfig):
 class TextButtonConfig(BaseConfig):
     """
     This is the configuration class for the TextButton class. It includes the following configuration options
-    - width (int): The length of the _button
-    - height (int): The height of the _button
-    - text (str): The text on the _button
-    - button_color (list): A list of _button colors whose four elements represent the colors of the following states:
-     normal, pressed, suspended, and locked
-    - text_color (list): This is a list of _button text colors, with four elements representing the colors of the
-    following states: normal, pressed, suspended, locked
-    - font (str): str representation of the text font
-    - text_size (int): The size of the text
-
-    - sounds_on_chick(str): This is the sound effect that was played when the _button was clicked and is a string
-    pointing to the sound effect location. The default is None, which means no sound effect will be played.
-
-    the center of the screen.
-    - command(function): is what needs to be done when the _button is pressed, is of type Function, defaults to None,
-    i.e., does nothing.
-    - args(tuple): This is a tuple containing all the arguments of the command function.
+    Attributes:
+        - width (int): The length of the _button
+        - height (int): The height of the _button
+        - text (str): The text on the _button
+        - button_color (list): A list of _button colors whose four elements represent the colors of the following states:
+         normal, pressed, suspended, and locked
+        - text_color (list): This is a list of _button text colors, with four elements representing the colors of the
+        following states: normal, pressed, suspended, locked
+        - font (str): str representation of the text font
+        - text_size (int): The size of the text
+        - sounds_on_chick(str): This is the sound effect that was played when the _button was clicked and is a string
+        pointing to the sound effect location. The default is None, which means no sound effect will be played.
+        the center of the screen.
+        - command(Callable): is what needs to be done when the _button is pressed, is of type Function, defaults to None,
+        i.e., does nothing.
+        - args(tuple): This is a tuple containing all the arguments of the command function.
     """
 
-    def __init__(self, screen: pygame.Surface):
+    def __init__(self, screen: Screen):
         super().__init__(screen)
         self.width = 180
         self.height = 50
@@ -202,11 +210,12 @@ class TextButtonConfig(BaseConfig):
 class CheckBoxConfig(BaseConfig):
     """
     This is the configuration class for the CheckBox class. It includes the following configuration options
-    - text (str): This is the text to display in the CheeckBox Default is 'CheckBox'.
-    - font (str): This is the font name for the text property; the default font is used by default
-    - image_path (str): This attribute is a tuple whose elements are unchecked, checked, locked to checked,
-    and locked to the image in the checked state
-    - text_color (tuple): This refers to the text new_color
+    Attributes:
+        - text (str): This is the text to display in the CheeckBox Default is 'CheckBox'.
+        - font (str): This is the font name for the text property; the default font is used by default
+        - image_path (str): This attribute is a tuple whose elements are unchecked, checked, locked to checked,
+        and locked to the image in the checked state
+        - text_color (tuple): This refers to the text new_color
     """
 
     def __init__(self, screen):
@@ -220,29 +229,31 @@ class CheckBoxConfig(BaseConfig):
 class InputTextConfig(BaseConfig):
     """
     This is the configuration class for the CheckBox class. It includes the following configuration options
-    -loc (tuple): This property indicates the initial top-left position of the text box component.It is represented by
-     a tuple and defaults to (0, 0).
-    -new_color (tuple): This property represents the background new_color of the text box.It is represented as an RGB
-     tuple and defaults to (0, 0, 0).
-    -text_color (tuple): This property is the new_color of the text in the text box.It is represented as an RGB tuple
-     and defaults to (2255, 255, 255).
-    -font (str): This property represents the name of the text font in string format and defaults to None, which is the
-     system default font
-    -value (str): This property represents the text in the initial state and defaults to.
-    -width (int): This property is the length of the text box in pixels.It defaults to 250
-    -font_size (int): This property represents the font size and also determines the height of the text box.It defaults
-     to 30
-    - focus_color(tuple): This property refers to the new_color of the outer border of the text box while it is
-     selected, defaults to (0, 0, 0).
-    -init_focus (bool): This property indicates whether the text box gets focus directly when initialized and defaults
-     to False
-    -mask (str): This property indicates the character in which the input should be rendered in the text field
-     (* if it's a password field).It defaults to None, which means no mask is used
-    - keep_foucs_on_submit(bool): This property indicates whether to keep focus when the Enter or Return key is pressed
-     in a text box. It defaults to False
-    -command (function): This is the function you want to call when the Enter or Return key is pressed in the text box.
-     It defaults to None, indicating that no function was called
-    -args (tuple): This is a tuple representing the arguments of the command
+
+    Attributes:
+        -loc (tuple): This property indicates the initial top-left position of the text box component.It is represented by
+         a tuple and defaults to (0, 0).
+        -new_color (tuple): This property represents the background new_color of the text box.It is represented as an RGB
+         tuple and defaults to (0, 0, 0).
+        -text_color (tuple): This property is the new_color of the text in the text box.It is represented as an RGB tuple
+         and defaults to (2255, 255, 255).
+        -font (str): This property represents the name of the text font in string format and defaults to None, which is the
+         system default font
+        -value (str): This property represents the text in the initial state and defaults to.
+        -width (int): This property is the length of the text box in pixels.It defaults to 250
+        -font_size (int): This property represents the font size and also determines the height of the text box.It defaults
+         to 30
+        - focus_color(tuple): This property refers to the new_color of the outer border of the text box while it is
+         selected, defaults to (0, 0, 0).
+        -init_focus (bool): This property indicates whether the text box gets focus directly when initialized and defaults
+         to False
+        -mask (str): This property indicates the character in which the input should be rendered in the text field
+         (* if it's a password field).It defaults to None, which means no mask is used
+        - keep_focus_on_submit(bool): This property indicates whether to keep focus when the Enter or Return key is pressed
+         in a text box. It defaults to False
+        -command (function): This is the function you want to call when the Enter or Return key is pressed in the text box.
+         It defaults to None, indicating that no function was called
+        -args (tuple): This is a tuple representing the arguments of the command
     """
 
     def __init__(self, screen):
@@ -262,6 +273,9 @@ class InputTextConfig(BaseConfig):
         self.keep_focus_on_submit = False
 
 
+# @!---------------------Widgets------------------------------!@#
+
+
 class Animate:
     """An animation class based on a series of loaded images"""
 
@@ -275,10 +289,10 @@ class Animate:
         self.xloop = False
         self.elapsed = 0
         for image in ac.images:
-            thisimage = image
-            thisrect = thisimage.get_rect()
-            self.rect.append(thisrect)
-            self.images.append(thisimage)
+            this_image = image
+            this_rect = this_image.get_rect()
+            self.rect.append(this_rect)
+            self.images.append(this_image)
             self.nimage += 1
         self.loop = ac.loop
         self.nloop = ac.nloop
@@ -331,29 +345,29 @@ class Animate:
 class CustomButton:
     """An image-based custom _button class"""
 
-    def __init__(self, bs: CustomButtonConfig):
-        self.screen = bs.screen
-        self.screen_rect = bs.screen.get_rect()
+    def __init__(self, bc: CustomButtonConfig):
+        self.screen = bc.screen
+        self.screen_rect = bc.screen.get_rect()
         self.__is_check_down = False
-        self.font = pygame.font.SysFont(bs.font, bs.font_size)
-        self.text = bs.text
-        self.command = bs.command
-        self.args = bs.args
-        self.text_color = bs.text_color
-        self.sounds_on_chick = bs.sounds_on_chick
-        self.up_image = bs.images[0]
+        self.font = pygame.font.SysFont(bc.font, bc.font_size)
+        self.text = bc.text
+        self.command = bc.command
+        self.args = bc.args
+        self.text_color = bc.text_color
+        self.sounds_on_chick = bc.sounds_on_chick
+        self.up_image = bc.images[0]
         try:
-            self.down_image = bs.images[1]
+            self.down_image = bc.images[1]
         except IndexError:
-            self.down_image = bs.images[0]
+            self.down_image = bc.images[0]
         try:
-            self.over_image = bs.images[2]
+            self.over_image = bc.images[2]
         except IndexError:
-            self.over_image = bs.images[0]
+            self.over_image = bc.images[0]
         try:
-            self.lock_image = bs.images[3]
+            self.lock_image = bc.images[3]
         except IndexError:
-            self.lock_image = bs.images[0]
+            self.lock_image = bc.images[0]
         if isinstance(self.up_image, str):
             self.up_image = pygame.image.load(self.up_image).convert().convert_alpha()
         if isinstance(self.down_image, str):
@@ -367,8 +381,13 @@ class CustomButton:
         self.hidden = False
         self.lock = False
 
-    def is_chick(self, event) -> bool:
-        """Return Whether to click"""
+    def is_chick(self, event: pygame.event.EventType) -> bool:
+        """
+        Return Whether to click
+
+        Args:
+            event: Events passed in the event loop
+        """
         if self.hidden or self.lock:
             return False
         if event.type != pygame.MOUSEBUTTONUP:
@@ -401,7 +420,9 @@ class CustomButton:
     def update(self, event: pygame.event.EventType):
         """
         Update the Button
-        :param event: pygame event
+
+        Args:
+            event: Events passed in the event loop
         """
         if self.hidden:
             return
@@ -438,7 +459,7 @@ class CustomButton:
 
 
 class TextButton:
-    """A text _button created from text"""
+    """A text button created from text"""
 
     BUTTON_UP = 0
     BUTTON_DOWN = 1
@@ -485,16 +506,30 @@ class TextButton:
         self.mode = TextButton.BUTTON_UP
         self.lock = False
 
-    def is_chick_down(self, event) -> bool:
+    def is_chick_down(self, event: pygame.event.EventType) -> bool:
         """
-        :return bool: whether it was clicked
+        Check if the mouse is pressed within the text button
+
+        Args:
+            event: Events passed in the event loop
+
+        Returns:
+            bool: whether it was clicked
         """
         if event.type == pygame.MOUSEBUTTONDOWN and self.rect.collidepoint(pygame.mouse.get_pos()):
             return True
         return False
 
-    def update(self, event) -> bool:
-        """Update the Button"""
+    def update(self, event: pygame.event.EventType) -> bool:
+        """
+        Update the Button
+
+        Args:
+            event: Events passed in the event loop
+
+        Returns:
+            bool: Whether to click the button
+        """
         if self.hidden:
             return False
         if self.lock:
@@ -515,8 +550,16 @@ class TextButton:
             self.mode = TextButton.BUTTON_UP
         return False
 
-    def button_is_chick(self, event):
-        """Return Whether to chick"""
+    def button_is_chick(self, event: pygame.event.EventType) -> bool:
+        """
+        Return Whether to chick
+
+        Args:
+            event: Events passed in the event loop
+
+        Returns:
+            bool: Whether to click
+        """
         if event.type != pygame.MOUSEBUTTONUP:
             return False
         if self.rect.collidepoint(pygame.mouse.get_pos()):
@@ -524,7 +567,15 @@ class TextButton:
         return False
 
     def button_is_hover(self, event):
-        """Return Whether to hover"""
+        """
+        Return Whether to hover
+
+        Args:
+            event: Events passed in the event loop
+
+        Returns:
+            bool: Whether to hover
+        """
         if event.type in (pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP):
             return False
         if self.rect.collidepoint(pygame.mouse.get_pos()):
@@ -621,16 +672,18 @@ class TextButton:
 class DisplayText:
     """
     Display Text on the scene
-    :param: screen(pghelper.Surface): The surface of the scene to be drawn
-    :param: font(str): Draws a string representation of the font default: None
-    :param: size(int): The font size
-    :param: text(str): The text
-    :param: new_color(tuple): The text new_color
+
+    Args:
+        screen(Screen): The surface of the scene to be drawn
+        font(str): Draws a string representation of the font default: None
+        size(int): The font size
+        text(str): The text
+        new_color(tuple): The text new_color
     """
 
     def __init__(
         self,
-        screen: pygame.Surface,
+        screen: Screen,
         *,
         font=None,
         size=20,
@@ -639,24 +692,25 @@ class DisplayText:
     ):
         pygame.font.init()
         self.screen = screen
-        self.font = pygame.font.SysFont(font, size)
+        self.font: pygame.font.FontType = pygame.font.SysFont(font, size)
         self.text = ""
         self.color = color
         self.image = self.font.render(self.text, True, self.color)
         self.rect = self.image.get_rect()
         self.set_value(text, color)
 
-    def set_value(self, new_text: str, new_color=None):
+    def set_value(self, new_text: str | None = None, new_color: Color | None = None):
         """
         Reset the text content and color
-        :param new_text: new text
-        :param new_color: new Color, default: The original color
+
+        Args:
+            new_text: new text, default: The original text
+            new_color: new Color, default: The original color
         """
+        if new_text is not None:
+            self.text = new_text
         if new_color is None:
-            new_color = self.color
-        if self.text == new_text:
-            return
-        self.text = new_text
+            self.color = new_color
         self.image = self.font.render(self.text, True, new_color)
         self.rect = self.image.get_rect()
 
@@ -668,7 +722,7 @@ class DisplayText:
 class CheckBox:
     """A checkbox created based on an image"""
 
-    def __init__(self, cc: CheckBoxConfig):
+    def __init__(self, cc: CheckBoxConfig) -> None:
         self.screen = cc.screen
         self.text = cc.text
         if cc.image_paths[0] == "CheckBox":
@@ -703,8 +757,16 @@ class CheckBox:
         )
         self.image = self.on_up_image
 
-    def update(self, event) -> bool:
-        """Update the CheckBox"""
+    def update(self, event: pygame.event.EventType) -> bool:
+        """
+        Update the CheckBox
+
+        Args:
+            event: Events passed in the event loop
+
+        Returns:
+            bool: Whether it is in a click status
+        """
         if self.lock and self.is_check:
             self.image = self.off_down_image
         elif self.lock and not self.is_check:
@@ -723,7 +785,7 @@ class CheckBox:
                 return True
         return False
 
-    def draw(self):
+    def draw(self) -> None:
         """Draw the CheckBox"""
         self.screen.blit(self.image, self.image_rect)
         self.screen.blit(self.msg_image, self.msg_rect)
@@ -732,12 +794,14 @@ class CheckBox:
 class Dragger:
     """
     A draggable image component
-    :param screen (pygame.Surface): The surface of the scene to be drawn
-    :param images (tuple): A set of image paths or Surface objects representing the states of the component,
-    where the element images are in order: normal state, pressed state, suspended state, locked state
+
+    Args:
+        screen (Screen): The surface of the scene to be drawn
+        images (tuple): A set of image paths or Surface objects representing the states of the component,
+        where the element images are in order: normal state, pressed state, suspended state, locked state
     """
 
-    def __init__(self, screen, images):
+    def __init__(self, screen: Screen, images: tuple[pygame.Surface]):
         self.screen = screen
         self.up_image = images[0]
         try:
@@ -766,8 +830,16 @@ class Dragger:
         self.hidden = False
         self.lock = False
 
-    def is_drag(self, event) -> bool:
-        """Return Whether to drag"""
+    def is_drag(self, event: pygame.event.EventType) -> bool:
+        """
+        Return Whether to drag
+
+        Args:
+            event: Events passed in the event loop
+
+        Returns:
+            bool: Whether to drag
+        """
         if self.hidden or self.lock:
             return False
         if event.type != pygame.MOUSEBUTTONDOWN:
@@ -776,8 +848,16 @@ class Dragger:
             return True
         return False
 
-    def is_hover(self, event) -> bool:
-        """Return Whether to hover"""
+    def is_hover(self, event: pygame.event.EventType) -> bool:
+        """
+        Return Whether to hover
+
+        Args:
+            event: Events passed in the event loop
+
+        Returns:
+            bool: Whether to hover
+        """
         if self.hidden or self.lock:
             return False
         if event == pygame.MOUSEBUTTONDOWN:
@@ -786,8 +866,13 @@ class Dragger:
             return True
         return False
 
-    def update(self, event):
-        """Update Component"""
+    def update(self, event) -> None:
+        """
+        Update Component
+
+        Args:
+            event: Events passed in the event loop
+        """
         if self.hidden:
             return
         if self.is_drag(event) or self.__is_drag:
@@ -817,9 +902,22 @@ class Dragger:
 
 
 class Image:
-    """An image that can be modified"""
+    """
+    An image that can be modified
 
-    def __init__(self, screen, loc, image_path, rect=None):
+    Args:
+        screen: pygame.Surface object for home screen
+        loc: Screen coordinates for image placement
+        image_path: The Path of image
+        rect: The rect of image
+
+    Raises:
+        ValueError: If neither loc nor rect is passed in
+    """
+
+    def __init__(self, screen: Screen, image_path: Path, rect: pygame.Rect | None = None, loc: Position | None = None):
+        if loc is None and rect is None:
+            raise ValueError("loc or rect must be specified")
         self.screen = screen
         self.image = pygame.image.load(image_path)
         if rect is not None:
@@ -829,34 +927,62 @@ class Image:
             self.rect.topleft = loc
         self.hidden = False
 
-    def flip(self, flip_horizontal: bool = False, flip_vertical: bool = False):
-        """Flipping images"""
+    def flip(self, flip_horizontal: bool = False, flip_vertical: bool = False) -> None:
+        """
+        Flipping images
+
+        Args:
+            flip_horizontal: Whether to flip horizontally, Default False
+            flip_vertical: Whether to flip vertical, Default False
+        """
         self.image = pygame.transform.flip(self.image, flip_horizontal, flip_vertical)
 
-    def set_move(self, x=0, y=0):
-        """Overlay position"""
+    def set_move(self, x: int = 0, y: int = 0) -> None:
+        """
+        Overlay position
+
+        Args:
+            x: The width-coordinate you want to add, Default 0
+            y: The height-coordinate you want to add, Default 0
+        """
         self.rect.centery += y
         self.rect.centerx += x
 
-    def rot_center(self, angle):
-        """rotate an image while keeping its center and size"""
+    def rot_center(self, angle: Degree):
+        """
+        rotate an image while keeping its center and size
+
+        Args:
+            angle: The angle you want to rotate
+        """
         self.image = pygame.transform.rotate(self.image, angle)
         loc = self.rect.topleft
         self.rect = self.image.get_rect()
         self.rect = loc
 
-    def set_position(self, x=0, y=0):
-        """move in position"""
+    def set_position(self, x: int = 0, y: int = 0):
+        """
+        move in position
+
+        Args:
+            x: width-coordinate
+            y: height-coordinate
+        """
         self.rect.center = (x, y)
 
-    def scale(self, x, y):
-        """Resizing images"""
-        self.image = pygame.transform.scale(self.image, (x, y))
+    def scale(self, width: px, height: px):
+        """
+        Resizing images
+        Args:
+            width: Width after scaling is completed
+            height: Height after scaling is completed
+        """
+        self.image = pygame.transform.scale(self.image, (width, height))
         loc = self.rect.topleft
         self.rect = self.image.get_rect()
         self.rect.topleft = loc
 
-    def get_rect(self):
+    def get_rect(self) -> pygame.Rect:
         """Get the rectangle of the image"""
         return self.rect
 
@@ -870,8 +996,9 @@ class Image:
 class RadioButtons:
     """
     Set of radio boxes based on checkboxes
-    :param screen (pghelper.Surface): The surface of the scene to be drawn
-    :param buttons (list[CheckBox]): A set of CheckBox instances
+    Args:
+        screen (pghelper.Surface): The surface of the scene to be drawn
+        buttons (list[CheckBox]): A list of CheckBox instances
     """
 
     def __init__(self, screen: pygame.Surface, buttons: list[CheckBox]):
@@ -880,7 +1007,12 @@ class RadioButtons:
         self._last_button = None
 
     def update(self, event):
-        """Update Radio boxes"""
+        """
+        Update Radio boxes
+
+        Args:
+            event: Events passed in the event loop
+        """
         for button in self.buttons:
             _event = pygame.event.Event(pygame.KEYDOWN)
             button.update(_event)
@@ -894,7 +1026,7 @@ class RadioButtons:
                     self._last_button = button
                     break
 
-    def get_focus(self):
+    def get_focus(self) -> int | None:
         """Returns which radio box is selected"""
         for i in range(len(self.buttons)):
             if self.buttons[i].image == self.buttons[i].on_down_image:
@@ -946,8 +1078,8 @@ class InputText:
 
     def _init(
         self,
-        window,
-        loc,
+        window: Screen,
+        loc: Position,
         value,
         font_name,
         font_size,
@@ -963,7 +1095,6 @@ class InputText:
         """
         initialization
         This method shouldn't be accessed, it's not an interface, it's an implementation.
-        So if you ARE READING THIS DOCUMENT, you HAVE violated the CLIENT PROGRAMMER PRINCIPLE!!(╯▔皿▔)╯
         """
 
         self.is_enabled = True
@@ -1017,7 +1148,6 @@ class InputText:
         """
         Internal method to render __text as an image.
         This method shouldn't be accessed, it's not an interface, it's an implementation.
-        So if you ARE READING THIS DOCUMENT, you HAVE violated the CLIENT PROGRAMMER PRINCIPLE!!(╯▔皿▔)╯
         """
         if self.__background_color is not None:
             self.__text_image.fill(self.__background_color)
@@ -1031,8 +1161,16 @@ class InputText:
             line_surface = self.font.render(masked_text, True, self.__text_color)
         self.__text_image.blit(line_surface, (0, 0))
 
-    def update(self, event):
-        """Update the InputBox"""
+    def update(self, event: pygame.event.EventType) -> bool:
+        """
+        Update the InputBox
+
+        Args:
+            event: Events passed in the event loop
+
+        Returns:
+            bool: Whether it is in a click status
+        """
         if not self.is_enabled:
             return False
         if self.hidden:
@@ -1166,32 +1304,40 @@ class InputText:
             self.clock.tick()
 
     # Helper methods
-    def get_value(self):
+    def get_value(self) -> str:
         """Returns the text entered by the user"""
         return self.__text
 
-    def set_value(self, new_text):
-        """Sets new __text into the field"""
+    def set_value(self, new_text: str):
+        """
+        Sets new text into the field
+
+        Args:
+            new_text: The text you want to use
+        """
         self.__text = new_text
         self.cursor_position = len(self.__text)
         self._update_image()
 
     def is_focus(self) -> bool:
         """
-        :return is focused
+        Returns:
+            bool: Does InputText have a focus
         """
         return self.__focus
 
-    def clear(self, keep_focus=False):
-        """Clear the text in the field"""
+    def clear(self, keep_focus: bool = False):
+        """
+        Clear the text in the field
+
+        Args:
+            keep_focus: Do you want to keep the focus
+        """
         self.__text = ""
         self.__focus = keep_focus
         self._update_image()
 
     def remove_focus(self):
-        """
-        remove focus
-        """
         self.__focus = False
 
     def give_focus(self):
@@ -1201,14 +1347,21 @@ class InputText:
         """
         self.__focus = True
 
-    def set_next_field_on_tab(self, next_field_on_tab):
+    def set_next_field_on_tab(self, next_field_on_tab: str):
         """
-        :param next_field_on_tab:
+        Args:
+            next_field_on_tab: The next field you want to set
+
         """
         self.__next_field_on_tab = next_field_on_tab
 
-    def set_loc(self, loc):
-        """set position"""
+    def set_loc(self, loc: Position):
+        """
+        set position
+
+        Args
+            loc: Coordinates on the screen coordinate system
+        """
         self.loc = loc
         self.rect[0] = self.loc[0]
         self.rect[1] = self.loc[1]

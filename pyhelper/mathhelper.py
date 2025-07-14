@@ -21,7 +21,7 @@
 # DON'T EVEN HAVE A PERMIT TOO!
 #
 # Gao Yuhan(高宇涵)
-# 2602422835@qq.com
+# nanocode38@88.com
 # nanocode38
 
 """
@@ -58,8 +58,16 @@ _PYTHON_PATH = os.path.join(_PYTHON_PATH, "Lib", "site-packages", "pyhelper")
 def calculate_pi(count: int) -> float:
     """
     A function that calculates PI according to a formula
-    :param count: Calculate the precision of PI, the higher the value, the slower the calculation speed, the higher the precision
-    :return: The result of the calculation
+
+    Args:
+        count: Calculate the precision of PI, the higher the value, the slower the calculation speed, the higher the precision
+
+    Returns:
+        The result of the calculation
+
+    Examples:
+        >>> calculate_pi(100_000)  # doctest: +ELLIPSIS
+        3.141...
     """
     result = 0.0
     positive = True
@@ -82,22 +90,30 @@ with suppress(NameError):
 def fibonacci(number: int) -> int:
     """
     Calculate the Fibonacci sequence for the given number.
-    :param number: The number in the Fibonacci sequence to be calculated.
-    :return The Fibonacci sequence for the given number.
-    :raise TypeError: If the input is not an int.
-    :raise ValueError: If the input is a negative int.
-    >>> fibonacci(1)
-    1
-    >>> fibonacci(10)
-    55
-    >>> fibonacci(1.5)
-    Traceback (most recent call last):
-        ...
-    TypeError: Please pass an int argument, not a float!
-    >>> fibonacci(-1)
-    Traceback (most recent call last):
-        ...
-    ValueError: Please pass a positive int argument!
+
+    Args:
+        number: The number in the Fibonacci sequence to be calculated.
+
+    Returns:
+        The Fibonacci sequence for the given number.
+
+    Raises:
+        TypeError: If the input is not an int.
+        ValueError: If the input is a negative int.
+
+    Examples:
+        >>> fibonacci(1)
+        1
+        >>> fibonacci(10)
+        55
+        >>> fibonacci(1.5)  # doctest: +IGNORE_EXCEPTION_DETAIL
+        Traceback (most recent call last):
+            ...
+        TypeError: Please pass an int argument, not a float!
+        >>> fibonacci(-1)  # doctest: +IGNORE_EXCEPTION_DETAIL
+        Traceback (most recent call last):
+            ...
+        ValueError: Please pass a positive int argument!
     """
 
     if not isinstance(number, int):
@@ -118,55 +134,62 @@ def fibonacci(number: int) -> int:
 def is_prime(number: int) -> bool:
     """
     Check if the given number is a prime number.
-    :param number: The number to be checked for primality.
-    :return True if the number is prime, False otherwise.
-    :raise TypeError: If the input is not an int.
-    :raise ValueError: If the input is a negative int.
 
-    >>> is_prime(2)
-    True
-    >>> is_prime(3)
-    True
-    >>> is_prime(5)
-    True
-    >>> is_prime(7)
-    True
-    >>> is_prime(11)
-    True
-    >>> is_prime(13)
-    True
-    >>> is_prime(17)
-    True
-    >>> is_prime(19)
-    True
-    >>> is_prime(23)
-    True
-    >>> is_prime(29)
-    True
-    >>> is_prime(31)
-    True
-    >>> is_prime(37)
-    True
-    >>> is_prime(41)
-    True
-    >>> is_prime(43)
-    True
-    >>> is_prime(47)
-    True
-    >>> is_prime(53)
-    True
-    >>> is_prime(1)
-    False
-    >>> is_prime(-1)
-    False
-    >>> is_prime(105)
-    False
-    >>> is_prime(292)
-    False
-    >>> is_prime(63)
-    False
-    >>> is_prime(39)
-    False
+    Args:
+        number: The number to be checked for primality.
+
+    Returns:
+        True if the number is prime, False otherwise.
+
+    Raises:
+        TypeError: If the input is not an int.
+        ValueError: If the input is a negative int.
+
+    Examples:
+        >>> is_prime(2)
+        True
+        >>> is_prime(3)
+        True
+        >>> is_prime(5)
+        True
+        >>> is_prime(7)
+        True
+        >>> is_prime(11)
+        True
+        >>> is_prime(13)
+        True
+        >>> is_prime(17)
+        True
+        >>> is_prime(19)
+        True
+        >>> is_prime(23)
+        True
+        >>> is_prime(29)
+        True
+        >>> is_prime(31)
+        True
+        >>> is_prime(37)
+        True
+        >>> is_prime(41)
+        True
+        >>> is_prime(43)
+        True
+        >>> is_prime(47)
+        True
+        >>> is_prime(53)
+        True
+        >>> is_prime(1)
+        False
+        >>> is_prime(-1)
+        False
+        >>> is_prime(105)
+        False
+        >>> is_prime(292)
+        False
+        >>> is_prime(63)
+        False
+        >>> is_prime(39)
+        False
     """
     if not isinstance(number, int) or number <= 0:
         return False

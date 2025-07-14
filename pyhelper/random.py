@@ -33,15 +33,15 @@ __all__ = ["randint", "choice", "randrange", "shuffle", "sample"]
 
 
 def random():
-    # 使用 os.urandom 生成 7 个字节的随机数据
+    # Use os.urandom to generate 7 bytes of random data
     byte_data = os.urandom(7)
-    # 将字节数据转换为一个 53 位的整数
+    # Convert byte data to a 53-bit integer
     int_data = int.from_bytes(byte_data, byteorder="big") & ((1 << 53) - 1)
-    # 转换为 [0.0, 1.0) 范围内的浮点数
+    # Convert to floating point numbers in the range [0.0, 1.0)
     return int_data / (1 << 53)
 
 
-def randint(_min: int, _max: Optional[int] = None, random: Callable = random):
+def randint(min_: int, max_: int | None = None, random: Callable = random):
     """
     Generates a random integer within the inclusive range [min, max].
 
@@ -50,20 +50,25 @@ def randint(_min: int, _max: Optional[int] = None, random: Callable = random):
     base random seed. It ensures that the generated number is uniformly
     distributed across the specified range.
 
-    :param _min: The lower limit of the range (inclusive).
-    :param _max: The upper limit of the range (inclusive). Must be greater than or equal to min.
-    :param random: Optional parameters for generating random dependency functions, default to random() functions generated using os.urandom()
-    :return int: A random integer within the inclusive range [min, max].
-    :raise ValueError: If the min parameter is greater than the max parameter.
-    """
-    if _max is None:
-        _max = _min
-        _min = 1
+    Args:
+        min_: The lower limit of the range (inclusive).
+        max_: The upper limit of the range (inclusive). Must be greater than or equal to min.
+        random: Optional parameters for generating random dependency functions, default to random() functions generated using os.urandom()
 
-    if _min > _max:
+    Returns:
+        int: A random integer within the inclusive range [min, max].
+
+    Raises:
+        ValueError: If the min parameter is greater than the max parameter.
+    """
+    if max_ is None:
+        max_ = min_
+        min_ = 1
+
+    if min_ > max_:
         raise ValueError("The lower limit should be less than or equal to the upper limit")
 
-    return int(random() * (_min - _max + 1)) + _max
+    return int(random() * (min_ - max_ + 1)) + max_
 
 
 def choice(seq: Sequence, random: Callable = random) -> Iterable:
@@ -74,10 +79,15 @@ def choice(seq: Sequence, random: Callable = random) -> Iterable:
     It uses the randint function to generate a random index within the range
     of the sequence length.
 
-    :param seq: The non-empty sequence from which to select a random element.
-    :param random: Optional parameters for generating random dependency functions, default to random() functions generated using os.urandom()
-    :return Sized: The randomly selected element from the sequence.
-    :raise IndexError: When the sequence provided is empty
+    Args:
+        seq: The non-empty sequence from which to select a random element.
+        random: Optional parameters for generating random dependency functions, default to random() functions generated using os.urandom()
+
+    Returns:
+        Sized: The randomly selected element from the sequence.
+
+    Raises:
+        IndexError: When the sequence provided is empty
     """
     if len(seq) <= 0:
         raise IndexError("Cannot choose from an empty sequence")
@@ -93,14 +103,18 @@ def randrange(start: int, stop: int = None, step: int = 1, random: Callable = ra
     treats it as the stop value and starts from 1 with a step of 1. If no arguments
     are provided, it returns a random integer from the range 0-9.
 
-    :param start: The start of the range. Default is 1.
-    :param stop: The end of the range. Default is the start value.
-    :param step: The step value for the range. Default is 1.
-    :param random: Optional parameters for generating random dependency functions, default to random() functions generated using os.urandom()
+    Args:
+        start: The start of the range. Default is 1.
+        stop: The end of the range. Default is the start value.
+        step: The step value for the range. Default is 1.
+        random: Optional parameters for generating random dependency functions, default to random() functions generated using os.urandom()
 
-    :return int: A randomly selected element from the specified range.
-    :raise ValueError: If the range is empty or step is zero
-    :raise ValueError: If the stop value is less than the start value.
+    Returns:
+        int: A randomly selected element from the specified range.
+
+    Raises:
+        ValueError: If the range is empty or step is zero
+        ValueError: If the stop value is less than the start value
     """
     if stop is None:
         stop, start, step = start, 1, 1
@@ -111,10 +125,10 @@ def randrange(start: int, stop: int = None, step: int = 1, random: Callable = ra
     start = int(start)
     step = int(step)
     stop = int(stop)
-    return choice(range(start, stop + 1, step))
+    return choice(range(start, stop + 1, step), random=random)
 
 
-def shuffle(seq: Sequence):
+def shuffle(seq: Sequence, random: Callable = random):
     """
     Shuffles the elements of a sequence in-place.
 
@@ -122,8 +136,12 @@ def shuffle(seq: Sequence):
     shuffles its elements in-place using the Fisher-Yates algorithm. The original
     sequence is modified, and no new sequence is created.
 
-    :param seq: The sequence to be shuffled.
-    :return None: The original sequence is modified in-place.
+    Args:
+        seq: The sequence to be shuffled.
+        random: Optional parameters for generating random dependency functions, default to random() functions generated using os.urandom()
+
+    Returns:
+        None: The original sequence is modified in-place.
     """
     # Copy the original sequence to avoid modifying it directly
     for i in reversed(range(1, len(seq))):
@@ -131,7 +149,7 @@ def shuffle(seq: Sequence):
         seq[i], seq[j] = seq[j], seq[i]
 
 
-def sample(population, k) -> list:
+def sample(population, k, random: Callable = random) -> list:
     """
     Randomly selects k unique elements from a population sequence.
 
@@ -139,15 +157,18 @@ def sample(population, k) -> list:
     number k as input, and returns a new list containing k unique elements chosen
     randomly from the population. The original population sequence is not modified.
 
+    Args:
+        population: The sequence from which to select elements.
+        k: The number of elements to select. Must be less than or equal to the
+           length of the population.
+        random: Optional parameters for generating random dependency functions, default to random() functions generated using os.urandom()
 
-    :param population: The sequence from which to select elements.
-    :param k: The number of elements to select. Must be less than or equal to the
-             length of the population.
+    Returns:
+        list: A new list containing k unique elements randomly selected from the population.
 
-    :return list: A new list containing k unique elements randomly selected from the population.
-
-    :raise TypeError: If population is not a Sequence
-    :raise ValueError: If k is greater than the length of the population.
+    Raises:
+        TypeError: If population is not a Sequence
+        ValueError: If k is greater than the length of the population.
     """
     if not isinstance(population, Sequence):
         raise TypeError("Population must be a sequence")

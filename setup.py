@@ -23,7 +23,7 @@ setup(
     description="A tool set for complementing Python and Pygame",
     long_description=long_description,
     author="nanocode38",
-    author_email="2602422835@qq.com",
+    author_email="nanocode38@88.com",
     url="https://github.com/nanocode38/pyhelper.git",
     install_requires=requires,
     license="MIT License",
@@ -41,6 +41,7 @@ setup(
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13.5",
         "Topic :: Software Development :: Libraries",
     ],
 )
