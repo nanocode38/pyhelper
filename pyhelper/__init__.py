@@ -50,10 +50,8 @@ from contextlib import contextmanager
 from pathlib import Path
 from typing import Any, Generator
 
-import win32com.client
-
 __author__ = "nanocode38"
-__version__ = "2.5.2"
+__version__ = "2.6.0"
 __all__ = [
     "get_version",
     "file_reopen",
@@ -185,6 +183,8 @@ def create_shortcut(target: Path | str, shortcut_name: str, shortcut_location: P
     Returns:
         None
     """
+    import win32com.client
+
     shell = win32com.client.Dispatch("WScript.Shell")  # Create WScript.Shell object
     shortcut = shell.CreateShortCut(os.path.join(shortcut_location, shortcut_name + ".lnk"))  # Create shortcut object
     shortcut.TargetPath = target  # Specify target path

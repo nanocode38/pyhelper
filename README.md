@@ -11,11 +11,11 @@ so the whl package must be downloaded and installed manually
 
 To log in first [GitHub](https://github.com/), the [Pyhelper official website](https://github.com/pyhelper.git), and then find a ` ` ` Releases ` ` ` column,
 Click on the distribution below.
-![img.png](img.png)
+![](assets/img.png)
 
 Then under Assets, download pyhelper-2.1.0-py2.py3-none-any.whl. The name may vary from version to version, but it should end with.whl
 
-![img_1.png](img_1.png)
+![](assets/img_1.png)
 
 Once the download is complete, switch to the directory containing the whl file and run pip3 install [Whl file], replacing [Whl file] with the name of the whl file you downloaded
 
