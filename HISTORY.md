@@ -84,8 +84,21 @@
 Ready to use Git Flow
 
 ## <2025.7.10> Version 2.6.0
-- Fix: sample(), shuffle() Do not include random parameters
-- Docs: Update E-mail
-- Docs: Convert document format to Google format
-- Fix: Cyclic introduction in pyhelper.gamehelpers.pghelper.widgets and pyhelper.gamehelpers.pghelper
-- Feat: pyhelper.tkhelper
+- Feat: pyhelper.tkhelper.RetMode
+- Feat: pyhelper.tkhelper.shake_window
+- Feat: pyhelper.tkhelper.window_sleep
+- Feat: pyhelper.tkhelper.password_window
+- Feat: pyhelper.tkhelper.center_window
+- Feat: pyhelper.tkhelper.setting_password_window
+- Update: E-mail in AUTHORS.md and Source file
+- Refactor: images in README.md and images in Website -> assets directory
+- Deleted: All description class files in pyhelper main package
+- Refactor: Move the import statement about pywin32 inside the function for packaging
+- Docs: Modify all document strings using Google format and Add missing documents
+- Test: Add pyhelper.tkhelper doctests
+- Fix: Cycle introduction problem in pyhelper.gamehelpers and pyhelper.gamehelpers.pghelper.widgets
+- Fix: pyhelper.random.sample() and pyhelper.random.shuffle() can 't use dependency parameters
+
+<2025.7.16> Version 2.6.1
+- Fix: Website unable to download(Because of file name)
+- Update: HISTORY.md
