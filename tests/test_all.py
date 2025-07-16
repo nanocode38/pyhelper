@@ -96,7 +96,7 @@ if __name__ == "__main__":
     text2.set_value("b")
     text2.rect.topright = screen.get_rect().topright
 
-    image = Image(screen, (0, 0), r"..\images\pythonIcon.png")
+    image = Image(screen, r"..\images\pythonIcon.png", loc=(0, 0))
     image.rect.bottomleft = (10, screen.get_height() - 10)
 
     config = InputTextConfig(screen)
