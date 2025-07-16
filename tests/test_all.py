@@ -8,7 +8,8 @@ from pyhelper.gamehelpers.pghelper import *
 from pyhelper.gamehelpers.pghelper.widgets import *
 
 if __name__ == "__main__":
-    # os.chdir("..")
+    if not os.path.exists("pyhelper"):
+        os.chdir("..")
     with chdir("./pyhelper"):
         os.system("python __init__.py")
         os.system("python mathhelper.py")

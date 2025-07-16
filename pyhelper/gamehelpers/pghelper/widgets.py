@@ -709,9 +709,9 @@ class DisplayText:
         """
         if new_text is not None:
             self.text = new_text
-        if new_color is None:
+        if new_color is not None:
             self.color = new_color
-        self.image = self.font.render(self.text, True, new_color)
+        self.image = self.font.render(self.text, True, self.color)
         self.rect = self.image.get_rect()
 
     def draw(self):
