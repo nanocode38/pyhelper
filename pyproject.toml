@@ -1,23 +1,55 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "pyhelper"
-version = "0.1.0"
-description = "Add your description here"
+name = "pythonhelper"
+dynamic = ["version"]  # Dynamically fetching versions from code
+description = "A tool set for complementing Python and Pygame"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = [
-    "pywin32>=310",
-    "setuptools>=80.9.0",
+authors = [{ name = "nanocode38", email = "nanocode38@88.com" }]
+license = { text = "MIT License" }
+classifiers = [
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Natural Language :: Chinese (Simplified)",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries",
 ]
+dependencies = [
+    "pywin32",
+    "pygame",
+    "numba"
+]
+urls = { repository = "https://github.com/nanocode38/pyhelper.git" }
 
-[dependency-groups]
-dev = []
+# Development dependency
+[project.optional-dependencies]
+dev = ["black", "autoflake", "isort", "setuptools", "wheel"]
+
+[tool.setuptools.packages.find]
+where = ["."]
 
 [tool.black]
 line-length = 120
+skip = [".history", "*.egg-info", "build", "dist", "docs", "tests", "venv", "*.pyc", "*.pyo", "*.so", "*.dll", "*.dylib", "*.exe", "*.bat", "*.cmd", "*.pth", "*.whl", "*.egg", "*.egg-info", "*.egg-info/*", ".venv", ".idea"]
 
 [tool.isort]
 profile = "black"
+skip = [".history", "*.egg-info", "build", "dist", "docs", "tests", "venv", "*.pyc", "*.pyo", "*.so", "*.dll", "*.dylib", "*.exe", "*.bat", "*.cmd", "*.pth", "*.whl", "*.egg", "*.egg-info", "*.egg-info/*", ".venv", ".idea"]
 
 [tool.autoflake]
 remove_unused_imports = true
 remove_unused_variables = true
+
+[tool.setuptools.dynamic]
+version = {attr = "pyhelper.__version__"}
+
+[tool.setuptools.package-data]
+"pythonhelper" = ["README.md", "HISTORY.md", "LICENSE", "assets/LOGO.png", "img.png", "img_1.png", "CODE_OF_CONDUCT.md", "CONTRIBUTING.md"]

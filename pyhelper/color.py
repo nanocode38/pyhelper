@@ -21,7 +21,7 @@
 # DON'T EVEN HAVE A PERMIT TOO!
 #
 # Gao Yuhan(高宇涵)
-# 2602422835@qq.com
+# anocode38@88.com
 # nanocode38
 
 """
@@ -3111,10 +3111,18 @@ class _RGBColor(Singleton):
         """
         Convert RGBA color tuple to HEX color string.
 
-        :param r: RGBA Color.
-        :param g: Optional. Third color component.
-        :param b: Optional. Fourth color component.
-        :return string: HEX color string.
+        Args:
+            r: RGBA Color.
+            g: Optional. Third color component.
+            b: Optional. Fourth color component.
+
+        Returns:
+            HEX color string.
+
+        Examples:
+            >>> rgb = (255, 0, 0)
+            >>> RGBColor.to_hex(rgb)
+            '#FF0000'
         """
         if g is None:
             g = r[1]
@@ -3127,10 +3135,18 @@ class _RGBColor(Singleton):
         """
         Convert RGBA color tuple to HSL color tuple.
 
-        :param r: RGBA Color.
-        :param g: Optional. Third color component.
-        :param b: Optional. Fourth color component.
-        :return tuple: HSL color tuple.
+        Args:
+            r: RGBA Color.
+            g: Optional. Third color component.
+            b: Optional. Fourth color component.
+
+        Returns:
+            HSL color tuple.
+
+        Examples:
+            >>> rgb = (255, 0, 0)
+            >>> RGBColor.to_hsl(rgb)  # doctest: +ELLIPSIS
+            (0.0, 1.0, 0.5)
         """
         if g is None:
             g = r[1]
@@ -3189,8 +3205,15 @@ class _HEXColor(Singleton):
         """
         Convert a HEX color string to RGB tuple.
 
-        :param color: HEX color string.
-        :return tuple: RGB tuple.
+        Args:
+            color: HEX color string.
+
+        Returns:
+            RGB tuple.
+
+        Examples:
+            >>> HEXColor.to_rgb('#FF0000')
+            (255, 0, 0)
         """
         if color.startswith("#"):
             hex_color = color[1:]
@@ -3210,8 +3233,15 @@ class _HEXColor(Singleton):
         """
         Convert HEX color string to HSL color.
 
-        :param color: HEX color string
-        :return tuple: HSL color tuple.
+        Args:
+            color: HEX color string
+
+        Returns:
+            HSL color tuple.
+
+        Examples:
+            >>> HEXColor.to_hsl('#FF0000')  # doctest: +ELLIPSIS
+            (0.0, 1.0, 0.5)
         """
         if color.startswith("#"):
             color = color[1:]
@@ -3237,10 +3267,17 @@ class _HSLColor(Singleton):
         """
         Convert HSL color to RGB color.
 
-        :param h: Hue value in the range of 0 to 360.
-        :param s: Saturation value in the range of 0.0 to 1.0.
-        :param l: Lightness value in the range of 0.0 to 1.0.
-        :return: A tuple of RGB values in the range of 0 to 255.
+        Args:
+            h: Hue value in the range of 0 to 360.
+            s: Saturation value in the range of 0.0 to 1.0. Optional.
+            l: Lightness value in the range of 0.0 to 1.0. Optional.
+
+        Returns:
+            A tuple of RGB values in the range of 0 to 255.
+
+        Examples:
+            >>> HSLColor.to_rgb(0.0, 1.0, 0.5)
+            (255, 0, 0)
         """
         if s is None:
             s, l = h[1], h[2]
@@ -3273,10 +3310,17 @@ class _HSLColor(Singleton):
         """
         Convert HSL color to HEX color.
 
-        :param h: Hue value in the range of 0 to 360.
-        :param s: Saturation value in the range of 0.0 to 1.0.
-        :param l: Lightness value in the range of 0.0 to 1.0.
-        :return: A tuple of HEX values.
+        Args:
+            h: Hue value in the range of 0 to 360.
+            s: Saturation value in the range of 0.0 to 1.0. Optional.
+            l: Lightness value in the range of 0.0 to 1.0. Optional.
+
+        Returns:
+            A tuple of HEX values.
+
+        Examples:
+            >>> HSLColor.to_hex(0.0, 1.0, 0.5)
+            '#FF0000'
         """
         if s is None:
             s, l = h[1], h[2]

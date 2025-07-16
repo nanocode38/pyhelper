@@ -77,3 +77,15 @@
 - Feat: pyhelper.mathhelper.INF
 - Feat: pyhelper.mathhelper.calculate_pi()
 - Feat: pyhelper.TKhelper.shake_window(), password_window(), setting_password_window(), center_window()
+
+## <2025.7.10> Version 2.5.2
+- Update: Website
+    
+Ready to use Git Flow
+
+## <2025.7.10> Version 2.6.0
+- Fix: sample(), shuffle() Do not include random parameters
+- Docs: Update E-mail
+- Docs: Convert document format to Google format
+- Fix: Cyclic introduction in pyhelper.gamehelpers.pghelper.widgets and pyhelper.gamehelpers.pghelper
+- Feat: pyhelper.tkhelper
