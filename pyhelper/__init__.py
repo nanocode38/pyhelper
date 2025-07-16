@@ -51,7 +51,7 @@ from pathlib import Path
 from typing import Any, Generator
 
 __author__ = "nanocode38"
-__version__ = "2.6.0"
+__version__ = "2.6.2"
 __all__ = [
     "get_version",
     "file_reopen",

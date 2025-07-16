@@ -3,7 +3,7 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pythonhelper"
+name = "nanocode38-pyhelper"
 dynamic = ["version"]  # Dynamically fetching versions from code
 description = "A tool set for complementing Python and Pygame"
 readme = "README.md"
