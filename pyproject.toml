@@ -38,11 +38,9 @@ where = ["."]
 
 [tool.black]
 line-length = 120
-skip = [".history", "*.egg-info", "build", "dist", "docs", "tests", "venv", "*.pyc", "*.pyo", "*.so", "*.dll", "*.dylib", "*.exe", "*.bat", "*.cmd", "*.pth", "*.whl", "*.egg", "*.egg-info", "*.egg-info/*", ".venv", ".idea"]
 
 [tool.isort]
 profile = "black"
-skip = [".history", "*.egg-info", "build", "dist", "docs", "tests", "venv", "*.pyc", "*.pyo", "*.so", "*.dll", "*.dylib", "*.exe", "*.bat", "*.cmd", "*.pth", "*.whl", "*.egg", "*.egg-info", "*.egg-info/*", ".venv", ".idea"]
 
 [tool.autoflake]
 remove_unused_imports = true
@@ -52,4 +50,4 @@ remove_unused_variables = true
 version = {attr = "pyhelper.__version__"}
 
 [tool.setuptools.package-data]
-"pythonhelper" = ["README.md", "HISTORY.md", "LICENSE", "assets/LOGO.png", "img.png", "img_1.png", "CODE_OF_CONDUCT.md", "CONTRIBUTING.md"]
+"nanocode38-pyhelper" = ["README.md", "HISTORY.md", "LICENSE", "assets/LOGO.png", "img.png", "img_1.png", "CODE_OF_CONDUCT.md", "CONTRIBUTING.md"]
