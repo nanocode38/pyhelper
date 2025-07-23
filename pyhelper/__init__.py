@@ -44,6 +44,7 @@ import functools
 import multiprocessing
 import os
 import platform
+import subprocess
 import sys
 from abc import ABC
 from contextlib import contextmanager
@@ -61,19 +62,27 @@ __all__ = [
     "get_startup_dir",
     "system",
     "Singleton",
+    "timer",
 ]
 
 
 if __name__ != "__main__":
     print(f"PyHelper {__version__}", end=" ")
-    if os.name == "nt":
+    os_type = platform.system()
+    if os_type == "Windows":
         print("(Microsoft Windows,", end=" ")
-    elif os.name == "posix":
-        print("(Unix,", end=" ")
+    elif os_type == "Darwin":  # macOS
+        print("(MacOS,", end=" ")
+    elif os_type == "Linux":
+        print("(Linux,", end=" ")
+    else:
+        print("(Unknown OS,", end=" ", file=sys.stderr)
     print(f"Python {sys.version_info[0]}.{sys.version_info[1]}.", end="")
     print(f"{sys.version_info[2]})")
     print("Hello from the PyHelper community!", end=" ")
     print("https://githun.com/nanocode38/pyhelper.git")
+    if os_type not in ("Windows", "Darwin", "Linux"):
+        print("Warning: Unknown OS, some functions may not work properly.", file=sys.stderr)
 
 
 def get_version():
@@ -171,8 +180,10 @@ def file_reopen(file_obj, stream=sys.stdout) -> Generator[None, Any, None]:
         raise ValueError("Invalid stream specified")
 
 
+# This function is outdated, please do not use new projects
 def create_shortcut(target: Path | str, shortcut_name: str, shortcut_location: Path | str) -> None:
     """
+    This function is outdated, please do not use new projects
     Creates a shortcut to the specified target file.
 
     Args:
@@ -213,21 +224,142 @@ def get_startup_dir() -> Path:
         raise OSError("Unsupported platform")
 
 
-def join_startup(target: Path | str, name: str | None = None) -> None:
+def join_startup(target: Path | str, *args, **kwargs) -> bool:
     """
-    A function for creating a startup shortcut in the start-up directory
+    Add a file to startup on Windows, macOS, or Linux.
 
     Args:
-        target: Full path to the target file.
-        name: Name for the shortcut.
+        target: Absolute path to the file/script to run at startup.
+        args and kwargs: Used to be compatible with old versions of name parameters
 
     Returns:
-        None
+        True if successful, False otherwise.
+
+    Raises:
+        OSError: If the platform is not supported.
+
+    Notes:
+        - Windows: Uses registry (HKCU) for user-level startup
+        - macOS: Creates Launch Agent plist in ~/Library/LaunchAgents
+        - Linux: Creates systemd user service or .desktop file
     """
-    if not name:
-        name = os.path.basename(target) + " - Shortcut"
-    startup_dir = get_startup_dir()
-    create_shortcut(target, name, startup_dir)
+    # Convert to absolute path and verify existence
+    target = os.path.abspath(target)
+    if not os.path.exists(target):
+        print(f"Error: File not found at {target}", file=sys.stderr)
+        return False
+
+    os_type = platform.system()
+    try:
+        if os_type == "Windows":
+            return _windows_startup(target)
+        elif os_type == "Darwin":  # macOS
+            return _macos_startup(target)
+        elif os_type == "Linux":
+            return _linux_startup(target)
+        else:
+            raise OSError("Unsupported platform, join_startup() is only available for Windows, MacOS and Linux systems")
+    except Exception as e:
+        print(f"Setup failed: {str(e)}")
+        return False
+
+
+def _windows_startup(file_path: str) -> bool:
+    """Windows implementation using registry"""
+    import winreg  # Standard library for registry access
+
+    # Determine execution command
+    cmd = f'"{file_path}"'  # Default for executables/batch files
+    if file_path.endswith(".py"):
+        python_exe = f'"{sys.executable}"'  # Use current Python interpreter
+        cmd = f'{python_exe} "{file_path}"'
+
+    # Create registry entry
+    key_path = r"Software\Microsoft\Windows\CurrentVersion\Run"
+    entry_name = "Startup_" + os.path.basename(file_path).replace(" ", "_")[:30]
+
+    try:
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, key_path, 0, winreg.KEY_WRITE) as key:
+            winreg.SetValueEx(key, entry_name, 0, winreg.REG_SZ, cmd)
+        print(f"Added to startup: HKCU\\{key_path}\\{entry_name}")
+        return True
+    except WindowsError as e:
+        print(f"Registry error: {str(e)}")
+        return False
+
+
+def _macos_startup(file_path: str) -> bool:
+    """macOS implementation using LaunchAgent"""
+    plist_content = f"""<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.startup.{os.path.basename(file_path)}</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>{sys.executable if file_path.endswith('.py') else '/bin/sh'}</string>
+        <string>{file_path}</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/tmp/{os.path.basename(file_path)}.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/{os.path.basename(file_path)}_error.log</string>
+</dict>
+</plist>"""
+
+    # Create LaunchAgents directory if missing
+    launch_agents_dir = os.path.expanduser("~/Library/LaunchAgents")
+    os.makedirs(launch_agents_dir, exist_ok=True)
+
+    # Write plist file
+    plist_name = f"com.startup.{Path(file_path).stem}.plist"
+    plist_path = os.path.join(launch_agents_dir, plist_name)
+
+    with open(plist_path, "w") as f:
+        f.write(plist_content)
+
+    # Load the agent
+    subprocess.run(["launchctl", "load", plist_path], check=True)
+    print(f"LaunchAgent created at {plist_path}")
+    return True
+
+
+def _linux_startup(file_path: str) -> bool:
+    """Linux implementation using systemd user service"""
+    service_content = f"""[Unit]
+Description=Startup Service: {os.path.basename(file_path)}
+After=network.target
+
+[Service]
+ExecStart={'/usr/bin/python3 ' if file_path.endswith('.py') else ''}{file_path}
+Restart=on-failure
+Environment="DISPLAY=:0"  # Required for GUI apps
+
+[Install]
+WantedBy=default.target
+"""
+
+    # Create systemd user directory
+    user_service_dir = os.path.expanduser("~/.config/systemd/user")
+    os.makedirs(user_service_dir, exist_ok=True)
+
+    # Write service file
+    service_name = f"startup_{Path(file_path).stem}.service"
+    service_path = os.path.join(user_service_dir, service_name)
+
+    with open(service_path, "w") as f:
+        f.write(service_content)
+
+    # Enable and start service
+    subprocess.run(["systemctl", "--user", "daemon-reload"], check=True)
+    subprocess.run(["systemctl", "--user", "enable", service_name], check=True)
+    subprocess.run(["systemctl", "--user", "start", service_name], check=True)
+
+    print(f"Systemd service created at {service_path}")
+    return True
 
 
 def system(command: str, nonblocking: bool = False) -> int:
