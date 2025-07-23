@@ -32,7 +32,7 @@ By nanocode38 nanocode38@88.com
 2025.03.02
 """
 
-__all__ = ["Namespace", "namespace", "NamespaceMeta"]
+__all__ = ["Namespace", "NamespaceMeta"]
 
 
 class NamespaceMeta(type):
@@ -57,6 +57,8 @@ class NamespaceMeta(type):
             if not callable(attrs[attr]):
                 continue
             if attrs[attr] in object.__dict__:
+                continue
+            if attr in ("using", "_using"):
                 continue
             attr = str(attr)
             if str(attr).startswith("__") and str(attr).endswith("__"):
@@ -83,38 +85,55 @@ class Namespace(metaclass=NamespaceMeta):
         3
     """
 
-    pass
+    @classmethod
+    def using(cls, target_namespace=None):
+        """
+        Inject members of the current namespace into the target scope
 
+        Args：
+        target_namespace: Dictionary of the target scope (typically `globals()` or `locals()`), default globals()
 
-def namespace(cls: type):
-    """
-    A class decorator is used to transform an ordinary class into a namespace class.
+        Notes:
+        - Magic methods and the `using` function itself will be skipped
+        - Use with caution inside functions (due to local scope limitations)
 
-    Examples:
-        >>> @namespace
-        ... class Spam:
-        ...     a = 1
-        ...     b = 2
-        ...     def egg(d, e):
-        ...         return d + e
-        ...
-        >>> Spam.a
-        1
-        >>> Spam.b
-        2
-        >>> Spam.egg(1, 2)
-        3
-    """
-    for key, value in cls.__dict__.items():
-        if not callable(value):
-            continue
-        if value in object.__dict__:
-            continue
-        key = str(key)
-        if str(key).startswith("__") and str(key).endswith("__"):
-            continue
-        setattr(cls, key, staticmethod(value))
-    return cls
+        Examples:
+            >>> class Math(Namespace):
+            ...    PI = 3.14159
+            ...    def add(a, b):
+            ...       return a + b
+            ...    def multiply(a, b):
+            ...        return a * b
+            ...
+            >>> Math.using(locals())
+            >>> PI
+            3.14159
+            >>> add(1, 2)
+            3
+            >>> multiply(2, 3)
+            6
+            >>> def egg():
+            ...    Math.using(locals())
+            ...    print(PI)
+            ...    print(add(1, 2))
+            ...
+            >>> egg()
+            3.14159
+            3
+        """
+        target_namespace = globals() if target_namespace is None else target_namespace
+        for name in dir(cls):
+            # 跳过魔术方法
+            if name.startswith("__") and name.endswith("__"):
+                continue
+
+            # 跳过using方法本身
+            if name == "using":
+                continue
+
+            # 获取属性值并注入目标作用域
+            value = getattr(cls, name)
+            target_namespace[name] = value
 
 
 if __name__ == "__main__":
