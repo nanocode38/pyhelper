@@ -45,10 +45,10 @@ import multiprocessing
 import os
 import platform
 import sys
-from abc import ABC, abstractmethod
+from abc import ABC
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Any, Generator
+from typing import Any, Callable, Generator
 
 __author__ = "nanocode38"
 __version__ = "2.6.0"
@@ -179,12 +179,10 @@ def create_shortcut(target: Path | str, shortcut_name: str, shortcut_location: P
         target: Full path to the target file.
         shortcut_name: Name for the shortcut.
         shortcut_location: Location for the shortcut.
-
-    Returns:
-        None
     """
     import win32com.client
 
+    target = os.path.abspath(target)
     shell = win32com.client.Dispatch("WScript.Shell")  # Create WScript.Shell object
     shortcut = shell.CreateShortCut(os.path.join(shortcut_location, shortcut_name + ".lnk"))  # Create shortcut object
     shortcut.TargetPath = target  # Specify target path
@@ -293,6 +291,45 @@ class Singleton(ABC):
             raise RuntimeError("The Singleton Class can only be instantiated once")
         cls._has_instantiation = True
         return super().__new__(cls)
+
+
+@contextmanager
+def timer(callback: Callable[[float, ...], Any] | None = None, *args, **kwargs) -> Generator[float, Any, None]:
+    """
+    Context Manager for Calculating Program Running Time
+
+    :param callback: Callback function, called at the end of the manager, contains at least the first parameter and the parameter type is float to accept time, Default: Do Nothing
+    :param args: Positional parameters will be passed to the callback function
+    :param kwargs: keyword parameters will be passed to the callback function
+    :return Generator[float, Any, None]: The starting execution time (UTC time)
+    >>> import time
+    >>> import math
+    >>> t0 = time.time()
+    >>> time.sleep(2)
+    >>> t1 = time.time() - t0
+    >>> t2: int
+    >>> def spam(t1: float, bar, egg):
+    ...     global t2
+    ...     print(egg)
+    ...     print(bar)
+    ...     t2 = t1
+    ...
+    >>> with timer(spam, 1, egg="Hello"):
+    ...     time.sleep(2)
+    ...
+    Hello
+    1
+    >>> math.isclose(t1, t2, rel_tol=.1)
+    True
+    >>> math.isclose(t2, 2., rel_tol=.1)
+    True
+    """
+    import time
+
+    t = time.time()
+    yield t
+    if callback is not None:
+        callback(time.time() - t, *args, **kwargs)
 
 
 if __name__ == "__main__":
