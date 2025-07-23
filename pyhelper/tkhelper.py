@@ -2,7 +2,7 @@ import os.path
 import time
 import tkinter as tk
 from collections.abc import Iterable
-from enum import Flag, auto, Enum
+from enum import Enum, Flag, auto
 from tkinter import messagebox, ttk
 from typing import List, Optional
 

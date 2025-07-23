@@ -28,6 +28,7 @@
 PYHELPER--PyHelper--pyhelper
 # Pyhelper - Packages that provide more helper tools for Python
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.
 -----------------------------------------------------
 Pyhelper is a set of packages designed to make writing Python programs better.
 It is built on Python 3.13 and contains a rich set of classes and functions.
@@ -35,7 +36,10 @@ The package is highly portable and works perfectly on Windows
 Python packages containing all sorts of useful data structures, functions,
 classes, etc. that Python doesn't have
 
-applied environment: Microsoft Windows 10, Python 3.8+
+Because pypi is duplicated, this library on pypi is called nanocode38-pyhelper, but please still use pyhelper
+after downloading and importing.
+
+applied environment: Microsoft Windows 11, Python 3.8+
 Copyright (C)
 By nanocode38 nanocode38@88.com
 2025.03.02
@@ -63,6 +67,12 @@ __all__ = [
     "system",
     "Singleton",
     "timer",
+    "gamehelpers",
+    "color",
+    "mathhelper",
+    "tkhelper",
+    "random",
+    "namespace",
 ]
 
 

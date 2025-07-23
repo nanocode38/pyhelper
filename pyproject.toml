@@ -46,6 +46,9 @@ profile = "black"
 remove_unused_imports = true
 remove_unused_variables = true
 
+[dependency-groups]
+dev = []
+
 [tool.setuptools.dynamic]
 version = {attr = "pyhelper.__version__"}
 

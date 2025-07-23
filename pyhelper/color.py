@@ -47,8 +47,9 @@ You can use this module as follows:
 """
 import doctest
 import json
+import os.path
 
-from pyhelper import Singleton
+from . import Singleton
 
 __all__ = [
     "RGBColor",
@@ -60,7 +61,11 @@ __all__ = [
 class _RGBColor(Singleton):
 
     def __init__(self):
-        with open("color.json", "r") as fp:
+        if not os.path.exists("color.json"):
+            file = "pyhelper/color.json"
+        else:
+            file = "color.json"
+        with open(file, "r") as fp:
             colors: dict = json.load(fp)
             for name, color in colors.items():
                 setattr(self, str(name), tuple(color))
