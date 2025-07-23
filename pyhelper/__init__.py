@@ -430,31 +430,36 @@ def timer(callback: Callable[[float, ...], Any] | None = None, *args, **kwargs) 
     """
     Context Manager for Calculating Program Running Time
 
-    :param callback: Callback function, called at the end of the manager, contains at least the first parameter and the parameter type is float to accept time, Default: Do Nothing
-    :param args: Positional parameters will be passed to the callback function
-    :param kwargs: keyword parameters will be passed to the callback function
-    :return Generator[float, Any, None]: The starting execution time (UTC time)
-    >>> import time
-    >>> import math
-    >>> t0 = time.time()
-    >>> time.sleep(2)
-    >>> t1 = time.time() - t0
-    >>> t2: int
-    >>> def spam(t1: float, bar, egg):
-    ...     global t2
-    ...     print(egg)
-    ...     print(bar)
-    ...     t2 = t1
-    ...
-    >>> with timer(spam, 1, egg="Hello"):
-    ...     time.sleep(2)
-    ...
-    Hello
-    1
-    >>> math.isclose(t1, t2, rel_tol=.1)
-    True
-    >>> math.isclose(t2, 2., rel_tol=.1)
-    True
+    Args:
+        callback: Callback function, called at the end of the manager, contains at least the first parameter and the parameter type is float to accept time, Default: Do Nothing
+        args: Positional parameters will be passed to the callback function
+        kwargs: keyword parameters will be passed to the callback function
+
+    Returns:
+        Generator[float, Any, None]: The starting execution time (UTC time)
+
+    Examples:
+        >>> import time
+        >>> import math
+        >>> t0 = time.time()
+        >>> time.sleep(2)
+        >>> t1 = time.time() - t0
+        >>> t2: int
+        >>> def spam(t1: float, bar, egg):
+        ...     global t2
+        ...     print(egg)
+        ...     print(bar)
+        ...     t2 = t1
+        ...
+        >>> with timer(spam, 1, egg="Hello"):
+        ...     time.sleep(2)
+        ...
+        Hello
+        1
+        >>> math.isclose(t1, t2, rel_tol=.1)
+        True
+        >>> math.isclose(t2, 2., rel_tol=.1)
+        True
     """
     import time
 
