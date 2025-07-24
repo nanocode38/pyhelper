@@ -33,13 +33,7 @@ from typing import *
 
 import pygame
 
-__all__ = [
-    "disassemble_sprite_sheet",
-    "draw_background",
-    "load_images",
-    "Scene",
-    "SceneMgr",
-]
+__all__ = ["disassemble_sprite_sheet", "draw_background", "load_images", "Scene", "SceneMgr", "widgets"]
 
 
 def disassemble_sprite_sheet(image_path: str, width: int, height: int, num_of_image) -> list:
