@@ -33,7 +33,7 @@ from typing import *
 import pyhelper.gamehelpers.pghelper.widgets
 from pyhelper.gamehelpers import pghelper
 
-__all__ = ["Timer", "CountUpTimer", "CountDownTimer", "game_help_window"]
+__all__ = ["Timer", "CountUpTimer", "CountDownTimer", "game_help_window", "pghelper"]
 
 
 def game_help_window(help_text: str, title: str = "Game Help"):

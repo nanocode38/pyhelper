@@ -28,6 +28,7 @@
 PYHELPER--PyHelper--pyhelper
 # Pyhelper - Packages that provide more helper tools for Python
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.
 -----------------------------------------------------
 Pyhelper is a set of packages designed to make writing Python programs better.
 It is built on Python 3.13 and contains a rich set of classes and functions.
@@ -35,7 +36,10 @@ The package is highly portable and works perfectly on Windows
 Python packages containing all sorts of useful data structures, functions,
 classes, etc. that Python doesn't have
 
-applied environment: Microsoft Windows 10, Python 3.8+
+Because pypi is duplicated, this library on pypi is called nanocode38-pyhelper, but please still use pyhelper
+after downloading and importing.
+
+applied environment: Microsoft Windows 11, Python 3.8+
 Copyright (C)
 By nanocode38 nanocode38@88.com
 2025.03.02
@@ -44,14 +48,15 @@ import functools
 import multiprocessing
 import os
 import platform
+import subprocess
 import sys
-from abc import ABC, abstractmethod
+from abc import ABC
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Any, Generator
+from typing import Any, Callable, Generator
 
 __author__ = "nanocode38"
-__version__ = "2.6.2"
+__version__ = "2.7.0"
 __all__ = [
     "get_version",
     "file_reopen",
@@ -61,19 +66,33 @@ __all__ = [
     "get_startup_dir",
     "system",
     "Singleton",
+    "timer",
+    "gamehelpers",
+    "color",
+    "mathhelper",
+    "tkhelper",
+    "random",
+    "namespace",
 ]
 
 
 if __name__ != "__main__":
     print(f"PyHelper {__version__}", end=" ")
-    if os.name == "nt":
+    os_type = platform.system()
+    if os_type == "Windows":
         print("(Microsoft Windows,", end=" ")
-    elif os.name == "posix":
-        print("(Unix,", end=" ")
+    elif os_type == "Darwin":  # macOS
+        print("(MacOS,", end=" ")
+    elif os_type == "Linux":
+        print("(Linux,", end=" ")
+    else:
+        print("(Unknown OS,", end=" ", file=sys.stderr)
     print(f"Python {sys.version_info[0]}.{sys.version_info[1]}.", end="")
     print(f"{sys.version_info[2]})")
     print("Hello from the PyHelper community!", end=" ")
     print("https://githun.com/nanocode38/pyhelper.git")
+    if os_type not in ("Windows", "Darwin", "Linux"):
+        print("Warning: Unknown OS, some functions may not work properly.", file=sys.stderr)
 
 
 def get_version():
@@ -171,20 +190,20 @@ def file_reopen(file_obj, stream=sys.stdout) -> Generator[None, Any, None]:
         raise ValueError("Invalid stream specified")
 
 
+# This function is outdated, please do not use new projects
 def create_shortcut(target: Path | str, shortcut_name: str, shortcut_location: Path | str) -> None:
     """
+    This function is outdated, please do not use new projects
     Creates a shortcut to the specified target file.
 
     Args:
         target: Full path to the target file.
         shortcut_name: Name for the shortcut.
         shortcut_location: Location for the shortcut.
-
-    Returns:
-        None
     """
     import win32com.client
 
+    target = os.path.abspath(target)
     shell = win32com.client.Dispatch("WScript.Shell")  # Create WScript.Shell object
     shortcut = shell.CreateShortCut(os.path.join(shortcut_location, shortcut_name + ".lnk"))  # Create shortcut object
     shortcut.TargetPath = target  # Specify target path
@@ -215,21 +234,142 @@ def get_startup_dir() -> Path:
         raise OSError("Unsupported platform")
 
 
-def join_startup(target: Path | str, name: str | None = None) -> None:
+def join_startup(target: Path | str, *args, **kwargs) -> bool:
     """
-    A function for creating a startup shortcut in the start-up directory
+    Add a file to startup on Windows, macOS, or Linux.
 
     Args:
-        target: Full path to the target file.
-        name: Name for the shortcut.
+        target: Absolute path to the file/script to run at startup.
+        args and kwargs: Used to be compatible with old versions of name parameters
 
     Returns:
-        None
+        True if successful, False otherwise.
+
+    Raises:
+        OSError: If the platform is not supported.
+
+    Notes:
+        - Windows: Uses registry (HKCU) for user-level startup
+        - macOS: Creates Launch Agent plist in ~/Library/LaunchAgents
+        - Linux: Creates systemd user service or .desktop file
     """
-    if not name:
-        name = os.path.basename(target) + " - Shortcut"
-    startup_dir = get_startup_dir()
-    create_shortcut(target, name, startup_dir)
+    # Convert to absolute path and verify existence
+    target = os.path.abspath(target)
+    if not os.path.exists(target):
+        print(f"Error: File not found at {target}", file=sys.stderr)
+        return False
+
+    os_type = platform.system()
+    try:
+        if os_type == "Windows":
+            return _windows_startup(target)
+        elif os_type == "Darwin":  # macOS
+            return _macos_startup(target)
+        elif os_type == "Linux":
+            return _linux_startup(target)
+        else:
+            raise OSError("Unsupported platform, join_startup() is only available for Windows, MacOS and Linux systems")
+    except Exception as e:
+        print(f"Setup failed: {str(e)}")
+        return False
+
+
+def _windows_startup(file_path: str) -> bool:
+    """Windows implementation using registry"""
+    import winreg  # Standard library for registry access
+
+    # Determine execution command
+    cmd = f'"{file_path}"'  # Default for executables/batch files
+    if file_path.endswith(".py"):
+        python_exe = f'"{sys.executable}"'  # Use current Python interpreter
+        cmd = f'{python_exe} "{file_path}"'
+
+    # Create registry entry
+    key_path = r"Software\Microsoft\Windows\CurrentVersion\Run"
+    entry_name = "Startup_" + os.path.basename(file_path).replace(" ", "_")[:30]
+
+    try:
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, key_path, 0, winreg.KEY_WRITE) as key:
+            winreg.SetValueEx(key, entry_name, 0, winreg.REG_SZ, cmd)
+        print(f"Added to startup: HKCU\\{key_path}\\{entry_name}")
+        return True
+    except WindowsError as e:
+        print(f"Registry error: {str(e)}")
+        return False
+
+
+def _macos_startup(file_path: str) -> bool:
+    """macOS implementation using LaunchAgent"""
+    plist_content = f"""<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.startup.{os.path.basename(file_path)}</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>{sys.executable if file_path.endswith('.py') else '/bin/sh'}</string>
+        <string>{file_path}</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/tmp/{os.path.basename(file_path)}.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/{os.path.basename(file_path)}_error.log</string>
+</dict>
+</plist>"""
+
+    # Create LaunchAgents directory if missing
+    launch_agents_dir = os.path.expanduser("~/Library/LaunchAgents")
+    os.makedirs(launch_agents_dir, exist_ok=True)
+
+    # Write plist file
+    plist_name = f"com.startup.{Path(file_path).stem}.plist"
+    plist_path = os.path.join(launch_agents_dir, plist_name)
+
+    with open(plist_path, "w") as f:
+        f.write(plist_content)
+
+    # Load the agent
+    subprocess.run(["launchctl", "load", plist_path], check=True)
+    print(f"LaunchAgent created at {plist_path}")
+    return True
+
+
+def _linux_startup(file_path: str) -> bool:
+    """Linux implementation using systemd user service"""
+    service_content = f"""[Unit]
+Description=Startup Service: {os.path.basename(file_path)}
+After=network.target
+
+[Service]
+ExecStart={'/usr/bin/python3 ' if file_path.endswith('.py') else ''}{file_path}
+Restart=on-failure
+Environment="DISPLAY=:0"  # Required for GUI apps
+
+[Install]
+WantedBy=default.target
+"""
+
+    # Create systemd user directory
+    user_service_dir = os.path.expanduser("~/.config/systemd/user")
+    os.makedirs(user_service_dir, exist_ok=True)
+
+    # Write service file
+    service_name = f"startup_{Path(file_path).stem}.service"
+    service_path = os.path.join(user_service_dir, service_name)
+
+    with open(service_path, "w") as f:
+        f.write(service_content)
+
+    # Enable and start service
+    subprocess.run(["systemctl", "--user", "daemon-reload"], check=True)
+    subprocess.run(["systemctl", "--user", "enable", service_name], check=True)
+    subprocess.run(["systemctl", "--user", "start", service_name], check=True)
+
+    print(f"Systemd service created at {service_path}")
+    return True
 
 
 def system(command: str, nonblocking: bool = False) -> int:
@@ -293,6 +433,50 @@ class Singleton(ABC):
             raise RuntimeError("The Singleton Class can only be instantiated once")
         cls._has_instantiation = True
         return super().__new__(cls)
+
+
+@contextmanager
+def timer(callback: Callable[[float, ...], Any] | None = None, *args, **kwargs) -> Generator[float, Any, None]:
+    """
+    Context Manager for Calculating Program Running Time
+
+    Args:
+        callback: Callback function, called at the end of the manager, contains at least the first parameter and the parameter type is float to accept time, Default: Do Nothing
+        args: Positional parameters will be passed to the callback function
+        kwargs: keyword parameters will be passed to the callback function
+
+    Returns:
+        Generator[float, Any, None]: The starting execution time (UTC time)
+
+    Examples:
+        >>> import time
+        >>> import math
+        >>> t0 = time.time()
+        >>> time.sleep(2)
+        >>> t1 = time.time() - t0
+        >>> t2: int
+        >>> def spam(t1: float, bar, egg):
+        ...     global t2
+        ...     print(egg)
+        ...     print(bar)
+        ...     t2 = t1
+        ...
+        >>> with timer(spam, 1, egg="Hello"):
+        ...     time.sleep(2)
+        ...
+        Hello
+        1
+        >>> math.isclose(t1, t2, rel_tol=.1)
+        True
+        >>> math.isclose(t2, 2., rel_tol=.1)
+        True
+    """
+    import time
+
+    t = time.time()
+    yield t
+    if callback is not None:
+        callback(time.time() - t, *args, **kwargs)
 
 
 if __name__ == "__main__":

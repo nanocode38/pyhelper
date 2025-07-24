@@ -59,4 +59,4 @@ Since 2023, PyPI has rejected the publication of new package names that are visu
 
 ## Contribution  
 
-If you'd like to contribute to PyHelper, please visit https://github.com/nanocode38/pyhelper.git  
+If you'd like to contribute to PyHelper, please visit on [GitHub](https://github.com/nanocode38/pyhelper.git)
