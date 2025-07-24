@@ -3,7 +3,7 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pythonhelper"
+name = "nanocode38-pyhelper"
 dynamic = ["version"]  # Dynamically fetching versions from code
 description = "A tool set for complementing Python and Pygame"
 readme = "README.md"
@@ -23,9 +23,9 @@ classifiers = [
     "Topic :: Software Development :: Libraries",
 ]
 dependencies = [
-    "pywin32",
     "pygame",
-    "numba"
+    "numba",
+    "pywin32>=311",
 ]
 urls = { repository = "https://github.com/nanocode38/pyhelper.git" }
 
@@ -38,18 +38,19 @@ where = ["."]
 
 [tool.black]
 line-length = 120
-skip = [".history", "*.egg-info", "build", "dist", "docs", "tests", "venv", "*.pyc", "*.pyo", "*.so", "*.dll", "*.dylib", "*.exe", "*.bat", "*.cmd", "*.pth", "*.whl", "*.egg", "*.egg-info", "*.egg-info/*", ".venv", ".idea"]
 
 [tool.isort]
 profile = "black"
-skip = [".history", "*.egg-info", "build", "dist", "docs", "tests", "venv", "*.pyc", "*.pyo", "*.so", "*.dll", "*.dylib", "*.exe", "*.bat", "*.cmd", "*.pth", "*.whl", "*.egg", "*.egg-info", "*.egg-info/*", ".venv", ".idea"]
 
 [tool.autoflake]
 remove_unused_imports = true
 remove_unused_variables = true
 
+[dependency-groups]
+dev = []
+
 [tool.setuptools.dynamic]
 version = {attr = "pyhelper.__version__"}
 
 [tool.setuptools.package-data]
-"pythonhelper" = ["README.md", "HISTORY.md", "LICENSE", "assets/LOGO.png", "img.png", "img_1.png", "CODE_OF_CONDUCT.md", "CONTRIBUTING.md"]
+"*" = ["README.md", "HISTORY.md", "LICENSE", "assets/LOGO.png", "img.png", "img_1.png", "CODE_OF_CONDUCT.md", "CONTRIBUTING.md"]

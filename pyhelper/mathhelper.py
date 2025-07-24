@@ -37,15 +37,12 @@ from contextlib import suppress
 with suppress(ImportError):
     import numba
 
-__all__ = [
-    "calculate_pi",
-    "fibonacci",
-    "is_prime",
-]
+__all__ = ["calculate_pi", "fibonacci", "is_prime", "PI", "E", "FAI", "TAU"]
 
 PI = 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280
 E = 2.7182818284590452353602874713526624977572470937
 FAI = 0.5772156649015328606065120900824024310421593359399235988057672348848677267776646709369470632917467495
+TAU = 2 * PI
 
 _PYTHON_PATH = sys.executable[:-11]
 if os.name == "nt" and _PYTHON_PATH[-6:] == "Script":
